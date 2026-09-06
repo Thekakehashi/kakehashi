@@ -9,7 +9,6 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#0F2A3F">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Zen+Old+Mincho:wght@600;700;900&family=Cormorant:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -239,6 +238,16 @@ body{
 .scrim.on{display:flex;animation:fade .2s ease}
 .modal{background:#fff;border-radius:20px;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;box-shadow:0 30px 80px rgba(15,42,63,.28);animation:pop .26s cubic-bezier(.16,1,.3,1)}
 @keyframes pop{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+.modal-h{padding:24px 26px 4px}
+.modal-h h2{font-family:"Zen Old Mincho",serif;font-size:20px;font-weight:700}
+.modal-h .sub{font-size:12.5px;color:var(--muted);margin-top:4px}
+.modal-h .sub .en{color:var(--teal)}
+.nm-search{display:block;width:calc(100% - 52px);margin:12px 26px 6px;padding:11px 14px;border:1px solid var(--line,#e6e9ec);border-radius:12px;font-size:14px;font-family:inherit;background:var(--washi-2,#f7f9fa)}
+.nm-search:focus{outline:none;border-color:var(--teal)}
+.nm-list{max-height:52vh;overflow-y:auto;padding:6px 14px 8px}
+.nm-row{display:flex;gap:11px;align-items:center;padding:11px 12px;border-radius:12px;cursor:pointer;transition:background .15s}
+.nm-row:hover{background:var(--washi-2,#f1f4f6)}
+.modal-foot{padding:10px 26px 22px;display:flex;justify-content:flex-end;gap:10px}
 .modal-head{padding:24px 26px 0;position:relative}
 .modal-head h2{font-family:"Zen Old Mincho",serif;font-size:20px;font-weight:700;padding-right:34px}
 .modal-head .m-sub{font-size:12.5px;color:var(--muted);margin-top:4px}
@@ -456,6 +465,7 @@ body{
     <section class="tab" data-tab="messages">
       <div class="phead">
         <div><h1>メッセージ</h1><div class="sub">会員からの相談・連絡 <span class="en">Member messages</span></div></div>
+        <button class="btn btn-gold" onclick="openNewMessage()">＋ 新規メッセージ</button>
       </div>
       <div class="msg-layout">
         <div class="msg-list panel" id="msgThreadList"></div>
@@ -787,6 +797,43 @@ function appendMp(m){
   div.setAttribute('data-mid',m.id||'');
   div.innerHTML=esc(m.body)+`<div class="mpm-time">${msgTime(m.created_at)}</div>`;
   body.appendChild(div);body.scrollTop=body.scrollHeight;
+}
+
+/* ---- 運営から新規メッセージ（会員を選んで第一声を送る） ---- */
+function openNewMessage(){
+  const users=(DB.users||[]).slice().sort((a,b)=>String(nameForUser(a.id)).localeCompare(String(nameForUser(b.id)),'ja'));
+  const rows=users.map(u=>{
+    const name=(u.name&&u.name!=='—')?u.name:(u.email||u.id.slice(0,8));
+    const existing=MSG_THREADS.some(t=>t.user_id===u.id);
+    const sub=[u.email||'', u.plan||'', existing?'やり取りあり':''].filter(Boolean).join(' · ');
+    return `<div class="nm-row" data-name="${esc((name+' '+(u.email||'')).toLowerCase())}" onclick="startNewThread('${u.id}')">
+        <div class="mt-av" style="background:${msgAvColor(name)}">${msgInitial(name)}</div>
+        <div class="mt-body"><div class="mt-name">${esc(name)}</div><div class="mt-prev">${esc(sub)}</div></div>
+      </div>`;
+  }).join('');
+  openModal(`
+    <div class="modal-h"><h2>新規メッセージ</h2><div class="sub">会員を えらんで ください <span class="en">Start a conversation</span></div></div>
+    <input id="nmSearch" class="nm-search" placeholder="名前・メールで さがす…" oninput="filterNewMessage()" autocomplete="off">
+    <div class="nm-list" id="nmList">${rows||'<div class="msg-empty" style="padding:24px">会員が いません</div>'}</div>
+    <div class="modal-foot"><button class="btn btn-ghost" onclick="closeModal()">とじる</button></div>
+  `);
+  const s=document.getElementById('nmSearch');if(s)s.focus();
+}
+function filterNewMessage(){
+  const q=(document.getElementById('nmSearch').value||'').toLowerCase().trim();
+  document.querySelectorAll('#nmList .nm-row').forEach(r=>{
+    r.style.display = (!q || r.dataset.name.includes(q)) ? '' : 'none';
+  });
+}
+async function startNewThread(uid){
+  closeModal();
+  go('messages');
+  // 一覧に無ければ仮スレッドを先頭に足して即開く（送信すると実体化）
+  if(!MSG_THREADS.some(t=>t.user_id===uid)){
+    MSG_THREADS.unshift({user_id:uid,last:'（新規）',lastAt:new Date().toISOString(),unread:false});
+    renderThreads();
+  }
+  await openThread(uid);
 }
 
 function subscribeThreads(){
