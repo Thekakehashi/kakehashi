@@ -191,6 +191,12 @@ rt{
 .a-card h3{font-size:19px;font-weight:900;margin-bottom:10px;letter-spacing:.02em}
 .a-card p{color:var(--muted);font-size:15px;line-height:1.85;word-break:auto-phrase}
 .a-link{display:inline-block;margin-top:16px;color:var(--teal);font-size:14px;font-weight:700;text-decoration:none;letter-spacing:.02em;transition:opacity .2s}
+.sup-consult{margin-top:22px;background:linear-gradient(150deg,rgba(74,159,184,.12),rgba(201,162,75,.08));border:1px solid rgba(74,159,184,.28);border-radius:18px;padding:22px clamp(20px,3vw,30px);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.sup-consult-text{flex:1 1 300px;font-size:14.5px;line-height:1.75;color:var(--indigo)}
+.sup-consult-text .en-sub{display:block;color:var(--teal);opacity:.9;font-size:12.5px;margin-top:3px}
+.sup-consult-btn{flex:none;font-family:inherit;font-size:15px;font-weight:700;letter-spacing:.02em;cursor:pointer;background:var(--gold);color:var(--indigo);border:1px solid transparent;border-radius:999px;padding:14px 30px;transition:transform .18s,box-shadow .18s;box-shadow:0 8px 26px rgba(201,162,75,.28)}
+.sup-consult-btn:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(201,162,75,.42)}
+@media(max-width:600px){.sup-consult{flex-direction:column;align-items:stretch;text-align:center}.sup-consult-btn{width:100%}}
 /* LP: worries → bridge */
 .worries{background:linear-gradient(180deg,var(--washi-2),#fff);border-top:1px solid var(--line)}
 .worry-cloud{margin-top:34px;display:grid;grid-template-columns:repeat(2,1fr);gap:18px 22px}
@@ -1131,6 +1137,10 @@ body.lang-en #portalApp .modal-head .m-sub{font-family:"Zen Old Mincho",serif;fo
 </ul>
 <div class="sup-note"><span class="ja-ui"><ruby>料金<rt>りょうきん</rt></ruby>は <ruby>登録<rt>とうろく</rt></ruby><ruby>後<rt>ご</rt></ruby>・<ruby>依頼<rt>いらい</rt></ruby>の <ruby>直前<rt>ちょくぜん</rt></ruby>に はっきり <ruby>表示<rt>ひょうじ</rt></ruby> / </span>Prices shown clearly in-app before you request.</div>
 </div>
+</div>
+<div class="sup-consult">
+<div class="sup-consult-text"><span class="ja-text"><ruby>会員<rt>かいいん</rt></ruby>じゃなくても <ruby>大丈夫<rt>だいじょうぶ</rt></ruby>。<ruby>困<rt>こま</rt></ruby>って いることが あれば、まずは <ruby>無料<rt>むりょう</rt></ruby>で <ruby>相談<rt>そうだん</rt></ruby>して ください。</span><span class="en-sub">Not a member yet? That's fine — if something's worrying you, just talk to us first, for free.</span></div>
+<button class="sup-consult-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})"><span class="ja-ui"><ruby>無料<rt>むりょう</rt></ruby>で <ruby>相談<rt>そうだん</rt></ruby>する　</span>Free consultation</button>
 </div>
 </div>
 </section>
