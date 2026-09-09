@@ -88,7 +88,7 @@ body{
 .side{
   background:var(--indigo);color:var(--washi);
   padding:24px 16px;display:flex;flex-direction:column;
-  position:sticky;top:0;height:100vh;overflow-y:auto;
+  position:fixed;top:0;left:0;width:248px;height:100vh;overflow-y:auto;z-index:40;
 }
 .side .brand{display:flex;align-items:center;gap:11px;margin-bottom:6px;padding:0 6px}
 .side .brand-mark{width:30px;height:30px;border-radius:50%;background:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij4KICA8Y2lyY2xlIGN4PSIyMSIgY3k9IjM1IiByPSI2IiBmaWxsPSIjNEE5RkI4Ii8+CiAgPGNpcmNsZSBjeD0iNDMiIGN5PSIzNSIgcj0iNiIgZmlsbD0iI0M5QTI0QiIvPgogIDxwYXRoIGQ9Ik0yMSAzNSBRMzIgMTUgNDMgMzUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0U4RUVGMCIgc3Ryb2tlLXdpZHRoPSIzLjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxwYXRoIGQ9Ik0yMSAzNSBRMzIgNDYgNDMgMzUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzdGQjVDNCIgc3Ryb2tlLXdpZHRoPSIyLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC42Ii8+Cjwvc3ZnPg==') center/78% no-repeat;box-shadow:0 0 18px rgba(74,159,184,.32);flex:none}
@@ -186,6 +186,16 @@ body{
 .cap-pill.full{background:rgba(201,162,75,.16);color:#a07d2a}
 .empty{text-align:center;color:var(--muted);font-size:13.5px;padding:40px 20px}
 .empty .e-ic{font-size:34px;opacity:.4;margin-bottom:8px}
+
+/* list group headers (upcoming / past) */
+.row-group{display:flex;align-items:center;gap:10px;margin:22px 0 4px;padding-top:14px;border-top:1px solid var(--line)}
+.row-group:first-child{margin-top:0;padding-top:0;border-top:none}
+.row-group .rg-label{font-size:12px;font-weight:800;letter-spacing:.04em;color:var(--ink);display:flex;align-items:center;gap:7px}
+.row-group .rg-en{font-family:"Cormorant",serif;font-style:italic;font-size:12px;color:var(--muted);font-weight:500}
+.row-group .rg-count{font-size:11px;font-weight:700;color:var(--muted);background:var(--washi);padding:2px 9px;border-radius:999px;font-family:"Inter"}
+.row-group.past .rg-label{color:var(--muted)}
+.rows .row.is-past{opacity:.6}
+.rows .row.is-past:hover{opacity:1}
 
 /* new-request highlight */
 .row.fresh{background:linear-gradient(90deg,rgba(201,162,75,.08),transparent);margin:0 -12px;padding-left:12px;padding-right:12px;border-radius:12px}
@@ -1039,14 +1049,14 @@ async function cancelRequest(id){
 window.cancelRequest=cancelRequest;
 
 /* ---------- LESSONS ---------- */
-function lessonRowHTML(l){
+function lessonRowHTML(l,isPast){
   const dt=fmtDate(l.date);
   const fmt=l.format==='online'?'<span class="tag tag-online">オンライン</span>':'<span class="tag tag-offline">たいめん</span>';
   const size=l.size==='private'?'<span class="tag tag-private">👤 プライベート</span>':'<span class="tag tag-group">👥 グループ</span>';
   const gender=l.gender==='female'?'<span class="tag tag-lv">女性限定</span>':l.gender==='male'?'<span class="tag tag-lv">男性限定</span>':'';
   const full=l.cap>=l.max;
   const cap=`<span class="cap-pill ${full?'full':''}">${l.cap}/${l.max}</span>`;
-  return `<div class="row">
+  return `<div class="row${isPast?' is-past':''}">
     <div class="row-when"><div class="d">${dt.d}</div><div class="m">${dt.m}</div><div class="t">${l.time}</div></div>
     <div class="row-main">
       <div class="row-title">${l.title}</div>
@@ -1063,8 +1073,26 @@ function lessonRowHTML(l){
   </div>`;
 }
 function renderLessons(){
-  const list=[...DB.lessons].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
-  document.getElementById('lessonList').innerHTML=list.length?list.map(lessonRowHTML).join(''):emptyHTML('📚','レッスンは まだ ありません','Create your first lesson');
+  const today=todayISO();
+  const all=[...DB.lessons];
+  if(!all.length){
+    document.getElementById('lessonList').innerHTML=emptyHTML('📚','レッスンは まだ ありません','Create your first lesson');
+    return;
+  }
+  // これから：日付の昇順（近い順）／ おわった：降順（新しい順）
+  const upcoming=all.filter(l=>l.date>=today).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+  const past    =all.filter(l=>l.date< today).sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time));
+  const groupHead=(cls,ic,ja,en,n)=>`<div class="row-group ${cls}"><div class="rg-label">${ic} ${ja} <span class="rg-en">${en}</span></div><span class="rg-count">${n}</span></div>`;
+  let html='';
+  if(upcoming.length){
+    html+=groupHead('','🗓️','これからのレッスン','Upcoming',upcoming.length);
+    html+=`<div class="rows">${upcoming.map(l=>lessonRowHTML(l,false)).join('')}</div>`;
+  }
+  if(past.length){
+    html+=groupHead('past','✔️','おわったレッスン','Past',past.length);
+    html+=`<div class="rows">${past.map(l=>lessonRowHTML(l,true)).join('')}</div>`;
+  }
+  document.getElementById('lessonList').innerHTML=html;
 }
 let _lFormat='online',_lSize='group',_lGender='any';
 function openLessonForm(id){
