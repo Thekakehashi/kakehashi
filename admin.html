@@ -1067,6 +1067,7 @@ function lessonRowHTML(l,isPast){
         ? (l.place?`<span class="tag tag-offline">📍 ${l.place}</span>${l.mapUrl?`<a class="btn btn-ghost btn-sm" href="${l.mapUrl}" target="_blank" rel="noopener" style="text-decoration:none">🗺️ 地図</a>`:''}`:`<span class="tag tag-lv" style="opacity:.6">📍 場所 未設定</span>`)
         : (l.meetUrl?`<a class="btn btn-gold btn-sm" href="${l.meetUrl}" target="_blank" rel="noopener" style="text-decoration:none">🎥 Meetに入る</a>`:'')}
       <button class="btn btn-ghost btn-sm" onclick="openParticipants('lesson','${l.id}','${(l.title||'').replace(/'/g,'').replace(/"/g,'')}')">👥 参加者</button>
+      <button class="btn btn-ghost btn-sm" onclick="dupLesson('${l.id}')">📋 複製</button>
       <button class="btn btn-ghost btn-sm" onclick="openLessonForm('${l.id}')">編集</button>
       <button class="btn btn-danger btn-sm" onclick="delLesson('${l.id}')">削除</button>
     </div>
@@ -1095,12 +1096,14 @@ function renderLessons(){
   document.getElementById('lessonList').innerHTML=html;
 }
 let _lFormat='online',_lSize='group',_lGender='any';
-function openLessonForm(id){
-  const l=id?DB.lessons.find(x=>x.id===id):null;
+// id を渡すと編集モード。prefill（レッスンの中身）を渡すと、
+// その内容を初期値にした「作成」モード（＝複製）。両方 null なら空の新規作成。
+function openLessonForm(id,prefill){
+  const l=id?DB.lessons.find(x=>x.id===id):(prefill||null);
   _lFormat=l?l.format:'online';_lSize=l?l.size:'group';_lGender=l?l.gender:'any';
   openModal(`
     <div class="modal-head"><button class="modal-x" onclick="closeModal()">✕</button>
-      <h2>${l?'レッスンを編集':'レッスンを作成'}</h2><div class="m-sub">${l?'Edit lesson':'New lesson'}</div></div>
+      <h2>${id?'レッスンを編集':'レッスンを作成'}</h2><div class="m-sub">${id?'Edit lesson':'New lesson'}</div></div>
     <div class="modal-body">
       <div class="field"><label>内容 / タイトル（日本語）<span class="req">*</span></label>
         <input id="lTitle" value="${l?l.title:''}" placeholder="れい：グループ会話 · 中級"></div>
@@ -1144,9 +1147,24 @@ function openLessonForm(id){
       </div>
       <div class="form-foot">
         <button class="btn btn-ghost" onclick="closeModal()">やめる</button>
-        <button class="btn btn-gold" onclick="saveLesson('${id||''}')">${l?'保存する':'作成する'}</button>
+        <button class="btn btn-gold" onclick="saveLesson('${id||''}')">${id?'保存する':'作成する'}</button>
       </div>
     </div>`);
+}
+// 既存レッスンを「複製」：中身をそのままコピーして作成フォームを開く。
+// 日付は次の空き日（あす）にずらす。人数(cap)や予約は引き継がない。
+function dupLesson(id){
+  const src=DB.lessons.find(x=>x.id===id);
+  if(!src){toast('もとの レッスンが 見つかりません');return;}
+  const prefill={
+    title:src.title, titleEn:src.titleEn,
+    date:daysFromNow(1), time:src.time, dur:src.dur,
+    format:src.format, size:src.size, gender:src.gender,
+    level:src.level, max:src.max,
+    place:src.place, mapUrl:src.mapUrl,
+    // id は渡さない＝新規作成(insert)扱い
+  };
+  openLessonForm(null,prefill);
 }
 function pickSeg(el,key,val){
   // let 宣言のモジュール変数を更新する（window['_'+key] だと別物で反映されない）
