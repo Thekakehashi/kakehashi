@@ -3750,7 +3750,7 @@ function agNext(){
   // date options: next few weekdays
   const slots=[];
   const base=new Date();
-  for(let i=1;slots.length<6;i++){
+  for(let i=3;slots.length<6;i++){
     const d=new Date(base);d.setDate(base.getDate()+i);
     const wd=d.getDay();if(wd===0||wd===6)continue;
     slots.push(d);
