@@ -420,6 +420,37 @@ body{
 .cf-nudge{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;border-color:rgba(201,80,63,.4);background:linear-gradient(90deg,rgba(201,80,63,.06),#fff)}
 .cf-nudge b{font-size:15px}
 
+/* ============ エージェント日程調整 ============ */
+.rq-auto{border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:20px;background:var(--washi-2);font-size:13.5px}
+.rq-auto.ok{border-color:rgba(74,159,184,.45);background:rgba(74,159,184,.06)}
+.rq-auto.ng{border-color:rgba(201,80,63,.35);background:rgba(201,80,63,.04)}
+.rq-auto.wait{border-color:rgba(201,162,75,.5);background:rgba(201,162,75,.07)}
+.rq-auto.off{color:var(--muted)}
+.rq-sub{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.7}
+.rq-checks{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.rq-check{display:grid;grid-template-columns:18px 86px 1fr;gap:6px;font-size:13px;align-items:baseline}
+.rq-check.ok>span:first-child{color:var(--teal);font-weight:800}
+.rq-check.ng>span:first-child{color:var(--danger);font-weight:800}
+.rq-check.ng>span:last-child{color:var(--muted)}
+.rq-head{font-size:14px;margin:4px 0 10px}
+.rq-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.rq-dur{font-size:12.5px;color:var(--muted);display:flex;gap:6px;align-items:center;margin-right:auto}
+.rq-dur select,.rq-opt-row input,.rq-note{padding:7px 10px;border-radius:9px;border:1px solid var(--line);background:#fff;font:inherit;font-size:13.5px;color:var(--ink)}
+.rq-opts{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+.rq-opt{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-weight:700}
+.rq-opt-row{display:grid;grid-template-columns:1fr 110px auto;gap:8px;margin-bottom:6px}
+.rq-note{width:100%;min-height:54px;margin:4px 0 10px;resize:vertical}
+.ag-set{display:flex;flex-direction:column;gap:8px}
+.ag-set .mini-chk{white-space:normal;font-weight:600;font-size:13.5px}
+.wk-allday{display:grid;grid-template-columns:44px repeat(7,1fr);border-top:1px solid var(--line)}
+.wk-ad-lbl{font-size:10.5px;color:var(--muted);text-align:right;padding:6px 7px 0 0}
+.wk-ad{border-left:1px solid var(--line);padding:4px 3px;display:flex;flex-direction:column;gap:3px;min-height:26px}
+.wk-chip{border:1.5px dashed rgba(201,162,75,.8);background:rgba(201,162,75,.12);color:#6b5213;border-radius:6px;font:inherit;font-size:10.5px;font-weight:700;padding:2px 5px;text-align:left;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.85}
+.wk-chip.ng{border-color:rgba(106,132,148,.5);background:transparent;color:var(--muted);text-decoration:line-through;opacity:.7}
+.wk-chip:hover{opacity:1}
+.wk-req{background:rgba(201,162,75,.18);border:1.5px dashed rgba(201,162,75,.9);color:#6b5213;opacity:.9}
+.wk-agent{background:#c9a24b;color:var(--indigo);border:1px solid #b28c38}
+
 /* mobile */
 .side-toggle{display:none}
 @media(max-width:820px){
@@ -560,6 +591,7 @@ body{
         <button class="fchip" data-f="progress" onclick="agentFilter('progress',this)">対応中</button>
         <button class="fchip" data-f="done" onclick="agentFilter('done',this)">完了</button>
       </div>
+      <div class="panel"><div class="panel-h"><h2>⚡ 日程調整の 自動化 <span class="en">Auto scheduling</span></h2></div><div id="agentSet"></div></div>
       <div class="panel">
         <div class="rows" id="agentList"></div>
       </div>
@@ -586,7 +618,7 @@ body{
       <div class="panel">
         <div class="panel-h">
           <div class="month-nav"><button class="btn btn-ghost btn-sm" onclick="wkMove(-1)">‹ 前の週</button><b id="wkLabel"></b><button class="btn btn-ghost btn-sm" onclick="wkMove(1)">次の週 ›</button><button class="btn btn-ghost btn-sm" onclick="wkMove(0)">今週</button></div>
-          <div class="legend"><span><i class="k-school"></i>学校</span><span><i class="k-job"></i>バイト</span><span><i class="k-other"></i>その他</span><span><i style="background:var(--indigo)"></i>レッスン</span><span><i style="border:1.5px dashed var(--teal)"></i>空き（候補）</span><span><i style="background:rgba(74,159,184,.18)"></i>募集時間帯</span></div>
+          <div class="legend"><span><i class="k-school"></i>学校</span><span><i class="k-job"></i>バイト</span><span><i class="k-other"></i>その他</span><span><i style="background:var(--indigo)"></i>レッスン</span><span><i style="border:1.5px dashed var(--teal)"></i>空き（候補）</span><span><i style="background:rgba(74,159,184,.18)"></i>募集時間帯</span><span><i style="border:1.5px dashed #c9a24b;background:rgba(201,162,75,.15)"></i>依頼（未確定）</span><span><i style="background:#c9a24b"></i>依頼（確定）</span></div>
         </div>
         <div class="wk-scroll"><div class="wk" id="wkGrid"></div></div>
         <div class="g-hint" style="margin-top:12px;text-align:left">空いている所を 押すと その時間に 予定を 追加できます。点線の「空き」を 押すと、その時間の レッスンを 作れます。</div>
@@ -787,7 +819,7 @@ let DB={lessons:[],announcements:[],events:[],users:[],requests:[],bookings:[],s
 const mapLessonIn =r=>({id:r.id,date:r.date,time:r.time,dur:r.dur,title:r.title,titleEn:r.title_en||'',format:r.format,size:r.size,level:r.level,gender:r.gender,cap:r.cap,max:r.max,desc:r.descr||'',meetUrl:r.meet_url||'',place:r.place||'',mapUrl:r.map_url||'',auto:!!r.auto});
 const mapEventIn  =r=>({id:r.id,type:r.type,emoji:r.emoji,date:r.date,time:r.time,title:r.title,titleEn:r.title_en||'',place:r.place,placeEn:r.place_en||'',host:r.host,hostEn:r.host_en||'',price:r.price,cap:r.cap,seats:r.seats,desc:r.descr||'',descEn:r.descr_en||'',format:r.format||'offline',mapUrl:r.map_url||'',meetUrl:r.meet_url||''});
 const mapNewsIn   =r=>({id:r.id,kind:r.kind,emoji:r.emoji,title:r.title,titleEn:r.title_en||'',body:r.body||'',bodyEn:r.body_en||'',date:r.date,link:r.link||''});
-const mapReqIn    =r=>({id:r.id,uid:r.user_id||r.uid||'',user:(r.profiles?((r.profiles.first_name||'')+' '+(r.profiles.last_name||'')).trim():'')||'—',service:r.service,ic:r.ic,candidates:r.candidates||[],confirmed:r.confirmed||null,amount:r.amount,status:r.status,note:r.note||'',created:r.created_at?r.created_at.slice(0,10):todayISO()});
+const mapReqIn    =r=>({id:r.id,uid:r.user_id||r.uid||'',proposals:r.proposals||null,durationMin:r.duration_min||null,user:(r.profiles?((r.profiles.first_name||'')+' '+(r.profiles.last_name||'')).trim():'')||'—',service:r.service,ic:r.ic,candidates:r.candidates||[],confirmed:r.confirmed||null,amount:r.amount,status:r.status,note:r.note||'',created:r.created_at?r.created_at.slice(0,10):todayISO()});
 const mapUserIn   =r=>({id:r.id,name:((r.first_name||'')+' '+(r.last_name||'')).trim()||'—',email:r.email||'',plan:r.plan,joined:r.created_at?r.created_at.slice(0,10):'',lessons:0,country:r.country||'',createdAt:r.created_at||'',mstatus:r.membership_status||'active',cancelOn:r.cancel_effective_on||'',cancelReason:r.cancel_reason||''});
 
 /* ---- 画面オブジェクト → row（書き込み用） ---- */
@@ -809,7 +841,7 @@ async function load(){
     sb.from('member_logs').select('*').order('created_at',{ascending:false}),
     sb.from('schedule_blocks').select('*'),
     sb.from('lesson_templates').select('*').order('created_at'),
-    sb.from('admin_settings').select('*').in('key',['autogen','gcal']),
+    sb.from('admin_settings').select('*').in('key',['autogen','gcal','agent']),
   ]);
   const parts=[['lessons',les],['events',eve],['announcements',ann],['agent_requests',req],['profiles',usr]];
   const failed=parts.filter(([n,r])=>r.error);
@@ -845,6 +877,8 @@ async function load(){
   DB.templates=(tpl.data||[]).map(mapTplIn);
   const ag=(set.data||[]).find(r=>r.key==='autogen');
   const gc=(set.data||[]).find(r=>r.key==='gcal');
+  const ags=(set.data||[]).find(r=>r.key==='agent');
+  if(ags&&ags.value)AGENT_SET=Object.assign({},AGENT_SET_DEFAULT,ags.value);
   if(gc&&gc.value)GCAL=Object.assign(JSON.parse(JSON.stringify(GCAL_DEFAULT)),gc.value);
   if(ag&&ag.value&&ag.value.windows)AUTOGEN=Object.assign(JSON.parse(JSON.stringify(DEFAULT_AUTOGEN)),ag.value);
 }
@@ -884,7 +918,8 @@ async function showApp(){
   await load();
   renderAll();
   loadThreads();
-  if(DB.schedReady&&gcalStale(30))syncCalendar(true);   // Googleカレンダーを 裏で同期
+  // Googleカレンダーを 裏で同期 → そのあと 依頼の 空き確認・自動処理
+  (async()=>{ if(DB.schedReady&&gcalStale(30))await syncCalendar(true); agentSync(); })();
 }
 
 async function checkAuthStatus(){
@@ -1177,9 +1212,7 @@ function reqDisplayDate(r){
 function agentRowHTML(r){
   const dt=fmtDate(reqDisplayDate(r));
   const amt=r.amount>0?`<span class="tag tag-paid">${yen(r.amount)}</span>`:'<span class="tag tag-quote">見積り</span>';
-  const sched=r.confirmed&&r.confirmed.date
-    ? `<span class="tag tag-done">🕒 ${fmtDate(r.confirmed.date).full} ${r.confirmed.time||''} 確定</span>`
-    : `<span class="tag tag-wait">📅 候補 ${(r.candidates||[]).length}件・要調整</span>`;
+  const sched=reqPlanTag(r);
   return `<div class="row ${r.status==='new'?'fresh':''}" style="${r.status==='cancelled'?'opacity:.5':''}">
     <div class="row-when"><div class="d">${dt.d}</div><div class="m">${dt.m}</div>${r.confirmed&&r.confirmed.time?`<div class="t">${r.confirmed.time}</div>`:''}</div>
     <div class="row-main">
@@ -1193,6 +1226,7 @@ function renderAgent(){
   let list=DB.requests;
   if(agFilter!=='all')list=list.filter(r=>r.status===agFilter);
   list=[...list].sort((a,b)=>(b.created||'').localeCompare(a.created||''));
+  const as=document.getElementById('agentSet');if(as)as.innerHTML=agentSetHTML();
   document.getElementById('agentList').innerHTML=list.length?list.map(agentRowHTML).join(''):emptyHTML('📭','この じょうけんの 依頼は ありません','No requests');
 }
 let _stat=null,_pickedDate=null;
@@ -1210,6 +1244,7 @@ function openRequest(id){
     <div class="modal-head"><button class="modal-x" onclick="closeModal()">✕</button>
       <h2>${r.ic?r.ic+' ':''}${r.service}</h2><div class="m-sub">依頼者：${r.user}${r.amount>0?' · '+yen(r.amount):' · 見積り'}</div></div>
     <div class="modal-body">
+      <div id="rqAuto">${rqAutoHTML(r)}</div>
       <div class="field"><label>ステータス</label>
         <div class="seg" id="rqStatus">
           <button class="seg-btn ${r.status==='new'?'on':''}" onclick="setStat(this,'new')">未対応</button>
@@ -1222,6 +1257,7 @@ function openRequest(id){
         <div class="seg" id="rqCands" style="flex-wrap:wrap">${candChips}</div>
       </div>
 
+      <div class="todo-h" style="margin:4px 0 10px">手動で 決める <span class="hint" style="font-weight:500;color:var(--muted);font-size:12px">自動の 提案と ちがう日時に したいとき</span></div>
       <div class="field-row">
         <div class="field"><label>確定する日にち<span class="req">*</span> <span class="hint">候補外もOK</span></label>
           <input type="date" id="rqConfDate" value="${_pickedDate||''}" oninput="pickReqDate(null,this.value)"></div>
@@ -1238,6 +1274,7 @@ function openRequest(id){
         <a onclick="delRequest('${r.id}')" style="color:#c9503f;cursor:pointer;text-decoration:underline">完全に削除する</a></div>
       <div style="font-size:11.5px;color:var(--muted);margin-top:10px;line-height:1.6">※ 日時を確定して保存すると、本番ではお客様に確定通知が届きます。<br>Confirm a date & time; in production the member is notified.</div>
     </div>`);
+  rqEnsurePlan(id);
 }
 function pickReqDate(el,date){
   _pickedDate=date;
@@ -1249,6 +1286,7 @@ function pickReqDate(el,date){
 function setStat(el,v){_stat=v;el.parentElement.querySelectorAll('.seg-btn').forEach(b=>b.classList.remove('on'));el.classList.add('on');}
 async function saveRequest(id){
   const r=DB.requests.find(x=>x.id===id);
+  const prevConf=JSON.stringify(r.confirmed||null);
   const cDate=document.getElementById('rqConfDate').value;
   const cTime=document.getElementById('rqConfTime').value;
   const patch={note:document.getElementById('rqNote').value.trim()};
@@ -1260,6 +1298,7 @@ async function saveRequest(id){
   Object.assign(r,{status:patch.status||r.status,note:patch.note,confirmed:('confirmed'in patch)?patch.confirmed:r.confirmed});
   _stat=null;_pickedDate=null;renderAll();closeModal();
   toast(r.confirmed?`日時を確定しました（${fmtDate(r.confirmed.date).full} ${r.confirmed.time}）`:'依頼を こうしんしました');
+  agentAfterManual(id,JSON.stringify(r.confirmed||null)!==prevConf);
 }
 async function delRequest(id){
   const {data,error}=await sb.from('agent_requests').delete().eq('id',id).select('id');
@@ -1274,6 +1313,7 @@ async function cancelRequest(id){
   if(error||!data||!data.length){console.error('cancel request:',error||'0 rows');toast('キャンセルできませんでした（権限をご確認ください）');return;}
   const r=DB.requests.find(x=>x.id===id); if(r)r.status='cancelled';
   renderAll();closeModal();toast('依頼を キャンセル扱いに しました');
+  agentAfterManual(id,false);
 }
 window.cancelRequest=cancelRequest;
 
@@ -2426,6 +2466,7 @@ function busyOn(date){
   return [
     ...blocksOn(date).map(b=>[toMin(b.start),toMin(b.end)]),
     ...lessonsOn(date).map(l=>{const s=toMin(l.time);return [s,s+durMin(l.dur)];}),
+    ...DB.requests.filter(r=>reqActive(r)&&r.confirmed&&r.confirmed.date===date&&r.confirmed.time).map(r=>{const s=toMin(r.confirmed.time);return [s,s+(r.durationMin||120)];}),
   ];
 }
 const liveBookingCount=lessonId=>DB.bookings.filter(b=>b.lessonId===lessonId&&isLive(b)).length;
@@ -2489,11 +2530,13 @@ function renderSchedule(){
     if(win){const p=pos(toMin(win[0]),toMin(win[1]));if(p)inner+=`<div class="wk-win" style="${p}"></div>`;}
     blocksOn(d).forEach(b=>{const p=pos(toMin(b.start),toMin(b.end));if(p)inner+=`<div class="wk-ev k-${b.kind}${b.source==='gcal'?' g':''}" style="${p}" onclick="event.stopPropagation();openBlockDetail('${b.id}','${d}')" title="${esc(b.title)}"><b>${esc(b.title)}</b>${b.start}–${b.end}${b.repeat==='weekly'?' ↻':''}</div>`;});
     lessonsOn(d).forEach(l=>{const s=toMin(l.time);const p=pos(s,s+durMin(l.dur));if(p)inner+=`<div class="wk-ev wk-les ${l.format==='offline'?'off':''}" style="${p}" onclick="event.stopPropagation();openLessonForm('${l.id}')" title="${esc(l.title)}"><b>${esc(l.title)}</b>${String(l.time).slice(0,5)} ・ ${l.cap||0}/${l.max}${l.auto?' ⚡':''}</div>`;});
+    agentGridItems(d).filter(x=>x.kind!=='chip').forEach(x=>{const s=toMin(x.time);const p=pos(s,s+x.dur);if(p)inner+=`<div class="wk-ev ${x.kind==='confirmed'?'wk-agent':'wk-req'}" style="${p}" onclick="event.stopPropagation();openRequest('${x.r.id}')" title="${esc(x.label)}"><b>${esc(x.label)}</b>${x.time}${x.kind==='confirmed'?' 確定':x.kind==='slot'?' 候補':' 提案中'}</div>`;});
     cands.filter(c=>c.date===d).forEach((c,i)=>{const s=toMin(c.time);const p=pos(s,s+durMin(c.tpl.dur));if(p)inner+=`<div class="wk-ev wk-cand" style="${p}" onclick="event.stopPropagation();openCandidate('${c.date}','${c.time}','${c.tpl.id}')" title="この時間に レッスンを作る"><b>＋ ${esc(c.tpl.title)}</b>${c.time} 空き</div>`;});
     return `<div class="wk-col ${d<today?'past':''}" onclick="wkClick(event,'${d}')">${inner}</div>`;
   }).join('');
   document.getElementById('wkGrid').innerHTML=`
     <div class="wk-head"><div></div>${days.map(d=>`<div class="wk-day ${d===today?'today':''}"><b>${fmtDate(d).full}</b>${WD_JA[dow(d)]}</div>`).join('')}</div>
+    ${days.some(d=>agentGridItems(d).some(x=>x.kind==='chip'))?`<div class="wk-allday"><div class="wk-ad-lbl">依頼</div>${days.map(d=>`<div class="wk-ad">${agentGridItems(d).filter(x=>x.kind==='chip').map(x=>`<button class="wk-chip ${x.ok===false?'ng':''}" onclick="openRequest('${x.r.id}')" title="${esc(x.label+(x.reason?'：'+x.reason:''))}">${esc(x.label)}</button>`).join('')}</div>`).join('')}</div>`:''}
     <div class="wk-body" style="height:${(GRID_H1-GRID_H0)*GRID_PX}px">
       <div class="wk-times">${hours.map(h=>`<div style="top:${(h-GRID_H0)*GRID_PX}px">${h}:00</div>`).join('')}</div>${cols}
     </div>`;
@@ -2929,6 +2972,189 @@ function conflictingLessons(){
   return DB.lessons.filter(l=>l.date>=today&&blocksOn(l.date).some(b=>{
     const s=toMin(l.time),e=s+durMin(l.dur);return s<toMin(b.end)&&e>toMin(b.start);
   })).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+}
+
+/* ============================================================
+   エージェント依頼の 日程調整（Edge Function: agent-calendar）
+   ・候補日に 空きがあるかを 自動判定 → 確定 or 再提案
+   ・候補は 週カレンダーと Googleカレンダーに 透明で 表示
+   ============================================================ */
+const AGENT_SET_DEFAULT={autoConfirm:false,autoRepropose:false,travel:30,proposeCount:3,leadDays:1};
+let AGENT_SET=Object.assign({},AGENT_SET_DEFAULT);
+let AGENT_PLANS={},AGENT_FN=null,AGENT_ERR='';
+const jaDay=iso=>`${fmtDate(iso).full}（${weekday(iso)}）`;
+const reqActive=r=>r.status==='new'||r.status==='progress';
+
+async function agentFn(body){
+  const {data,error}=await sb.functions.invoke('agent-calendar',{body});
+  if(error){
+    let msg=error.message||'エラー';
+    try{if(error.context&&typeof error.context.json==='function'){const j=await error.context.json();msg=j.error||msg;}}catch(e){}
+    throw new Error(msg);
+  }
+  if(data&&data.error)throw new Error(data.error);
+  return data;
+}
+function replaceReq(row){
+  if(!row)return null;
+  const u=userById(row.user_id);
+  const m=mapReqIn(Object.assign({},row,{profiles:u?{first_name:u.name,last_name:''}:null}));
+  const i=DB.requests.findIndex(x=>x.id===row.id);
+  if(i>=0)DB.requests[i]=m;else DB.requests.unshift(m);
+  return m;
+}
+async function reloadRequests(){
+  const {data,error}=await sb.from('agent_requests').select('*');
+  if(!error)(data||[]).forEach(replaceReq);
+}
+/* admin を開いたとき：新着の自動処理 → カレンダーの透明予定をそろえる → 判定をもらう */
+async function agentSync(){
+  try{
+    const d=await agentFn({action:'sync'});
+    AGENT_FN=true;AGENT_ERR='';AGENT_PLANS=d.plans||{};
+    if(d.acted&&d.acted.length){
+      await reloadRequests();
+      const c=d.acted.filter(a=>a.action==='confirmed').length,p=d.acted.filter(a=>a.action==='reproposed').length;
+      toast(`新しい依頼を 自動で 処理しました（確定 ${c}・再提案 ${p}）`);
+    }
+    if(d.errors&&d.errors.length)console.warn('agent-calendar errors:',d.errors);
+  }catch(e){AGENT_FN=false;AGENT_ERR=e.message||String(e);console.warn('agent-calendar:',AGENT_ERR);}
+  renderAll();
+}
+
+/* ---- 一覧の タグ ---- */
+function reqPlanTag(r){
+  if(r.confirmed&&r.confirmed.date)return `<span class="tag tag-done">🕒 ${fmtDate(r.confirmed.date).full} ${r.confirmed.time||''} 確定</span>`;
+  if(r.proposals&&r.proposals.length)return `<span class="tag tag-wait">↻ 再提案中・返事待ち（${r.proposals.length}案）</span>`;
+  const p=AGENT_PLANS[r.id];
+  if(reqActive(r)&&p&&p.kind==='confirm')return `<span class="tag tag-online">✓ ${fmtDate(p.date).full} ${p.time} で 確定できます</span>`;
+  if(reqActive(r)&&p&&p.kind==='repropose')return `<span class="tag tag-cancel">× 候補日は 空きなし・再提案が 必要</span>`;
+  return `<span class="tag tag-wait">📅 候補 ${(r.candidates||[]).length}件・要調整</span>`;
+}
+
+/* ---- 詳細モーダルの 自動調整ブロック ---- */
+function rqAutoHTML(r){
+  if(AGENT_FN===false)return `<div class="rq-auto off"><b>自動調整は まだ 使えません</b><div class="rq-sub">${esc(AGENT_ERR)}。agent-calendar を デプロイすると、空き確認・確定・再提案が 自動になります。下の 手動の欄は そのまま 使えます。</div></div>`;
+  if(r.status==='cancelled'||r.status==='done')return '';
+  if(r.confirmed&&r.confirmed.date){
+    return `<div class="rq-auto ok"><b>✓ ${jaDay(r.confirmed.date)} ${r.confirmed.time}〜 で 確定ずみ</b><div class="rq-sub">Googleカレンダーに 登録し、お客様に 招待を 送っています。変えるときは 下の 手動の欄で 日時を なおして 保存してください。</div></div>`;
+  }
+  if(r.proposals&&r.proposals.length){
+    return `<div class="rq-auto wait"><b>↻ 再提案中（お客様の 返事待ち）</b><div class="rq-sub">メッセージで 返事が きたら、えらばれた 日程の「確定」を 押してください。</div>
+      <div class="rq-opts">${r.proposals.map(o=>`<div class="rq-opt"><span>${jaDay(o.date)} ${o.time}〜</span><button class="btn btn-gold btn-sm" onclick="rqConfirm('${r.id}','${o.date}','${o.time}',this)">この日で 確定</button></div>`).join('')}</div>
+      <button class="btn btn-ghost btn-sm" onclick="startNewThread('${r.uid}')">💬 メッセージを 見る</button></div>`;
+  }
+  const p=AGENT_PLANS[r.id];
+  if(!p)return `<div class="rq-auto"><b>空き状況を 確認しています…</b></div>`;
+  const checks=p.checks&&p.checks.length?`<div class="rq-checks">${p.checks.map(c=>`<div class="rq-check ${c.ok?'ok':'ng'}"><span>${c.ok?'✓':'×'}</span><b>${jaDay(c.date)}</b><span>${c.ok?`${c.time}〜 空いています`:esc(c.reason||'空きなし')}</span></div>`).join('')}</div>`:'<div class="rq-sub">候補日の 入力が ありません。</div>';
+  const durSel=`<label class="rq-dur">所要時間 <select id="rqDur">${[60,90,120,180].map(m=>`<option value="${m}" ${p.dur===m?'selected':''}>${Math.floor(m/60)}時間${m%60?'半':''}</option>`).join('')}</select></label>`;
+  if(p.kind==='confirm'){
+    const end=fromMin(toMin(p.time)+p.dur);
+    return `<div class="rq-auto ok">${checks}
+      <div class="rq-head">→ <b>${jaDay(p.date)} ${p.time}〜${end}</b> で 確定できます</div>
+      <div class="rq-actions">${durSel}<button class="btn btn-gold btn-sm" onclick="rqConfirm('${r.id}','${p.date}','${p.time}',this)">この日時で 確定して 通知する</button></div>
+      <div class="rq-sub">確定すると Googleカレンダーの 透明な候補が 消えて ふつうの予定に なり、お客様には カレンダー招待と ポータルの メッセージが 届きます。</div></div>`;
+  }
+  const opts=p.options||[];
+  return `<div class="rq-auto ng">${checks}
+    <div class="rq-head">→ 候補日は すべて 埋まっています。${opts.length?'つぎの 日程を 提案します':'4週間以内に 空きが ありません'}</div>
+    ${opts.length?`<div id="rqOptRows">${opts.map(o=>`<div class="rq-opt-row"><input type="date" class="rqoD" value="${o.date}"><input type="time" class="rqoT" value="${o.time}" step="900"><button class="btn btn-ghost btn-sm" onclick="this.parentElement.remove()">外す</button></div>`).join('')}</div>
+      <textarea id="rqPropNote" class="rq-note" placeholder="ひとこと（任意）：れい）午前中が よければ 教えてください"></textarea>
+      <div class="rq-actions"><button class="btn btn-teal btn-sm" onclick="rqRepropose('${r.id}',this)">この日程で 再提案を 送る</button></div>
+      <div class="rq-sub">ポータルの メッセージと メールで 届きます。Googleカレンダーには 提案した 日時が 透明で 入ります。</div>`:'<div class="rq-sub">下の 手動の欄で 日時を 決めてください。</div>'}
+  </div>`;
+}
+async function rqEnsurePlan(id){
+  const r=DB.requests.find(x=>x.id===id);
+  if(!r||AGENT_FN===false||AGENT_PLANS[id]||!reqActive(r)||(r.confirmed&&r.confirmed.date)||(r.proposals&&r.proposals.length))return;
+  try{
+    const d=await agentFn({action:'plan',id});AGENT_FN=true;AGENT_PLANS[id]=d.plan;
+  }catch(e){AGENT_FN=false;AGENT_ERR=e.message;}
+  const box=document.getElementById('rqAuto');if(box)box.innerHTML=rqAutoHTML(r);
+  renderAgent();
+}
+async function rqConfirm(id,date,time,btn){
+  const dsel=document.getElementById('rqDur');const r=DB.requests.find(x=>x.id===id);
+  const dur=dsel?+dsel.value:(r&&r.durationMin)||null;
+  if(btn){btn.disabled=true;btn.textContent='確定しています…';}
+  try{
+    const d=await agentFn({action:'confirm',id,date,time,dur});
+    replaceReq(d.request);delete AGENT_PLANS[id];
+    closeModal();renderAll();toast(`${jaDay(date)} ${time} で 確定し、お客様に 通知しました`);
+  }catch(e){if(btn){btn.disabled=false;btn.textContent='もう一度 確定する';}toast('確定できませんでした：'+e.message);}
+}
+async function rqRepropose(id,btn){
+  const options=[...document.querySelectorAll('#rqOptRows .rq-opt-row')].map(row=>({date:row.querySelector('.rqoD').value,time:row.querySelector('.rqoT').value})).filter(o=>o.date&&o.time);
+  if(!options.length){toast('提案する 日程を 1つ以上 のこしてください');return;}
+  const note=(document.getElementById('rqPropNote')||{}).value||'';
+  btn.disabled=true;btn.textContent='送っています…';
+  try{
+    const d=await agentFn({action:'repropose',id,options,note:note.trim()});
+    replaceReq(d.request);delete AGENT_PLANS[id];
+    closeModal();renderAll();toast(`${options.length}つの 日程を 提案しました`);
+  }catch(e){btn.disabled=false;btn.textContent='この日程で 再提案を 送る';toast('送れませんでした：'+e.message);}
+}
+/* 手動保存・キャンセルのあと、カレンダーを そろえる */
+async function agentAfterManual(id,confirmChanged){
+  if(AGENT_FN===false)return;
+  const r=DB.requests.find(x=>x.id===id);if(!r)return;
+  try{
+    if(confirmChanged&&r.confirmed&&r.confirmed.date){
+      const d=await agentFn({action:'confirm',id,date:r.confirmed.date,time:r.confirmed.time,dur:r.durationMin||null});replaceReq(d.request);
+    }else await agentFn({action:'reconcile',id,notify:true});
+    delete AGENT_PLANS[id];renderAll();
+  }catch(e){console.warn('agent-calendar:',e.message);toast('Googleカレンダーへの 反映に 失敗しました：'+e.message);}
+}
+
+/* ---- 自動化の 設定（エージェント依頼タブ）---- */
+function agentSetHTML(){
+  const st=AGENT_FN===true?'<span class="gc-dot ok"></span>自動調整 オン（Googleカレンダー連携 中）'
+    :AGENT_FN===false?`<span class="gc-dot ng"></span>自動調整 オフ：${esc(AGENT_ERR)}`
+    :'<span class="gc-dot run"></span>確認中…';
+  return `<div class="gc-status">${st}</div>
+    <div class="ag-set">
+      <label class="mini-chk"><input type="checkbox" id="asConfirm" ${AGENT_SET.autoConfirm?'checked':''}> 候補日に 空きが あれば、その場で 自動確定して 通知する</label>
+      <label class="mini-chk"><input type="checkbox" id="asRepropose" ${AGENT_SET.autoRepropose?'checked':''}> 候補日が 全部うまっていたら、別の日程を 自動で 再提案する</label>
+    </div>
+    <div class="field-row-3" style="margin-top:12px">
+      <div class="field"><label>移動の ゆとり</label><select id="asTravel">${[0,30,60,90].map(m=>`<option value="${m}" ${Number(AGENT_SET.travel)===m?'selected':''}>前後 ${m}分</option>`).join('')}</select></div>
+      <div class="field"><label>再提案の 数</label><select id="asCount">${[2,3,4,5].map(n=>`<option value="${n}" ${Number(AGENT_SET.proposeCount)===n?'selected':''}>${n}案</option>`).join('')}</select></div>
+      <div class="field"><label>最短で 何日後から</label><select id="asLead">${[1,2,3,5,7].map(n=>`<option value="${n}" ${Number(AGENT_SET.leadDays)===n?'selected':''}>${n}日後</option>`).join('')}</select></div>
+    </div>
+    <div class="p-actions"><button class="btn btn-ghost btn-sm" onclick="saveAgentSet()" ${DB.schedReady?'':'disabled'}>設定を 保存</button><button class="btn btn-ghost btn-sm" onclick="agentSync()">いま 空きを 確認する</button></div>
+    <div class="g-hint" style="text-align:left;margin-top:10px">オフの ときは 判定だけ 出て、確定・再提案は ボタンで 行います。オンの 自動処理は、依頼が 入った 瞬間（Database Webhook を 設定した場合）か、admin を 開いたときに 動きます。</div>`;
+}
+async function saveAgentSet(){
+  const next={autoConfirm:document.getElementById('asConfirm').checked,autoRepropose:document.getElementById('asRepropose').checked,
+    travel:+document.getElementById('asTravel').value,proposeCount:+document.getElementById('asCount').value,leadDays:+document.getElementById('asLead').value};
+  const {error}=await sb.from('admin_settings').upsert({key:'agent',value:next,updated_at:new Date().toISOString()});
+  if(error){console.error(error);toast('保存できませんでした');return;}
+  AGENT_SET=next;toast('自動化の 設定を 保存しました');
+  AGENT_PLANS={};agentSync();
+}
+
+/* ---- 週カレンダー用 ---- */
+function reqCandDates(r){return [...new Set((r.candidates||[]).map(toISODate).filter(Boolean))];}
+function agentGridItems(date){
+  const out=[];
+  DB.requests.filter(reqActive).forEach(r=>{
+    const name=(r.user||'').split(' ')[0];
+    if(r.confirmed&&r.confirmed.date){
+      if(r.confirmed.date===date)out.push({kind:'confirmed',r,time:r.confirmed.time,dur:r.durationMin||120,label:`🤝 ${r.service}｜${name}`});
+      return;
+    }
+    if(r.proposals&&r.proposals.length){
+      r.proposals.filter(o=>o.date===date).forEach(o=>out.push({kind:'proposal',r,time:o.time,dur:r.durationMin||120,label:`再提案 ${r.service}｜${name}`}));
+      return;
+    }
+    const p=AGENT_PLANS[r.id];
+    if(p&&p.kind==='confirm'&&p.date===date)out.push({kind:'slot',r,time:p.time,dur:p.dur,label:`確定できる ${r.service}｜${name}`});
+    if(reqCandDates(r).includes(date)){
+      const c=p&&p.checks?p.checks.find(x=>x.date===date):null;
+      out.push({kind:'chip',r,ok:c?c.ok:null,reason:c&&!c.ok?c.reason:'',label:`🤝 ${r.service}`});
+    }
+  });
+  return out;
 }
 
 /* ---------- helper ---------- */
