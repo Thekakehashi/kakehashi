@@ -358,6 +358,68 @@ body{
 .todo-h:first-child{margin-top:0}
 .modal.wide{max-width:680px}
 
+/* ============ 予定・自動生成 ============ */
+.wk-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.wk{min-width:760px}
+.wk-head,.wk-body{display:grid;grid-template-columns:44px repeat(7,1fr)}
+.wk-day{font-size:11.5px;text-align:center;padding:4px 2px 10px;color:var(--muted)}
+.wk-day b{display:block;font-family:"Inter";font-size:15px;color:var(--ink);line-height:1.2}
+.wk-day.today b{color:#fff;background:var(--teal);border-radius:999px;display:inline-block;padding:1px 9px;margin-bottom:2px}
+.wk-body{position:relative;border-top:1px solid var(--line)}
+.wk-times{position:relative}
+.wk-times div{position:absolute;right:7px;transform:translateY(-50%);font-family:"Inter";font-size:10.5px;color:var(--muted);background:#fff;padding:0 2px}
+.wk-times div:first-child{transform:none}
+.wk-col{position:relative;border-left:1px solid var(--line);cursor:copy;
+  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 39px,var(--line) 39px,var(--line) 40px)}
+.wk-col.past{background-color:rgba(15,42,63,.035);cursor:default}
+.wk-win{position:absolute;left:0;right:0;background:rgba(74,159,184,.08);border-left:3px solid rgba(74,159,184,.45);pointer-events:none}
+.wk-ev{position:absolute;left:4px;right:4px;border-radius:7px;padding:3px 6px;font-size:10.5px;line-height:1.35;overflow:hidden;cursor:pointer;font-family:"Inter","Zen Kaku Gothic New",sans-serif}
+.wk-ev b{display:block;font-weight:700;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:"Zen Kaku Gothic New",sans-serif}
+.wk-ev:hover{filter:brightness(.97);z-index:2}
+.k-school{background:#dde5ea;color:var(--indigo);border:1px solid #c3d0d8}
+.k-job{background:#f0e4c6;color:#6b5213;border:1px solid #ddc993}
+.k-other{background:#e9e6ee;color:#4f4460;border:1px solid #d5cfdd}
+.wk-les{background:var(--indigo);color:var(--washi);border:1px solid var(--indigo)}
+.wk-les.off{background:#8a6a22;border-color:#8a6a22}
+.wk-cand{border:1.5px dashed var(--teal);color:var(--teal);background:rgba(255,255,255,.85)}
+.wk-cand:hover{background:rgba(74,159,184,.12);filter:none}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);align-items:center}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:5px}
+.sched-cols{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.rule-row{display:grid;grid-template-columns:74px 1fr auto 1fr;gap:8px;align-items:center;padding:5px 0}
+.rule-row input[type=time]{padding:8px 10px;border-radius:9px;border:1px solid var(--line);background:var(--washi-2);font:inherit;font-size:14px;width:100%;color:var(--ink)}
+.rule-row.off input[type=time]{opacity:.3}
+.rule-row span{color:var(--muted)}
+.rule-day{font-size:14px;font-weight:700;display:flex;gap:7px;align-items:center;cursor:pointer}
+.mini-chk{display:inline-flex;gap:6px;align-items:center;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap}
+.ag-tpls{display:flex;flex-direction:column;gap:8px}
+.ag-list{max-height:42vh;overflow-y:auto;border:1px solid var(--line);border-radius:12px;padding:4px 14px 10px;margin-bottom:12px}
+.ag-day{font-size:12.5px;font-weight:800;margin:12px 0 2px;color:var(--ink)}
+.ag-slot{display:flex;gap:10px;align-items:center;padding:7px 0;font-size:13.5px;border-bottom:1px solid var(--line);cursor:pointer}
+.ag-slot:last-child{border-bottom:none}
+.ag-slot .t{font-family:"Inter";font-weight:700;width:96px;flex:none}
+.auto-nudge{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;border-color:rgba(74,159,184,.45);background:linear-gradient(90deg,rgba(74,159,184,.08),#fff)}
+.auto-nudge b{font-size:15px}
+.auto-nudge .sub{font-size:12.5px;color:var(--muted)}
+
+/* ============ Googleカレンダー連携 ============ */
+.gc-status{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;font-weight:600;margin-bottom:12px}
+.gc-count{margin-left:auto;font-weight:500;color:var(--muted);font-size:12px}
+.gc-dot{width:9px;height:9px;border-radius:50%;background:var(--line);flex:none}
+.gc-dot.ok{background:var(--teal)}.gc-dot.ng{background:var(--danger)}.gc-dot.run{background:var(--gold);animation:gcp 1s ease-in-out infinite alternate}
+@keyframes gcp{from{opacity:.35}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.gc-dot.run{animation:none}}
+.gc-err{font-size:12.5px;color:var(--danger);background:rgba(201,80,63,.06);border-radius:9px;padding:8px 12px;margin-bottom:8px}
+.gc-row{display:grid;grid-template-columns:1fr 104px auto auto;gap:8px;align-items:center;margin-bottom:8px}
+.gc-row input.gc-id,.gc-row select{padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--washi-2);font:inherit;font-size:13.5px;color:var(--ink);width:100%;min-width:0}
+.gc-row input.gc-id:focus,.gc-row select:focus{outline:none;border-color:var(--teal);background:#fff}
+.gc-help{margin-top:16px;font-size:12.5px;color:var(--muted);line-height:1.8}
+.gc-help summary{cursor:pointer;font-weight:700;color:var(--ink)}
+.gc-help ol{margin:8px 0 8px 20px}
+.wk-ev.g::after{content:"G";position:absolute;top:3px;right:5px;font-size:9px;font-weight:800;opacity:.5;font-family:"Inter"}
+.cf-nudge{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;border-color:rgba(201,80,63,.4);background:linear-gradient(90deg,rgba(201,80,63,.06),#fff)}
+.cf-nudge b{font-size:15px}
+
 /* mobile */
 .side-toggle{display:none}
 @media(max-width:820px){
@@ -369,6 +431,9 @@ body{
   .side-toggle{display:inline-flex;align-items:center;gap:8px;background:var(--indigo);color:var(--washi);border:none;border-radius:11px;padding:10px 16px;font-family:inherit;font-weight:600;font-size:14px;cursor:pointer;margin-bottom:18px}
   .kpi-grid{grid-template-columns:1fr 1fr}
   .mgrid{grid-template-columns:repeat(3,1fr)}
+  .sched-cols{grid-template-columns:1fr}
+  .gc-row{grid-template-columns:1fr 1fr}
+  .gc-row input.gc-id{grid-column:1/-1}
   .tl-item{grid-template-columns:52px 22px 1fr;}
   .tl-amt{grid-column:3;text-align:left}
   .ud-actions{width:100%}
@@ -435,6 +500,7 @@ body{
     <button class="nav-item" data-tab="news" onclick="go('news')"><span class="ic">📣</span> お知らせ</button>
     <button class="nav-item" data-tab="agent" onclick="go('agent')"><span class="ic">🤝</span> エージェント依頼 <span class="badge" id="navAgentBadge">0</span></button>
     <button class="nav-item" data-tab="lessons" onclick="go('lessons')"><span class="ic">📚</span> レッスン</button>
+    <button class="nav-item" data-tab="schedule" onclick="go('schedule')"><span class="ic">🗓️</span> 予定・自動生成</button>
     <button class="nav-item" data-tab="events" onclick="go('events')"><span class="ic">🎏</span> イベント</button>
     <button class="nav-item" data-tab="messages" onclick="go('messages')"><span class="ic">💬</span> メッセージ <span class="badge" id="navMsgBadge">0</span></button>
 
@@ -466,6 +532,7 @@ body{
         <div class="kpi"><div class="k-label">今後のレッスン / Lessons</div><div class="k-num" id="kLessons">–</div><div class="k-sub">公開中</div></div>
         <div class="kpi"><div class="k-label">今後のイベント / Events</div><div class="k-num" id="kEvents">–</div><div class="k-sub">公開中</div></div>
       </div>
+      <div id="homeAuto"></div>
       <div class="kpi-grid">
         <div class="kpi link" onclick="go('ledger')"><div class="k-label">今月の入金</div><div class="k-num" id="kIncome">–</div><div class="k-sub" id="kIncomeSub"></div></div>
         <div class="kpi link" onclick="go('ledger')"><div class="k-label">今月 実施したレッスン</div><div class="k-num" id="kDone">–</div><div class="k-sub">出席を記録した数</div></div>
@@ -502,11 +569,29 @@ body{
     <section class="tab" data-tab="lessons">
       <div class="phead">
         <div><h1>レッスン</h1><div class="sub">日程の作成と管理 <span class="en">Lesson schedule</span></div></div>
-        <button class="btn btn-gold" onclick="openLessonForm()">＋ レッスンを作成</button>
+        <div class="p-actions"><button class="btn btn-ghost" onclick="openAutogen()">⚡ 空き時間に自動生成</button><button class="btn btn-gold" onclick="openLessonForm()">＋ レッスンを作成</button></div>
       </div>
       <div class="panel">
         <div class="rows" id="lessonList"></div>
       </div>
+    </section>
+
+    <!-- ---------- SCHEDULE ---------- -->
+    <section class="tab" data-tab="schedule">
+      <div class="phead">
+        <div><h1>予定・自動生成</h1><div class="sub">学校や バイトの 予定を 入れておくと、空き時間に レッスンを 組みます <span class="en">Schedule &amp; auto lessons</span></div></div>
+        <div class="p-actions"><button class="btn btn-ghost" onclick="openBlockForm()">＋ 予定を追加</button><button class="btn btn-gold" onclick="openAutogen()">⚡ レッスンを自動生成</button></div>
+      </div>
+      <div id="schedNotice"></div>
+      <div class="panel">
+        <div class="panel-h">
+          <div class="month-nav"><button class="btn btn-ghost btn-sm" onclick="wkMove(-1)">‹ 前の週</button><b id="wkLabel"></b><button class="btn btn-ghost btn-sm" onclick="wkMove(1)">次の週 ›</button><button class="btn btn-ghost btn-sm" onclick="wkMove(0)">今週</button></div>
+          <div class="legend"><span><i class="k-school"></i>学校</span><span><i class="k-job"></i>バイト</span><span><i class="k-other"></i>その他</span><span><i style="background:var(--indigo)"></i>レッスン</span><span><i style="border:1.5px dashed var(--teal)"></i>空き（候補）</span><span><i style="background:rgba(74,159,184,.18)"></i>募集時間帯</span></div>
+        </div>
+        <div class="wk-scroll"><div class="wk" id="wkGrid"></div></div>
+        <div class="g-hint" style="margin-top:12px;text-align:left">空いている所を 押すと その時間に 予定を 追加できます。点線の「空き」を 押すと、その時間の レッスンを 作れます。</div>
+      </div>
+      <div id="schedBody"></div>
     </section>
 
     <!-- ---------- ANNOUNCEMENTS ---------- -->
@@ -696,10 +781,10 @@ function seed(){
      title_en    titleEn
      place_en    placeEn / host_en hostEn / body_en bodyEn / descr_en descEn
    ============================================================ */
-let DB={lessons:[],announcements:[],events:[],users:[],requests:[],bookings:[],signups:[],payments:[],logs:[],billingReady:false};
+let DB={lessons:[],announcements:[],events:[],users:[],requests:[],bookings:[],signups:[],payments:[],logs:[],billingReady:false,blocks:[],templates:[],schedReady:false};
 
 /* ---- row → 画面オブジェクト ---- */
-const mapLessonIn =r=>({id:r.id,date:r.date,time:r.time,dur:r.dur,title:r.title,titleEn:r.title_en||'',format:r.format,size:r.size,level:r.level,gender:r.gender,cap:r.cap,max:r.max,desc:r.descr||'',meetUrl:r.meet_url||'',place:r.place||'',mapUrl:r.map_url||''});
+const mapLessonIn =r=>({id:r.id,date:r.date,time:r.time,dur:r.dur,title:r.title,titleEn:r.title_en||'',format:r.format,size:r.size,level:r.level,gender:r.gender,cap:r.cap,max:r.max,desc:r.descr||'',meetUrl:r.meet_url||'',place:r.place||'',mapUrl:r.map_url||'',auto:!!r.auto});
 const mapEventIn  =r=>({id:r.id,type:r.type,emoji:r.emoji,date:r.date,time:r.time,title:r.title,titleEn:r.title_en||'',place:r.place,placeEn:r.place_en||'',host:r.host,hostEn:r.host_en||'',price:r.price,cap:r.cap,seats:r.seats,desc:r.descr||'',descEn:r.descr_en||'',format:r.format||'offline',mapUrl:r.map_url||'',meetUrl:r.meet_url||''});
 const mapNewsIn   =r=>({id:r.id,kind:r.kind,emoji:r.emoji,title:r.title,titleEn:r.title_en||'',body:r.body||'',bodyEn:r.body_en||'',date:r.date,link:r.link||''});
 const mapReqIn    =r=>({id:r.id,uid:r.user_id||r.uid||'',user:(r.profiles?((r.profiles.first_name||'')+' '+(r.profiles.last_name||'')).trim():'')||'—',service:r.service,ic:r.ic,candidates:r.candidates||[],confirmed:r.confirmed||null,amount:r.amount,status:r.status,note:r.note||'',created:r.created_at?r.created_at.slice(0,10):todayISO()});
@@ -712,7 +797,7 @@ const mapNewsOut  =d=>({kind:d.kind,emoji:d.emoji,title:d.title,title_en:d.title
 
 /* ---- Supabase から全テーブル読み込み ---- */
 async function load(){
-  const [les,eve,ann,req,usr,bk,sg,pay,lg]=await Promise.all([
+  const [les,eve,ann,req,usr,bk,sg,pay,lg,blk,tpl,set]=await Promise.all([
     sb.from('lessons').select('*').order('date').order('time'),
     sb.from('events').select('*').order('date'),
     sb.from('announcements').select('*').order('date',{ascending:false}),
@@ -722,6 +807,9 @@ async function load(){
     sb.from('event_signups').select('*'),
     sb.from('payments').select('*').order('paid_on',{ascending:false}),
     sb.from('member_logs').select('*').order('created_at',{ascending:false}),
+    sb.from('schedule_blocks').select('*'),
+    sb.from('lesson_templates').select('*').order('created_at'),
+    sb.from('admin_settings').select('*').in('key',['autogen','gcal']),
   ]);
   const parts=[['lessons',les],['events',eve],['announcements',ann],['agent_requests',req],['profiles',usr]];
   const failed=parts.filter(([n,r])=>r.error);
@@ -750,6 +838,15 @@ async function load(){
   DB.payments=(pay.data||[]).map(mapPayIn);
   DB.logs    =(lg.data||[]).map(mapLogIn);
   if(DB.billingReady)await finalizeCancellations();
+  // 予定・ひな形・募集ルール（kakehashi_schedule.sql 実行後に使える）
+  DB.schedReady=!blk.error&&!tpl.error&&!set.error;
+  if(!DB.schedReady)console.warn('schedule_blocks / lesson_templates / admin_settings が まだありません → kakehashi_schedule.sql を実行してください');
+  DB.blocks=(blk.data||[]).map(mapBlockIn);
+  DB.templates=(tpl.data||[]).map(mapTplIn);
+  const ag=(set.data||[]).find(r=>r.key==='autogen');
+  const gc=(set.data||[]).find(r=>r.key==='gcal');
+  if(gc&&gc.value)GCAL=Object.assign(JSON.parse(JSON.stringify(GCAL_DEFAULT)),gc.value);
+  if(ag&&ag.value&&ag.value.windows)AUTOGEN=Object.assign(JSON.parse(JSON.stringify(DEFAULT_AUTOGEN)),ag.value);
 }
 /* 旧 save() は行単位の書き込みに置き換え。互換のため空関数を残す */
 function save(){}
@@ -787,6 +884,7 @@ async function showApp(){
   await load();
   renderAll();
   loadThreads();
+  if(DB.schedReady&&gcalStale(30))syncCalendar(true);   // Googleカレンダーを 裏で同期
 }
 
 async function checkAuthStatus(){
@@ -1000,6 +1098,7 @@ function go(tab,keepDetail){
   if(tab==='messages')loadThreads();
   if(tab==='users')renderUsers();
   if(tab==='ledger')renderLedger();
+  if(tab==='schedule')renderSchedule();
 }
 function toggleSide(){document.getElementById('side').classList.toggle('open');document.getElementById('sideScrim').classList.toggle('on');}
 function closeSide(){document.getElementById('side').classList.remove('open');document.getElementById('sideScrim').classList.remove('on');}
@@ -1021,7 +1120,7 @@ document.getElementById('scrim').addEventListener('click',e=>{if(e.target.id==='
 /* ============================================================
    RENDER — everything
    ============================================================ */
-function renderAll(){renderHome();renderNews();renderAgent();renderLessons();renderEvents();renderUsers();renderLedger();updateBadges();}
+function renderAll(){renderHome();renderNews();renderAgent();renderLessons();renderEvents();renderUsers();renderLedger();renderSchedule();updateBadges();}
 
 function updateBadges(){
   const n=DB.requests.filter(r=>r.status==='new').length;
@@ -1051,6 +1150,10 @@ function renderHome(){
   document.getElementById('kUnpaid').textContent=un;
   document.getElementById('kUnpaidSub').textContent=`単発 ${lg.unpaidDone.length} ／ 月額 ${lg.memUnpaid.length}`;
   document.getElementById('kUnpaidBox').classList.toggle('warn',un>0);
+  const ac=upcomingCandidateCount();
+  const cf=DB.schedReady?conflictingLessons():[];
+  const cfHTML=cf.length?`<div class="panel cf-nudge"><div><b>⚠ 予定と 重なっている レッスンが ${cf.length}件 あります</b><div class="sub" style="font-size:12.5px;color:var(--muted)">学校・バイト・Googleカレンダーの 予定と 時間が かぶっています</div></div><button class="btn btn-danger btn-sm" onclick="showConflictList(conflictingLessons(),'予定と 重なっている レッスン')">確認する</button></div>`:'';
+  document.getElementById('homeAuto').innerHTML=cfHTML+(ac?`<div class="panel auto-nudge"><div><b>⚡ これから${AUTOGEN.horizonDays}日の 空き時間に、レッスンを ${ac}件 入れられます</b><div class="sub">学校・バイトの 予定と 募集ルールから 計算しています</div></div><button class="btn btn-teal btn-sm" onclick="openAutogen()">確認して 作成する</button></div>`:'');
   const news=[...(DB.announcements||[])].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3);
   const nwrap=document.getElementById('homeNews');
   if(nwrap)nwrap.innerHTML=news.length?news.map(newsRowHTML).join(''):emptyHTML('📣','お知らせは まだ ありません','No announcements yet');
@@ -1186,7 +1289,7 @@ function lessonRowHTML(l,isPast){
     <div class="row-when"><div class="d">${dt.d}</div><div class="m">${dt.m}</div><div class="t">${l.time}</div></div>
     <div class="row-main">
       <div class="row-title">${l.title}</div>
-      <div class="row-meta">${fmt}${size}<span class="tag tag-lv">${l.level}</span>${gender}${cap}</div>
+      <div class="row-meta">${fmt}${size}<span class="tag tag-lv">${l.level}</span>${gender}${cap}${l.auto?'<span class="tag tag-lv">⚡ 自動</span>':''}</div>
     </div>
     <div class="row-act">
       ${l.format==='offline'
@@ -2279,6 +2382,553 @@ function exportLedgerCSV(){
   const blob=new Blob(['\ufeff'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`kakehashi_${m}.csv`;
   document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);
+}
+
+/* ============================================================
+   予定・自動生成
+   schedule_blocks（学校・バイト等）／ lesson_templates（ひな形）／
+   admin_settings.autogen（募集時間帯など）から、空き時間にレッスンを組む
+   ============================================================ */
+const BLOCK_KIND={school:'学校',job:'バイト',other:'その他'};
+const WD_ORDER=[1,2,3,4,5,6,0];               // 表示は 月→日
+const WD_JA=['日','月','火','水','木','金','土'];
+const DEFAULT_AUTOGEN={
+  windows:{0:['10:00','18:00'],1:['18:00','22:00'],2:['18:00','22:00'],3:['18:00','22:00'],4:['18:00','22:00'],5:['18:00','22:00'],6:['10:00','18:00']},
+  buffer:15,maxPerDay:3,horizonDays:14
+};
+let AUTOGEN=JSON.parse(JSON.stringify(DEFAULT_AUTOGEN));
+const GRID_H0=7,GRID_H1=23,GRID_PX=40;          // 7:00〜23:00、1時間=40px
+
+/* ---- row ⇄ 画面 ---- */
+const mapBlockIn=r=>({id:r.id,title:r.title,kind:r.kind||'other',repeat:r.repeat||'none',date:r.date||'',weekday:r.weekday==null?null:Number(r.weekday),start:r.start_time,end:r.end_time,from:r.valid_from||'',until:r.valid_until||'',skip:r.skip_dates||[],note:r.note||'',source:r.source||'manual',gcalId:r.gcal_id||''});
+const mapBlockOut=b=>({title:b.title,kind:b.kind,repeat:b.repeat,date:b.repeat==='none'?b.date:null,weekday:b.repeat==='weekly'?b.weekday:null,start_time:b.start,end_time:b.end,valid_from:b.repeat==='weekly'&&b.from?b.from:null,valid_until:b.repeat==='weekly'&&b.until?b.until:null,note:b.note||null});
+const mapTplIn=r=>({id:r.id,title:r.title,titleEn:r.title_en||'',dur:r.dur||'50分',format:r.format||'online',size:r.size||'group',level:r.level||'中級',gender:r.gender||'any',max:r.max||1,place:r.place||'',mapUrl:r.map_url||'',active:r.active!==false});
+const mapTplOut=t=>({title:t.title,title_en:t.titleEn||null,dur:t.dur,format:t.format,size:t.size,level:t.level,gender:t.gender,max:t.max,place:t.format==='offline'?(t.place||null):null,map_url:t.format==='offline'?(t.mapUrl||null):null,active:t.active});
+
+/* ---- 時間ヘルパー ---- */
+const toMin=hm=>{const [h,m]=String(hm||'0:0').split(':').map(Number);return h*60+(m||0);};
+const fromMin=m=>`${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;
+const durMin=d=>parseInt(d,10)||50;
+function addDays(iso,n){const d=new Date(iso+'T00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10);}
+const dow=iso=>new Date(iso+'T00:00Z').getUTCDay();
+const mondayOf=iso=>addDays(iso,-((dow(iso)+6)%7));
+const tplById=id=>DB.templates.find(t=>t.id===id);
+const nowMinJST=()=>{const d=new Date(Date.now()+9*3600e3);return d.getUTCHours()*60+d.getUTCMinutes();};
+
+function blocksOn(date){
+  const wd=dow(date);
+  return DB.blocks.filter(b=>b.repeat==='weekly'
+    ?(b.weekday===wd&&(!b.from||date>=b.from)&&(!b.until||date<=b.until)&&!b.skip.includes(date))
+    :b.date===date);
+}
+function lessonsOn(date){return DB.lessons.filter(l=>l.date===date);}
+function busyOn(date){
+  return [
+    ...blocksOn(date).map(b=>[toMin(b.start),toMin(b.end)]),
+    ...lessonsOn(date).map(l=>{const s=toMin(l.time);return [s,s+durMin(l.dur)];}),
+  ];
+}
+const liveBookingCount=lessonId=>DB.bookings.filter(b=>b.lessonId===lessonId&&isLive(b)).length;
+const lessonHasBooking=l=>(Number(l.cap)||0)>0||liveBookingCount(l.id)>0;
+
+/* ---- 空き時間にレッスンを並べる ----
+   募集時間帯の中で、予定・既存レッスン（前後に間隔）と重ならない所へ、
+   ひな形を順番にまわして入れていく。1日の上限は既存レッスンも含めて数える。 */
+function genCandidates(from,to,tplIds){
+  const tpls=(tplIds||[]).map(tplById).filter(Boolean);
+  if(!tpls.length||!from||!to||from>to)return [];
+  const buf=Number(AUTOGEN.buffer)||0,max=Number(AUTOGEN.maxPerDay)||1;
+  const today=todayISO();const out=[];let ti=0;
+  for(let date=from;date<=to;date=addDays(date,1)){
+    if(date<today)continue;
+    const win=AUTOGEN.windows[dow(date)];if(!win)continue;
+    const busy=busyOn(date);let count=lessonsOn(date).length;
+    let t=toMin(win[0]);const end=toMin(win[1]);
+    if(date===today)t=Math.max(t,Math.ceil((nowMinJST()+120)/15)*15);   // 今日は2時間後から
+    let guard=0;
+    while(count<max&&guard++<200){
+      const tp=tpls[ti%tpls.length];const d=durMin(tp.dur);
+      if(t+d>end)break;
+      const hit=busy.find(([bs,be])=>t<be+buf&&t+d+buf>bs);
+      if(hit){t=Math.max(t+15,Math.ceil((hit[1]+buf)/15)*15);continue;}
+      out.push({date,time:fromMin(t),tpl:tp});
+      busy.push([t,t+d]);count++;ti++;t+=d+buf;
+    }
+  }
+  return out;
+}
+function tplToLesson(tp,date,time){
+  return {title:tp.title,titleEn:tp.titleEn,date,time,dur:tp.dur,format:tp.format,size:tp.size,level:tp.level,gender:tp.gender,max:tp.max,desc:'',place:tp.place,mapUrl:tp.mapUrl};
+}
+
+function schedNotice(){
+  if(DB.schedReady)return '';
+  return `<div class="notice">⚠ 予定管理と 自動生成を 使うには、Supabase の SQL Editor で <b>kakehashi_schedule.sql</b> を実行してください。実行後、このページを再読み込みすると 使えます。</div>`;
+}
+
+/* ============================================================
+   画面
+   ============================================================ */
+let WK_START=null;
+function wkMove(n){WK_START=n===0?mondayOf(todayISO()):addDays(WK_START||mondayOf(todayISO()),7*n);renderSchedule();}
+
+function renderSchedule(){
+  const host=document.getElementById('schedBody');if(!host)return;
+  if(!WK_START)WK_START=mondayOf(todayISO());
+  const days=[0,1,2,3,4,5,6].map(i=>addDays(WK_START,i));
+  const today=todayISO();
+  document.getElementById('wkLabel').textContent=`${ymdLabel(days[0])} 〜 ${fmtDate(days[6]).full}`;
+  const activeIds=DB.templates.filter(t=>t.active).map(t=>t.id);
+  const tomorrow=addDays(today,1);
+  const cands=DB.schedReady?genCandidates(days[0]<tomorrow?tomorrow:days[0],days[6],activeIds):[];
+  const pos=(s,e)=>{const top=Math.max(0,(s/60-GRID_H0)*GRID_PX),bot=Math.min((GRID_H1-GRID_H0)*GRID_PX,(e/60-GRID_H0)*GRID_PX);return bot>top?`top:${top}px;height:${Math.max(18,bot-top-2)}px`:null;};
+  const hours=[];for(let h=GRID_H0;h<GRID_H1;h++)hours.push(h);
+  const cols=days.map(d=>{
+    let inner='';
+    const win=AUTOGEN.windows[dow(d)];
+    if(win){const p=pos(toMin(win[0]),toMin(win[1]));if(p)inner+=`<div class="wk-win" style="${p}"></div>`;}
+    blocksOn(d).forEach(b=>{const p=pos(toMin(b.start),toMin(b.end));if(p)inner+=`<div class="wk-ev k-${b.kind}${b.source==='gcal'?' g':''}" style="${p}" onclick="event.stopPropagation();openBlockDetail('${b.id}','${d}')" title="${esc(b.title)}"><b>${esc(b.title)}</b>${b.start}–${b.end}${b.repeat==='weekly'?' ↻':''}</div>`;});
+    lessonsOn(d).forEach(l=>{const s=toMin(l.time);const p=pos(s,s+durMin(l.dur));if(p)inner+=`<div class="wk-ev wk-les ${l.format==='offline'?'off':''}" style="${p}" onclick="event.stopPropagation();openLessonForm('${l.id}')" title="${esc(l.title)}"><b>${esc(l.title)}</b>${String(l.time).slice(0,5)} ・ ${l.cap||0}/${l.max}${l.auto?' ⚡':''}</div>`;});
+    cands.filter(c=>c.date===d).forEach((c,i)=>{const s=toMin(c.time);const p=pos(s,s+durMin(c.tpl.dur));if(p)inner+=`<div class="wk-ev wk-cand" style="${p}" onclick="event.stopPropagation();openCandidate('${c.date}','${c.time}','${c.tpl.id}')" title="この時間に レッスンを作る"><b>＋ ${esc(c.tpl.title)}</b>${c.time} 空き</div>`;});
+    return `<div class="wk-col ${d<today?'past':''}" onclick="wkClick(event,'${d}')">${inner}</div>`;
+  }).join('');
+  document.getElementById('wkGrid').innerHTML=`
+    <div class="wk-head"><div></div>${days.map(d=>`<div class="wk-day ${d===today?'today':''}"><b>${fmtDate(d).full}</b>${WD_JA[dow(d)]}</div>`).join('')}</div>
+    <div class="wk-body" style="height:${(GRID_H1-GRID_H0)*GRID_PX}px">
+      <div class="wk-times">${hours.map(h=>`<div style="top:${(h-GRID_H0)*GRID_PX}px">${h}:00</div>`).join('')}</div>${cols}
+    </div>`;
+  document.getElementById('schedNotice').innerHTML=schedNotice();
+  host.innerHTML=`
+    <div class="sched-cols">
+      <div class="panel"><div class="panel-h"><h2>募集の ルール <span class="en">When to open lessons</span></h2></div>${rulesHTML()}</div>
+      <div class="panel"><div class="panel-h"><h2>レッスンの ひな形 <span class="en">Templates</span></h2><div class="p-actions"><button class="btn btn-ghost btn-sm" onclick="openTplForm()">＋ ひな形</button></div></div>${tplListHTML()}</div>
+    </div>
+    <div class="panel"><div class="panel-h"><h2>Googleカレンダー 連携 <span class="en">Import busy times</span></h2></div>${gcalHTML()}</div>
+    <div class="panel"><div class="panel-h"><h2>くりかえしの 予定 <span class="en">Weekly commitments</span></h2><div class="p-actions"><button class="btn btn-ghost btn-sm" onclick="openBlockForm({repeat:'weekly'})">＋ 毎週の予定</button></div></div>${weeklyListHTML()}</div>`;
+}
+
+function rulesHTML(){
+  const rows=WD_ORDER.map(wd=>{const w=AUTOGEN.windows[wd];return `<div class="rule-row ${w?'':'off'}" id="rRow${wd}">
+    <label class="rule-day"><input type="checkbox" id="rOn${wd}" ${w?'checked':''} onchange="document.getElementById('rRow${wd}').classList.toggle('off',!this.checked)"> ${WD_JA[wd]}曜</label>
+    <input type="time" id="rS${wd}" value="${w?w[0]:'18:00'}" step="900"><span>〜</span><input type="time" id="rE${wd}" value="${w?w[1]:'22:00'}" step="900"></div>`;}).join('');
+  const opt=(vals,cur,suf)=>vals.map(v=>`<option value="${v}" ${Number(cur)===v?'selected':''}>${v}${suf}</option>`).join('');
+  return `<div class="g-hint" style="margin:0 0 8px">この時間帯の中で、予定と かぶらない所に レッスンを 入れます。</div>${rows}
+    <div class="field-row-3" style="margin-top:14px">
+      <div class="field"><label>レッスンの間隔</label><select id="rBuf">${opt([0,10,15,30],AUTOGEN.buffer,'分')}</select></div>
+      <div class="field"><label>1日の上限</label><select id="rMax">${opt([1,2,3,4,5,6],AUTOGEN.maxPerDay,'本')}</select></div>
+      <div class="field"><label>何日先まで</label><select id="rHor">${opt([7,14,21,28],AUTOGEN.horizonDays,'日')}</select></div>
+    </div>
+    <button class="btn btn-gold btn-sm" onclick="saveRules()" ${DB.schedReady?'':'disabled'}>ルールを保存</button>`;
+}
+function tplListHTML(){
+  if(!DB.templates.length)return emptyHTML('📋','ひな形が まだ ありません','自動生成で使う レッスンの中身を 登録します');
+  return `<div class="rows">${DB.templates.map(t=>`<div class="row ${t.active?'':'is-past'}">
+    <div class="row-main"><div class="row-title">${esc(t.title)}</div>
+      <div class="row-meta">${t.format==='online'?'<span class="tag tag-online">オンライン</span>':'<span class="tag tag-offline">たいめん</span>'}${t.size==='private'?'<span class="tag tag-private">👤 プライベート</span>':'<span class="tag tag-group">👥 グループ</span>'}<span class="tag tag-lv">${esc(t.level)}</span><span class="tag tag-lv">${esc(t.dur)}</span><span class="tag tag-lv">定員 ${t.max}</span></div></div>
+    <div class="row-act"><label class="mini-chk"><input type="checkbox" ${t.active?'checked':''} onchange="toggleTpl('${t.id}',this.checked)"> 使う</label>
+      <button class="btn btn-ghost btn-sm" onclick="openTplForm('${t.id}')">編集</button><button class="btn btn-danger btn-sm" onclick="delTpl('${t.id}')">削除</button></div></div>`).join('')}</div>`;
+}
+function weeklyListHTML(){
+  const list=DB.blocks.filter(b=>b.repeat==='weekly').sort((a,b)=>((a.weekday+6)%7-(b.weekday+6)%7)||a.start.localeCompare(b.start));
+  if(!list.length)return emptyHTML('🏫','毎週の予定は まだ ありません','学校の時間割など、毎週きまった予定を 入れておきます');
+  return `<div class="rows">${list.map(b=>`<div class="row">
+    <div class="row-when"><div class="d" style="font-size:15px">${WD_JA[b.weekday]}</div><div class="m">毎週</div></div>
+    <div class="row-main"><div class="row-title">${esc(b.title)} <span style="font-weight:500;color:var(--muted);font-family:Inter">${b.start}–${b.end}</span></div>
+      <div class="row-meta"><span class="tag k-${b.kind}">${BLOCK_KIND[b.kind]}</span><span>${b.from?ymdLabel(b.from):'ずっと'} 〜 ${b.until?ymdLabel(b.until):''}</span>${b.skip.length?`<span>はずした日 ${b.skip.length}</span>`:''}</div></div>
+    <div class="row-act"><button class="btn btn-ghost btn-sm" onclick="openBlockForm(null,'${b.id}')">編集</button><button class="btn btn-danger btn-sm" onclick="delBlock('${b.id}')">削除</button></div></div>`).join('')}</div>`;
+}
+
+/* 空いている所をクリック → その時間で 予定を追加 */
+function wkClick(e,date){
+  if(!DB.schedReady){toast('先に kakehashi_schedule.sql を 実行してください');return;}
+  const rect=e.currentTarget.getBoundingClientRect();
+  const m=GRID_H0*60+Math.floor(((e.clientY-rect.top)/GRID_PX*60)/30)*30;
+  openBlockForm({date,start:fromMin(m),end:fromMin(Math.min(m+120,GRID_H1*60)),fromGrid:true});
+}
+function openCandidate(date,time,tplId){
+  const tp=tplById(tplId);if(!tp)return;
+  openLessonForm(null,tplToLesson(tp,date,time));
+}
+
+/* ---- ルール保存 ---- */
+async function saveRules(){
+  const windows={};
+  for(const wd of WD_ORDER){
+    const on=document.getElementById('rOn'+wd).checked,s=document.getElementById('rS'+wd).value,e=document.getElementById('rE'+wd).value;
+    if(on){if(!s||!e||toMin(e)<=toMin(s)){toast(`${WD_JA[wd]}曜の 時間を 確認してください`);return;}windows[wd]=[s,e];}
+    else windows[wd]=null;
+  }
+  const next={windows,buffer:+document.getElementById('rBuf').value,maxPerDay:+document.getElementById('rMax').value,horizonDays:+document.getElementById('rHor').value};
+  const {error}=await sb.from('admin_settings').upsert({key:'autogen',value:next,updated_at:new Date().toISOString()});
+  if(error){console.error('settings:',error.message||error);toast('保存できませんでした');return;}
+  AUTOGEN=next;renderAll();toast('募集の ルールを 保存しました');
+}
+
+/* ---- 予定（ブロック） ---- */
+let _bf={};
+function openBlockForm(prefill,id){
+  if(!DB.schedReady){toast('先に kakehashi_schedule.sql を 実行してください');return;}
+  const b=id?DB.blocks.find(x=>x.id===id):null;
+  const p=Object.assign({kind:'job',repeat:'none',date:addDays(todayISO(),1),start:'18:00',end:'22:00',weekday:1},prefill||{},b||{});
+  if(p.weekday==null)p.weekday=p.date?dow(p.date):1;
+  _bf={id:id||'',kind:p.kind,repeat:p.repeat,weekday:p.weekday,fromGrid:!!(prefill&&prefill.fromGrid)};
+  openModal(`
+    <div class="modal-head"><button class="modal-x" onclick="closeModal()">✕</button>
+      <h2>${id?'予定を編集':'予定を追加'}</h2><div class="m-sub">この時間には レッスンを 入れません</div></div>
+    <div class="modal-body">
+      <div class="field"><label>種類</label><div class="seg" id="bfKind">${Object.keys(BLOCK_KIND).map(k=>`<button class="seg-btn ${p.kind===k?'on':''}" data-v="${k}" onclick="bfPick('kind','${k}')">${BLOCK_KIND[k]}</button>`).join('')}</div></div>
+      <div class="field"><label>名前 <span class="hint">空なら 種類の名前</span></label><input id="bfTitle" value="${esc(b?b.title:'')}" placeholder="れい：Taproom シフト ／ ゼミ"></div>
+      <div class="field"><label>くりかえし</label><div class="seg" id="bfRepeat">
+        <button class="seg-btn ${p.repeat==='none'?'on':''}" data-v="none" onclick="bfPick('repeat','none')">この日だけ</button>
+        <button class="seg-btn ${p.repeat==='weekly'?'on':''}" data-v="weekly" onclick="bfPick('repeat','weekly')">毎週</button></div></div>
+      <div id="bfOnce" style="display:${p.repeat==='none'?'block':'none'}"><div class="field"><label>日にち</label><input type="date" id="bfDate" value="${p.date||''}"></div></div>
+      <div id="bfWeekly" style="display:${p.repeat==='weekly'?'block':'none'}">
+        <div class="field"><label>曜日</label><div class="seg" id="bfWd">${WD_ORDER.map(w=>`<button class="seg-btn ${p.weekday===w?'on':''}" data-v="${w}" onclick="bfPick('weekday',${w})">${WD_JA[w]}</button>`).join('')}</div></div>
+        <div class="field-row"><div class="field"><label>いつから <span class="hint">任意</span></label><input type="date" id="bfFrom" value="${p.from||''}"></div>
+          <div class="field"><label>いつまで <span class="hint">学期末など</span></label><input type="date" id="bfUntil" value="${p.until||''}"></div></div>
+      </div>
+      <div class="field-row"><div class="field"><label>開始</label><input type="time" id="bfStart" value="${p.start}" step="900"></div>
+        <div class="field"><label>終了</label><input type="time" id="bfEnd" value="${p.end}" step="900"></div></div>
+      <div class="form-foot">
+        ${_bf.fromGrid?`<button class="btn btn-ghost" onclick="bfToLesson()">この時間に レッスンを作る</button>`:`<button class="btn btn-ghost" onclick="closeModal()">やめる</button>`}
+        <button class="btn btn-gold" id="bfSave" onclick="saveBlock()">${id?'保存する':'予定を追加'}</button>
+      </div>
+    </div>`);
+}
+function bfPick(key,v){
+  _bf[key]=v;
+  const box={kind:'bfKind',repeat:'bfRepeat',weekday:'bfWd'}[key];
+  document.querySelectorAll('#'+box+' .seg-btn').forEach(b=>b.classList.toggle('on',b.dataset.v===String(v)));
+  if(key==='repeat'){document.getElementById('bfOnce').style.display=v==='none'?'block':'none';document.getElementById('bfWeekly').style.display=v==='weekly'?'block':'none';}
+}
+function bfToLesson(){
+  const date=document.getElementById('bfDate').value||addDays(todayISO(),1);
+  const time=document.getElementById('bfStart').value||'18:00';
+  const tp=DB.templates.find(t=>t.active);
+  openLessonForm(null,tp?tplToLesson(tp,date,time):{title:'',titleEn:'',date,time,dur:'50分',format:'online',size:'group',gender:'any',level:'中級',max:6,place:'',mapUrl:''});
+}
+async function saveBlock(){
+  const d={kind:_bf.kind,repeat:_bf.repeat,weekday:_bf.weekday,
+    title:document.getElementById('bfTitle').value.trim()||BLOCK_KIND[_bf.kind],
+    date:document.getElementById('bfDate').value,from:document.getElementById('bfFrom').value,until:document.getElementById('bfUntil').value,
+    start:document.getElementById('bfStart').value,end:document.getElementById('bfEnd').value};
+  if(!d.start||!d.end||toMin(d.end)<=toMin(d.start)){toast('開始と終了の 時間を 確認してください');return;}
+  if(d.repeat==='none'&&!d.date){toast('日にちを 入れてください');return;}
+  if(d.repeat==='weekly'&&d.from&&d.until&&d.until<d.from){toast('期間を 確認してください');return;}
+  const btn=document.getElementById('bfSave');btn.disabled=true;
+  let row;
+  if(_bf.id){
+    const {data,error}=await sb.from('schedule_blocks').update(mapBlockOut(d)).eq('id',_bf.id).select().single();
+    if(error){console.error(error);btn.disabled=false;toast('保存できませんでした');return;}
+    row=mapBlockIn(data);const i=DB.blocks.findIndex(x=>x.id===_bf.id);DB.blocks[i]=row;
+  }else{
+    const {data,error}=await sb.from('schedule_blocks').insert(mapBlockOut(d)).select().single();
+    if(error){console.error(error);btn.disabled=false;toast('保存できませんでした');return;}
+    row=mapBlockIn(data);DB.blocks.push(row);
+  }
+  closeModal();renderAll();toast('予定を 保存しました');
+  checkConflicts(row);
+}
+// 新しい予定と重なる「これからのレッスン」を探して知らせる
+function conflictsOf(b){
+  const today=todayISO();let dates=[];
+  if(b.repeat==='none')dates=[b.date];
+  else{const s=b.from&&b.from>today?b.from:today;const e=addDays(today,90);for(let d=s;d<=e&&(!b.until||d<=b.until);d=addDays(d,1))if(dow(d)===b.weekday&&!b.skip.includes(d))dates.push(d);}
+  const bs=toMin(b.start),be=toMin(b.end);
+  return DB.lessons.filter(l=>l.date>=today&&dates.includes(l.date)&&(()=>{const s=toMin(l.time);return s<be&&s+durMin(l.dur)>bs;})());
+}
+function checkConflicts(b){
+  const list=conflictsOf(b);if(!list.length)return;
+  showConflictList(list,`${esc(b.title)} ${b.start}–${b.end}`);
+}
+function showConflictList(list,sub){
+  const free=list.filter(l=>!lessonHasBooking(l)),booked=list.filter(lessonHasBooking);
+  openModal(`
+    <div class="modal-head"><button class="modal-x" onclick="closeModal()">✕</button>
+      <h2>重なっている レッスンが あります</h2><div class="m-sub">${sub}</div></div>
+    <div class="modal-body">
+      ${free.length?`<div class="todo-h">予約なし <span class="rg-count">${free.length}</span></div><div class="rows">${free.map(l=>`<div class="row"><div class="row-main"><div class="row-title">${ymdLabel(l.date)} ${String(l.time).slice(0,5)} ${esc(l.title)}</div></div></div>`).join('')}</div>`:''}
+      ${booked.length?`<div class="todo-h" style="color:var(--danger)">予約あり <span class="rg-count">${booked.length}</span></div><div class="g-hint" style="margin:0 0 4px">予約者に 連絡してから、参加者画面で キャンセルしてください。</div><div class="rows">${booked.map(l=>`<div class="row"><div class="row-main"><div class="row-title">${ymdLabel(l.date)} ${String(l.time).slice(0,5)} ${esc(l.title)}</div></div><div class="row-act"><button class="btn btn-ghost btn-sm" onclick="openParticipants('lesson','${l.id}','${esc(l.title).replace(/'/g,'')}')">👥 参加者</button></div></div>`).join('')}</div>`:''}
+      <div class="form-foot" style="margin-top:18px">
+        <button class="btn btn-ghost" onclick="closeModal()">このままにする</button>
+        ${free.length?`<button class="btn btn-danger" onclick="deleteLessons([${free.map(l=>`'${l.id}'`).join(',')}])">予約なしの ${free.length}件を 削除</button>`:''}
+      </div>
+    </div>`);
+}
+async function deleteLessons(ids){
+  const {error}=await sb.from('lessons').delete().in('id',ids);
+  if(error){console.error(error);toast('削除できませんでした');return;}
+  DB.lessons=DB.lessons.filter(l=>!ids.includes(l.id));
+  closeModal();renderAll();toast(`レッスンを ${ids.length}件 削除しました`);
+}
+function openBlockDetail(id,date){
+  const b=DB.blocks.find(x=>x.id===id);if(!b)return;
+  if(b.source==='gcal'){
+    openModal(`
+      <div class="modal-head"><button class="modal-x" onclick="closeModal()">✕</button>
+        <h2>${esc(b.title)}</h2><div class="m-sub">Googleカレンダー ／ ${ymdLabel(b.date)} ${b.start}–${b.end}</div></div>
+      <div class="modal-body">
+        <p class="ud-p">Googleカレンダーから 取り込んだ予定です。変えるときは Googleカレンダー側で 直してから 同期してください。空き時間として 扱いたい予定は、Googleカレンダーで「予定なし（空き時間）」にすると 取り込まれなくなります。</p>
+        <div class="form-foot"><button class="btn btn-ghost" onclick="closeModal()">閉じる</button><button class="btn btn-teal" onclick="closeModal();syncCalendar(false)">今すぐ 同期</button></div>
+      </div>`);
+    return;
+  }
+  openModal(`
+    <div class="modal-head"><button class="modal-x" onclick="closeModal()">✕</button>
+      <h2>${esc(b.title)}</h2><div class="m-sub">${BLOCK_KIND[b.kind]} ／ ${b.repeat==='weekly'?`毎週${WD_JA[b.weekday]}曜`:ymdLabel(b.date)} ${b.start}–${b.end}</div></div>
+    <div class="modal-body">
+      ${b.repeat==='weekly'?`<p class="ud-p">${ymdLabel(date)} は 休み・シフトなしなら「この日だけ はずす」で、その日は 空き時間に なります。</p>`:''}
+      <div class="form-foot" style="flex-wrap:wrap">
+        ${b.repeat==='weekly'?`<button class="btn btn-ghost" onclick="skipBlockOnce('${b.id}','${date}')">${fmtDate(date).full} だけ はずす</button>`:''}
+        <button class="btn btn-ghost" onclick="openBlockForm(null,'${b.id}')">編集</button>
+        <button class="btn btn-danger" onclick="delBlock('${b.id}')">${b.repeat==='weekly'?'毎週の予定を 削除':'削除'}</button>
+      </div>
+    </div>`);
+}
+async function skipBlockOnce(id,date){
+  const b=DB.blocks.find(x=>x.id===id);if(!b)return;
+  const skip=[...new Set([...b.skip,date])];
+  const {error}=await sb.from('schedule_blocks').update({skip_dates:skip}).eq('id',id);
+  if(error){console.error(error);toast('更新できませんでした');return;}
+  b.skip=skip;closeModal();renderAll();toast(`${fmtDate(date).full} を 空き時間に しました`);
+}
+async function delBlock(id){
+  if(!confirm('この予定を 削除しますか？'))return;
+  const {error}=await sb.from('schedule_blocks').delete().eq('id',id);
+  if(error){console.error(error);toast('削除できませんでした');return;}
+  DB.blocks=DB.blocks.filter(x=>x.id!==id);closeModal();renderAll();toast('予定を 削除しました');
+}
+
+/* ---- ひな形 ---- */
+let _tf={};
+function openTplForm(id,src){
+  if(!DB.schedReady){toast('先に kakehashi_schedule.sql を 実行してください');return;}
+  const t=id?tplById(id):(src||null);
+  _tf={id:id||'',format:t?t.format:'online',size:t?t.size:'group',gender:t?t.gender:'any'};
+  const past=[...new Map(DB.lessons.map(l=>[l.title,l])).values()];
+  const sel=(v,opts)=>opts.map(o=>`<option ${v===o?'selected':''}>${o}</option>`).join('');
+  const seg=(k,v,l)=>`<button class="seg-btn ${_tf[k]===v?'on':''}" data-v="${v}" onclick="tfPick('${k}','${v}')">${l}</button>`;
+  openModal(`
+    <div class="modal-head"><button class="modal-x" onclick="closeModal()">✕</button>
+      <h2>${id?'ひな形を編集':'ひな形を追加'}</h2><div class="m-sub">自動生成で 入れる レッスンの 中身</div></div>
+    <div class="modal-body">
+      ${!id&&past.length?`<div class="field"><label>今あるレッスンから コピー <span class="hint">任意</span></label><select onchange="tplFromLesson(this.value)"><option value="">えらばない</option>${past.map(l=>`<option value="${l.id}">${esc(l.title)}</option>`).join('')}</select></div>`:''}
+      <div class="field"><label>タイトル（日本語）<span class="req">*</span></label><input id="tfTitle" value="${esc(t?t.title:'')}" placeholder="れい：グループ会話 · 中級"></div>
+      <div class="field"><label>Title (English)</label><input id="tfTitleEn" value="${esc(t?t.titleEn||'':'')}" placeholder="e.g. Group Conversation · Intermediate"></div>
+      <div class="field-row-3">
+        <div class="field"><label>長さ</label><select id="tfDur">${sel(t?t.dur:'50分',['30分','50分','90分'])}</select></div>
+        <div class="field"><label>レベル</label><select id="tfLevel">${sel(t?t.level:'中級',['初級','中級','上級'])}</select></div>
+        <div class="field"><label>定員</label><input type="number" id="tfMax" min="1" value="${t?t.max:6}"></div>
+      </div>
+      <div class="field"><label>形式</label><div class="seg" id="tf-format">${seg('format','online','💻 オンライン')}${seg('format','offline','☕ たいめん')}</div></div>
+      <div id="tfPlaceWrap" style="display:${_tf.format==='offline'?'block':'none'}">
+        <div class="field"><label>集合場所</label><input id="tfPlace" value="${esc(t?t.place||'':'')}" placeholder="れい：三軒茶屋カフェ ○○"></div>
+        <div class="field"><label>地図リンク <span class="hint">任意</span></label><input id="tfMap" value="${esc(t?t.mapUrl||'':'')}" placeholder="https://maps.app.goo.gl/..."></div>
+      </div>
+      <div class="field"><label>種類</label><div class="seg" id="tf-size">${seg('size','private','👤 プライベート')}${seg('size','group','👥 グループ')}</div></div>
+      <div class="field"><label>性別</label><div class="seg" id="tf-gender">${seg('gender','any','だれでも')}${seg('gender','female','女性のみ')}${seg('gender','male','男性のみ')}</div></div>
+      <div class="form-foot"><button class="btn btn-ghost" onclick="closeModal()">やめる</button><button class="btn btn-gold" onclick="saveTpl()">${id?'保存する':'ひな形を追加'}</button></div>
+    </div>`);
+}
+function tfPick(k,v){
+  _tf[k]=v;document.querySelectorAll('#tf-'+k+' .seg-btn').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  if(k==='format')document.getElementById('tfPlaceWrap').style.display=v==='offline'?'block':'none';
+  if(k==='size')document.getElementById('tfMax').value=v==='private'?1:6;
+}
+function tplFromLesson(lid){const l=lessonById(lid);if(l)openTplForm(null,Object.assign({},l,{active:true}));}
+async function saveTpl(){
+  const title=document.getElementById('tfTitle').value.trim();
+  if(!title){toast('タイトルを 入れてください');return;}
+  const t={title,titleEn:document.getElementById('tfTitleEn').value.trim(),dur:document.getElementById('tfDur').value,level:document.getElementById('tfLevel').value,
+    max:Math.max(1,parseInt(document.getElementById('tfMax').value,10)||1),format:_tf.format,size:_tf.size,gender:_tf.gender,
+    place:document.getElementById('tfPlace').value.trim(),mapUrl:document.getElementById('tfMap').value.trim(),active:_tf.id?tplById(_tf.id).active:true};
+  if(t.format==='offline'&&!t.place){toast('たいめんは 集合場所を 入れてください');return;}
+  if(_tf.id){
+    const {data,error}=await sb.from('lesson_templates').update(mapTplOut(t)).eq('id',_tf.id).select().single();
+    if(error){console.error(error);toast('保存できませんでした');return;}
+    DB.templates[DB.templates.findIndex(x=>x.id===_tf.id)]=mapTplIn(data);
+  }else{
+    const {data,error}=await sb.from('lesson_templates').insert(mapTplOut(t)).select().single();
+    if(error){console.error(error);toast('保存できませんでした');return;}
+    DB.templates.push(mapTplIn(data));
+  }
+  closeModal();renderAll();toast('ひな形を 保存しました');
+}
+async function toggleTpl(id,on){
+  const {error}=await sb.from('lesson_templates').update({active:on}).eq('id',id);
+  if(error){console.error(error);toast('更新できませんでした');renderSchedule();return;}
+  tplById(id).active=on;renderAll();
+}
+async function delTpl(id){
+  if(!confirm('この ひな形を 削除しますか？（作成ずみの レッスンは 残ります）'))return;
+  const {error}=await sb.from('lesson_templates').delete().eq('id',id);
+  if(error){console.error(error);toast('削除できませんでした');return;}
+  DB.templates=DB.templates.filter(t=>t.id!==id);renderAll();toast('ひな形を 削除しました');
+}
+
+/* ---- 自動生成 ---- */
+let _ag={cands:[]};
+function openAutogen(){
+  if(!DB.schedReady){toast('先に kakehashi_schedule.sql を 実行してください');return;}
+  if(!DB.templates.length){toast('先に レッスンの ひな形を 追加してください');go('schedule');return;}
+  const from=addDays(todayISO(),1),to=addDays(todayISO(),Number(AUTOGEN.horizonDays)||14);
+  openModal(`
+    <div class="modal-head"><button class="modal-x" onclick="closeModal()">✕</button>
+      <h2>レッスンを 自動生成</h2><div class="m-sub">予定の 空き時間に、ひな形を 順番に 入れます</div></div>
+    <div class="modal-body">
+      <div class="field-row"><div class="field"><label>いつから</label><input type="date" id="agFrom" value="${from}" onchange="agRefresh()"></div>
+        <div class="field"><label>いつまで</label><input type="date" id="agTo" value="${to}" onchange="agRefresh()"></div></div>
+      <div class="field"><label>使う ひな形 <span class="hint">えらんだ順に まわします</span></label>
+        <div class="ag-tpls">${DB.templates.map(t=>`<label class="mini-chk"><input type="checkbox" class="agTpl" value="${t.id}" ${t.active?'checked':''} onchange="agRefresh()"> ${esc(t.title)} <span style="color:var(--muted)">${esc(t.dur)}</span></label>`).join('')}</div></div>
+      <div id="agPreview"></div>
+      <div class="form-foot"><button class="btn btn-ghost" onclick="closeModal()">やめる</button><button class="btn btn-gold" id="agGo" onclick="agCreate()">作成する</button></div>
+    </div>`);
+  document.getElementById('modal').classList.add('wide');
+  if(gcalStale(10)){
+    document.getElementById('agPreview').innerHTML='<div class="empty" style="padding:24px 10px">Googleカレンダーを 同期しています…</div>';
+    document.getElementById('agGo').disabled=true;
+    syncCalendar(true).then(()=>{if(document.getElementById('agPreview'))agRefresh();});
+  }else agRefresh();
+}
+function agRefresh(){
+  const ids=[...document.querySelectorAll('.agTpl:checked')].map(c=>c.value);
+  _ag.cands=genCandidates(document.getElementById('agFrom').value,document.getElementById('agTo').value,ids);
+  const box=document.getElementById('agPreview');
+  if(!_ag.cands.length){
+    box.innerHTML=`<div class="empty" style="padding:24px 10px"><div class="e-ic">🗓️</div>この期間には 入れられる 空き時間が ありません。<br><span style="font-size:12px">募集の ルールの 時間帯・1日の上限、学校やバイトの 予定を 確認してください。</span></div>`;
+  }else{
+    let html='',last='';
+    _ag.cands.forEach((c,i)=>{
+      if(c.date!==last){html+=`<div class="ag-day">${ymdLabel(c.date)}（${WD_JA[dow(c.date)]}）</div>`;last=c.date;}
+      html+=`<label class="ag-slot"><input type="checkbox" class="agPick" value="${i}" checked onchange="agCount()"><span class="t">${c.time}–${fromMin(toMin(c.time)+durMin(c.tpl.dur))}</span><span>${esc(c.tpl.title)}</span>${c.tpl.format==='online'?'<span class="tag tag-online">オンライン</span>':'<span class="tag tag-offline">たいめん</span>'}</label>`;
+    });
+    box.innerHTML=`<div class="ag-list">${html}</div>`;
+  }
+  agCount();
+}
+function agCount(){
+  const n=document.querySelectorAll('.agPick:checked').length;const b=document.getElementById('agGo');
+  b.disabled=!n;b.textContent=n?`${n}件 作成する`:'作成する';
+}
+async function agCreate(){
+  const picks=[...document.querySelectorAll('.agPick:checked')].map(c=>_ag.cands[+c.value]);
+  if(!picks.length)return;
+  const b=document.getElementById('agGo');b.disabled=true;b.textContent='作成中…';
+  const rows=picks.map(c=>Object.assign(mapLessonOut(tplToLesson(c.tpl,c.date,c.time)),{auto:true,template_id:c.tpl.id}));
+  const {data,error}=await sb.from('lessons').insert(rows).select();
+  if(error){console.error('autogen:',error.message||error);b.disabled=false;agCount();toast('作成できませんでした（SQLの実行を ご確認ください）');return;}
+  (data||[]).forEach(r=>DB.lessons.push(mapLessonIn(r)));
+  closeModal();renderAll();toast(`レッスンを ${(data||[]).length}件 作成しました`);
+}
+/* ダッシュボードの おしらせ用 */
+function upcomingCandidateCount(){
+  if(!DB.schedReady)return 0;
+  const ids=DB.templates.filter(t=>t.active).map(t=>t.id);if(!ids.length)return 0;
+  return genCandidates(addDays(todayISO(),1),addDays(todayISO(),Number(AUTOGEN.horizonDays)||14),ids).length;
+}
+
+/* ============================================================
+   Googleカレンダー取り込み（Edge Function: sync-calendar）
+   ============================================================ */
+const GCAL_DEFAULT={calendars:[],days:60,blockAllDay:false,lastSync:'',lastResult:null};
+let GCAL=JSON.parse(JSON.stringify(GCAL_DEFAULT));
+let _gcSyncing=false,_gcErr='';
+const gcalStale=min=>GCAL.calendars.length&&(!GCAL.lastSync||Date.now()-Date.parse(GCAL.lastSync)>min*60e3);
+
+function stampLabel(iso){const p=jstParts(iso);return p?`${fmtDate(p.ymd).full} ${p.hm}`:'—';}
+
+function gcalRowHTML(c){
+  c=c||{id:'',kind:'other',hideTitle:false};
+  return `<div class="gc-row">
+    <input class="gc-id" value="${esc(c.id)}" placeholder="れい：yourname@gmail.com" autocomplete="off">
+    <select class="gc-kind">${Object.keys(BLOCK_KIND).map(k=>`<option value="${k}" ${c.kind===k?'selected':''}>${BLOCK_KIND[k]}</option>`).join('')}</select>
+    <label class="mini-chk"><input type="checkbox" class="gc-hide" ${c.hideTitle?'checked':''}> 題名を保存しない</label>
+    <button class="btn btn-ghost btn-sm" onclick="this.closest('.gc-row').remove()" aria-label="このカレンダーを外す">外す</button>
+  </div>`;
+}
+function gcalHTML(){
+  const r=GCAL.lastResult;
+  let status;
+  if(_gcSyncing)status='<span class="gc-dot run"></span>同期しています…';
+  else if(_gcErr)status=`<span class="gc-dot ng"></span>同期できませんでした：${esc(_gcErr)}`;
+  else if(GCAL.lastSync)status=`<span class="gc-dot ok"></span>最終同期 ${stampLabel(GCAL.lastSync)}${r?` ／ 追加 ${r.added}・変更 ${r.updated}・削除 ${r.removed}`:''}`;
+  else status='<span class="gc-dot"></span>まだ 同期していません';
+  const calErrs=r&&r.calendars?r.calendars.filter(c=>!c.ok):[];
+  const fb=r&&r.calendars?r.calendars.filter(c=>c.ok&&c.mode==='freebusy'):[];
+  const nImported=DB.blocks.filter(b=>b.source==='gcal').length;
+  return `
+    <div class="gc-status">${status}${nImported?`<span class="gc-count">取り込み中の予定 ${nImported}件</span>`:''}</div>
+    ${calErrs.map(c=>`<div class="gc-err">${esc(c.id)}：${esc(c.error||'読めませんでした')}</div>`).join('')}
+    ${fb.length?`<div class="g-hint" style="text-align:left;margin:0 0 10px">${fb.map(c=>esc(c.id)).join('、')} は「時間枠のみ」の共有なので、題名なしで取り込んでいます。</div>`:''}
+    <div id="gcRows">${(GCAL.calendars.length?GCAL.calendars:[null]).map(gcalRowHTML).join('')}</div>
+    <button class="btn btn-ghost btn-sm" style="margin:4px 0 16px" onclick="document.getElementById('gcRows').insertAdjacentHTML('beforeend',gcalRowHTML())">＋ カレンダーを追加</button>
+    <div class="field-row" style="align-items:end">
+      <div class="field"><label>取り込む期間</label><select id="gcDays">${[30,60,90].map(d=>`<option value="${d}" ${Number(GCAL.days)===d?'selected':''}>これから ${d}日</option>`).join('')}</select></div>
+      <div class="field"><label class="mini-chk" style="font-size:13px;padding-bottom:12px"><input type="checkbox" id="gcAllDay" ${GCAL.blockAllDay?'checked':''}> 終日の予定も ふさぐ（旅行など）</label></div>
+    </div>
+    <div class="p-actions">
+      <button class="btn btn-ghost btn-sm" onclick="saveGcal()" ${DB.schedReady?'':'disabled'}>設定を保存</button>
+      <button class="btn btn-teal btn-sm" id="gcSyncBtn" onclick="syncCalendar(false)" ${DB.schedReady&&GCAL.calendars.length&&!_gcSyncing?'':'disabled'}>${_gcSyncing?'同期中…':'今すぐ 同期'}</button>
+    </div>
+    <details class="gc-help"><summary>はじめての 設定手順</summary>
+      <ol>
+        <li>パソコンの Googleカレンダーで、取り込みたい カレンダーの「設定と共有」を開く</li>
+        <li>「特定のユーザーまたはグループと共有する」に <b>info@thekakehashi.com</b> を追加し、権限を「予定の表示（すべての予定の詳細）」にする。題名を見せたくない場合は「予定の表示（時間枠のみ、詳細は非表示）」でも取り込めます</li>
+        <li>同じ画面の「カレンダーの統合」にある <b>カレンダーID</b>（メインのカレンダーなら Gmail アドレス）を、上の欄に入れて 保存する</li>
+        <li>「今すぐ 同期」を押す。以後は admin を開いたときに 30分ごと、自動生成の前にも 同期します</li>
+      </ol>
+      <p>予定を Googleカレンダーで「予定なし（空き時間）」にすると 取り込まれません。題名に「バイト・シフト・Taproom」があれば バイト、「授業・ゼミ・試験」などがあれば 学校として 色分けします。</p>
+    </details>`;
+}
+async function saveGcal(){
+  const rows=[...document.querySelectorAll('#gcRows .gc-row')].map(r=>({
+    id:r.querySelector('.gc-id').value.trim(),kind:r.querySelector('.gc-kind').value,hideTitle:r.querySelector('.gc-hide').checked
+  })).filter(c=>c.id);
+  const bad=rows.find(c=>!c.id.includes('@'));
+  if(bad){toast('カレンダーIDは「〜@〜」の形です');return;}
+  const next=Object.assign({},GCAL,{calendars:rows,days:+document.getElementById('gcDays').value,blockAllDay:document.getElementById('gcAllDay').checked});
+  const {error}=await sb.from('admin_settings').upsert({key:'gcal',value:next,updated_at:new Date().toISOString()});
+  if(error){console.error('gcal settings:',error.message||error);toast('保存できませんでした');return;}
+  GCAL=next;renderSchedule();toast('連携の 設定を 保存しました');
+  if(GCAL.calendars.length)syncCalendar(false);
+}
+async function syncCalendar(silent){
+  if(_gcSyncing||!DB.schedReady||!GCAL.calendars.length)return null;
+  _gcSyncing=true;_gcErr='';renderSchedule();
+  try{
+    const {data,error}=await sb.functions.invoke('sync-calendar',{body:{}});
+    if(error){
+      let msg=error.message||'エラー';
+      try{if(error.context&&typeof error.context.json==='function'){const j=await error.context.json();msg=j.error||msg;}}catch(e){}
+      throw new Error(msg);
+    }
+    if(data&&data.error)throw new Error(data.error);
+    const [blk,set]=await Promise.all([sb.from('schedule_blocks').select('*'),sb.from('admin_settings').select('*').eq('key','gcal')]);
+    if(!blk.error)DB.blocks=(blk.data||[]).map(mapBlockIn);
+    if(!set.error&&set.data&&set.data[0])GCAL=Object.assign({},GCAL_DEFAULT,set.data[0].value);
+    _gcSyncing=false;renderAll();
+    if(!silent){
+      const bad=(data.calendars||[]).filter(c=>!c.ok).length;
+      toast(bad?`一部の カレンダーが 読めませんでした（${bad}件）`:`同期しました（追加 ${data.added}・変更 ${data.updated}・削除 ${data.removed}）`);
+      const cf=conflictingLessons();
+      if(cf.length)showConflictList(cf,'Googleカレンダーの 予定と 重なっています');
+    }
+    return data;
+  }catch(e){
+    console.error('sync-calendar:',e);
+    _gcErr=e.message||String(e);
+    if(!silent)toast('同期できませんでした');
+    return null;
+  }finally{
+    _gcSyncing=false;renderSchedule();
+  }
+}
+/* これからの レッスンのうち、予定（学校・バイト・Google）と 重なっているもの */
+function conflictingLessons(){
+  const today=todayISO();
+  return DB.lessons.filter(l=>l.date>=today&&blocksOn(l.date).some(b=>{
+    const s=toMin(l.time),e=s+durMin(l.dur);return s<toMin(b.end)&&e>toMin(b.start);
+  })).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
 }
 
 /* ---------- helper ---------- */
