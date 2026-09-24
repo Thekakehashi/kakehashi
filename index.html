@@ -894,6 +894,30 @@ footer .brand{justify-content:center;color:var(--washi);margin-bottom:12px}
 #portalApp .rv-count button:disabled{opacity:.35;cursor:not-allowed}
 #portalApp .rv-count b{font-family:"Inter";font-size:20px;min-width:18px;text-align:center}
 #portalApp .rv-count small{font-size:11.5px;color:var(--muted);flex-basis:100%}
+#portalApp .agc{border:1px solid var(--line);border-radius:14px;padding:10px 10px 8px;margin-bottom:12px}
+#portalApp .agc-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+#portalApp .agc-head b{font-size:15px;flex:1;text-align:center}
+#portalApp .agc-count{font-size:11px;color:var(--teal);font-weight:700;white-space:nowrap}
+#portalApp .agc-nav{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:18px;cursor:pointer;color:var(--ink);flex:none}
+#portalApp .agc-nav:disabled{opacity:.3;cursor:not-allowed}
+#portalApp .agc-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+#portalApp .agc-wd{font-size:11px;color:var(--muted);text-align:center;padding:2px 0 4px}
+#portalApp .agc-wd.sun,#portalApp .agc-cell.sun b{color:#c9503f}
+#portalApp .agc-wd.sat,#portalApp .agc-cell.sat b{color:#3a78b5}
+#portalApp .agc-cell{aspect-ratio:1/1.05;min-height:42px;border:1.5px solid transparent;border-radius:10px;background:none;font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;position:relative;padding:0;color:var(--ink)}
+#portalApp .agc-cell b{font-family:"Inter";font-size:14px;font-weight:700;line-height:1.1}
+#portalApp .agc-cell small{font-size:9.5px;color:var(--muted);line-height:1.1;font-weight:600}
+#portalApp button.agc-cell{cursor:pointer;background:rgba(15,42,63,.025)}
+#portalApp button.agc-cell.ok{background:rgba(74,159,184,.09);border-color:rgba(74,159,184,.25)}
+#portalApp button.agc-cell.ok small{color:var(--teal);font-family:"Inter";font-size:11px}
+#portalApp button.agc-cell:hover:not(:disabled){border-color:var(--teal)}
+#portalApp button.agc-cell.on{background:var(--teal);border-color:var(--teal)}
+#portalApp button.agc-cell.on b,#portalApp button.agc-cell.on small{color:#fff}
+#portalApp button.agc-cell:disabled{cursor:not-allowed;background:none;opacity:.45}
+#portalApp .agc-cell.out{opacity:.22}
+#portalApp .agc-cell.has::after{content:"";position:absolute;top:4px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--gold)}
+#portalApp .agc-legend{font-size:10.5px;color:var(--muted);text-align:center;margin-top:6px}
+@media(max-width:560px){#portalApp .modal.ag-wide{max-width:100%}#portalApp .agc{padding:8px 6px}#portalApp .agc-grid{gap:3px}#portalApp .agc-cell{min-height:38px;border-radius:8px}#portalApp .agp-band{padding:6px 10px;font-size:12px}#portalApp .agp-hint{display:none}}
 #portalApp .rv-result{background:rgba(74,159,184,.07);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8}
 @media(max-width:560px){#portalApp .agp-times{grid-template-columns:repeat(2,1fr)}#portalApp .agp-day{flex-basis:58px}}
 #portalApp .ag-slot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px}
@@ -3899,7 +3923,7 @@ const AG_BANDS={
 };
 const AG_WD_J=['日','月','火','水','木','金','土'];
 const AG_WD_E=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-let AG_AV=null,AG_PICKS=[],AG_DAY=null,AG_BAND='all',AG_FALLBACK=false;
+let AG_AV=null,AG_PICKS=[],AG_DAY=null,AG_BAND='all',AG_FALLBACK=false,AG_MONTH=null;
 const agMin=hm=>{const [h,m]=String(hm).split(':').map(Number);return h*60+(m||0);};
 const agHM=m=>`${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;
 const agDay=iso=>{const d=new Date(iso+'T00:00');return {md:`${d.getMonth()+1}/${d.getDate()}`,wj:AG_WD_J[d.getDay()],we:AG_WD_E[d.getDay()],wd:d.getDay()};};
@@ -3908,7 +3932,14 @@ const agInBand=(t,b)=>{const m=agMin(t);return m>=AG_BANDS[b].from&&m<AG_BANDS[b
 const agPickLabel=p=>{const d=agDay(p.date);return p.time?`${d.md}（${TG(d.wj,d.we)}） ${p.time}〜${agEnd(p.time)}`:`${d.md}（${TG(d.wj,d.we)}） ${TG('いつでも OK','any time')}`;};
 
 async function agLoadAvail(serviceLabel){
-  AG_AV=null;AG_FALLBACK=false;
+  AG_AV=null;AG_FALLBACK=false;AG_MONTH=null;
+  // ① DBの関数（admin のカレンダーの空きを そのまま計算）
+  try{
+    const {data,error}=await window.sb.rpc('agent_availability',{p_service:serviceLabel});
+    if(!error&&data&&Array.isArray(data.days)&&data.days.length){AG_AV=data;return;}
+    if(error)noteNetError('agent_availability rpc:',error);
+  }catch(e){noteNetError('agent_availability rpc:',e);}
+  // ② Edge Function
   try{
     const {data:sess}=await window.sb.auth.getSession();
     const token=sess?.session?.access_token;
@@ -3926,7 +3957,7 @@ async function agLoadAvail(serviceLabel){
     noteNetError('agent availability:',err);
     AG_FALLBACK=true;
     const days=[];const base=new Date();
-    for(let i=3;days.length<10;i++){
+    for(let i=1;days.length<30;i++){
       const d=new Date(base);d.setDate(base.getDate()+i);
       if(d.getDay()===0||d.getDay()===6)continue;
       days.push({date:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`,times:[]});
@@ -3941,7 +3972,7 @@ function agRenderPicker(){
   const box=PROOT.querySelector('#agPicker');if(!box||!AG_AV)return;
   const days=AG_AV.days;
   const dayOpen=d=>AG_FALLBACK?!d.closed:d.times.some(t=>agInBand(t,AG_BAND));
-  if(!AG_DAY||!days.some(d=>d.date===AG_DAY&&dayOpen(d))){const f=days.find(dayOpen);AG_DAY=f?f.date:null;}
+  if(!AG_DAY||!days.some(d=>d.date===AG_DAY&&dayOpen(d))){const f=(AG_MONTH&&days.find(d=>d.date.startsWith(AG_MONTH)&&dayOpen(d)))||days.find(dayOpen);AG_DAY=f?f.date:null;if(f)AG_MONTH=f.date.slice(0,7);}
   const cur=days.find(d=>d.date===AG_DAY);
   const pickIdx=(date,time)=>AG_PICKS.findIndex(p=>p.date===date&&(p.time||null)===(time||null));
   const full=AG_PICKS.length>=AG_MAX_PICKS;
@@ -3956,16 +3987,36 @@ function agRenderPicker(){
     return `<button type="button" class="agp-band ${AG_BAND===k?'on':''}" ${off?'disabled':''} onclick="agSetBand('${k}')">${TG(AG_BANDS[k].ja,AG_BANDS[k].en)}<span class="agp-n">${n}</span>${AG_BANDS[k].hint?`<span class="agp-hint">${AG_BANDS[k].hint}</span>`:''}</button>`;
   }).join('')}</div>`;
 
-  // ② 日にち
-  const strip=`<div class="agp-days">${days.map(d=>{
-    const x=agDay(d.date);
+  // ② 日にち（月のカレンダー）
+  const avMap=new Map(days.map(d=>[d.date,d]));
+  const firstM=days[0].date.slice(0,7),lastM=days[days.length-1].date.slice(0,7);
+  if(!AG_MONTH)AG_MONTH=(AG_DAY||days[0].date).slice(0,7);
+  const [yy,mm]=AG_MONTH.split('-').map(Number);
+  const lead=new Date(yy,mm-1,1).getDay(),dim=new Date(yy,mm,0).getDate();
+  let cells='';
+  for(let k=0;k<lead;k++)cells+='<span class="agc-cell blank"></span>';
+  for(let dd=1;dd<=dim;dd++){
+    const iso=`${AG_MONTH}-${String(dd).padStart(2,'0')}`;
+    const d=avMap.get(iso);
+    const wd=(lead+dd-1)%7;
+    if(!d){cells+=`<span class="agc-cell out ${wd===0?'sun':wd===6?'sat':''}"><b>${dd}</b></span>`;continue;}
     const n=AG_FALLBACK?null:d.times.filter(t=>agInBand(t,AG_BAND)).length;
     const open=dayOpen(d);
-    const has=AG_PICKS.some(p=>p.date===d.date);
-    const sub=d.closed?TG('お<ruby>休<rt>やす</rt></ruby>み','Closed'):AG_FALLBACK?'':(n?TG(`${n}<ruby>枠<rt>わく</rt></ruby>`,`${n} slots`):TG('<ruby>満席<rt>まんせき</rt></ruby>','Full'));
-    return `<button type="button" class="agp-day ${AG_DAY===d.date?'on':''} ${has?'has':''} ${x.wd===0?'sun':x.wd===6?'sat':''}" ${open?'':'disabled'} onclick="agSetDay('${d.date}')">
-      <span class="agp-wd">${TG(x.wj,x.we)}</span><span class="agp-md">${x.md}</span><span class="agp-sub">${sub}</span></button>`;
-  }).join('')}</div>`;
+    const has=AG_PICKS.some(p=>p.date===iso);
+    const sub=d.closed?TG('<ruby>休<rt>やす</rt></ruby>み','Closed'):AG_FALLBACK?'':(n?`${n}`:TG('<ruby>満<rt>まん</rt></ruby>','Full'));
+    cells+=`<button type="button" class="agc-cell ${AG_DAY===iso?'on':''} ${has?'has':''} ${wd===0?'sun':wd===6?'sat':''} ${n?'ok':''}" ${open?'':'disabled'} onclick="agSetDay('${iso}')"><b>${dd}</b><small>${sub}</small></button>`;
+  }
+  const monthOpen=days.filter(d=>d.date.startsWith(AG_MONTH)&&dayOpen(d)).length;
+  const strip=`<div class="agc">
+    <div class="agc-head">
+      <button type="button" class="agc-nav" ${AG_MONTH<=firstM?'disabled':''} onclick="agMonth(-1)" aria-label="prev">‹</button>
+      <b>${TG(`${yy}<ruby>年<rt>ねん</rt></ruby>${mm}<ruby>月<rt>がつ</rt></ruby>`,new Date(yy,mm-1,1).toLocaleString('en',{month:'long',year:'numeric'}))}</b>
+      <span class="agc-count">${AG_FALLBACK?'':TG(`<ruby>空<rt>あ</rt></ruby>き ${monthOpen}<ruby>日<rt>にち</rt></ruby>`,`${monthOpen} open days`)}</span>
+      <button type="button" class="agc-nav" ${AG_MONTH>=lastM?'disabled':''} onclick="agMonth(1)" aria-label="next">›</button>
+    </div>
+    <div class="agc-grid">${AG_WD_J.map((w,k)=>`<span class="agc-wd ${k===0?'sun':k===6?'sat':''}">${TG(w,AG_WD_E[k].slice(0,2))}</span>`).join('')}${cells}</div>
+    ${AG_FALLBACK?'':`<div class="agc-legend">${TG('<ruby>数字<rt>すうじ</rt></ruby>＝その<ruby>日<rt>ひ</rt></ruby>に えらべる <ruby>時間<rt>じかん</rt></ruby>の <ruby>数<rt>かず</rt></ruby>','Number = open start times that day')}</div>`}
+  </div>`;
 
   // ③ 時間
   let times='';
@@ -3993,7 +4044,8 @@ function agRenderPicker(){
   const btn=PROOT.querySelector('#agPayBtn');if(btn)btn.disabled=!AG_PICKS.length;
 }
 function agSetBand(b){AG_BAND=b;agRenderPicker();}
-function agSetDay(d){AG_DAY=d;agRenderPicker();}
+function agSetDay(d){AG_DAY=d;AG_MONTH=d.slice(0,7);agRenderPicker();}
+function agMonth(n){const [y,m]=AG_MONTH.split('-').map(Number);const x=new Date(y,m-1+n,1);AG_MONTH=`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}`;const f=(AG_AV.days||[]).find(d=>d.date.startsWith(AG_MONTH)&&(AG_FALLBACK?!d.closed:d.times.some(t=>agInBand(t,AG_BAND))));if(f)AG_DAY=f.date;agRenderPicker();}
 function agTogglePick(date,time){
   const t=time||null;
   const i=AG_PICKS.findIndex(p=>p.date===date&&(p.time||null)===t);

@@ -464,6 +464,40 @@ body{
 .rv-box{background:var(--washi-2);border-radius:10px;padding:10px 12px;font-size:13.5px;line-height:1.7;word-break:break-word}
 .rv-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 
+/* ===== カレンダー：スマホは 1日表示 ===== */
+.wk.one{min-width:0}
+.wk.one .wk-head,.wk.one .wk-body,.wk.one .wk-allday{grid-template-columns:44px 1fr}
+.wk.one .wk-head{display:none}
+.wk.one .wk-ev{font-size:12px;padding:5px 8px}
+.wk.one .wk-ev b{font-size:12.5px}
+.wk-mdays{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:12px}
+.wk-mday{border:1px solid var(--line);background:#fff;border-radius:12px;padding:6px 0 4px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;color:var(--ink)}
+.wk-mday span{font-size:10.5px;color:var(--muted)}
+.wk-mday b{font-family:Inter;font-size:16px}
+.wk-mday i{font-style:normal;font-size:10px;color:var(--gold);height:10px;line-height:10px;letter-spacing:1px}
+.wk-mday.today b{color:var(--teal)}
+.wk-mday.on{background:var(--indigo);border-color:var(--indigo);color:var(--washi)}
+.wk-mday.on span{color:rgba(232,238,240,.7)}
+.wk-mday.on b{color:var(--washi)}
+@media(max-width:760px){
+  .phead .p-actions{width:100%}
+  .phead .p-actions .btn{flex:1 1 auto;justify-content:center}
+  .month-nav{flex-wrap:wrap;gap:6px}
+  .month-nav b{min-width:0;flex:1 1 100%;text-align:left;font-size:16px;order:-1}
+  .legend{gap:8px 12px;font-size:11px}
+  .wk-scroll{overflow-x:visible}
+  .rule-row{grid-template-columns:62px 1fr auto 1fr;gap:6px}
+  .rq-check{grid-template-columns:18px 1fr;row-gap:0}
+  .rq-check span:last-child{grid-column:2}
+  .rq-opt-row{grid-template-columns:1fr 96px auto}
+  .rv-meta{grid-template-columns:1fr 1fr 1fr;gap:6px}
+  .av-day summary{grid-template-columns:78px 1fr}
+  .av-busy{margin-left:0}
+  .ag-slot .t{width:84px}
+  .modal-body .form-foot{flex-wrap:wrap}
+  .modal-body .form-foot .btn{flex:1 1 auto}
+}
+
 /* mobile */
 .side-toggle{display:none}
 @media(max-width:820px){
@@ -539,12 +573,12 @@ body{
 
     <div class="side-label">概要 · Overview</div>
     <button class="nav-item on" data-tab="home" onclick="go('home')"><span class="ic">📊</span> ダッシュボード</button>
+    <button class="nav-item" data-tab="schedule" onclick="go('schedule')"><span class="ic">🗓️</span> カレンダー</button>
 
     <div class="side-label">運営 · Operations</div>
     <button class="nav-item" data-tab="news" onclick="go('news')"><span class="ic">📣</span> お知らせ</button>
     <button class="nav-item" data-tab="agent" onclick="go('agent')"><span class="ic">🤝</span> エージェント依頼 <span class="badge" id="navAgentBadge">0</span></button>
     <button class="nav-item" data-tab="lessons" onclick="go('lessons')"><span class="ic">📚</span> レッスン</button>
-    <button class="nav-item" data-tab="schedule" onclick="go('schedule')"><span class="ic">🗓️</span> 予定・自動生成</button>
     <button class="nav-item" data-tab="events" onclick="go('events')"><span class="ic">🎏</span> イベント</button>
     <button class="nav-item" data-tab="messages" onclick="go('messages')"><span class="ic">💬</span> メッセージ <span class="badge" id="navMsgBadge">0</span></button>
 
@@ -624,8 +658,8 @@ body{
     <!-- ---------- SCHEDULE ---------- -->
     <section class="tab" data-tab="schedule">
       <div class="phead">
-        <div><h1>予定・自動生成</h1><div class="sub">学校や バイトの 予定を 入れておくと、空き時間に レッスンを 組みます <span class="en">Schedule &amp; auto lessons</span></div></div>
-        <div class="p-actions"><button class="btn btn-ghost" onclick="openBlockForm()">＋ 予定を追加</button><button class="btn btn-gold" onclick="openAutogen()">⚡ レッスンを自動生成</button></div>
+        <div><h1>カレンダー</h1><div class="sub">学校・バイト・レッスン・エージェント依頼を ひとつに。空き時間は お客様の 依頼画面にも そのまま 出ます <span class="en">Calendar</span></div></div>
+        <div class="p-actions"><button class="btn btn-ghost" onclick="openBlockForm()">＋ 予定を追加</button><button class="btn btn-ghost" onclick="openAvailPreview()">🤝 依頼の空き時間</button><button class="btn btn-gold" onclick="openAutogen()">⚡ レッスンを自動生成</button></div>
       </div>
       <div id="schedNotice"></div>
       <div class="panel">
@@ -2524,18 +2558,29 @@ function schedNotice(){
 /* ============================================================
    画面
    ============================================================ */
-let WK_START=null;
-function wkMove(n){WK_START=n===0?mondayOf(todayISO()):addDays(WK_START||mondayOf(todayISO()),7*n);renderSchedule();}
+let WK_START=null,WK_SEL=null;
+const wkMobile=()=>window.matchMedia?window.matchMedia('(max-width:760px)').matches:window.innerWidth<=760;
+function wkMove(n){
+  WK_START=n===0?mondayOf(todayISO()):addDays(WK_START||mondayOf(todayISO()),7*n);
+  WK_SEL=n===0?todayISO():WK_START;      // スマホは 1日ずつ 表示
+  renderSchedule();
+}
+function wkPick(d){WK_SEL=d;renderSchedule();}
+let _wkMob=null;
+window.addEventListener('resize',()=>{const m=wkMobile();if(m!==_wkMob&&document.querySelector('.tab.on[data-tab="schedule"]'))renderSchedule();});
 
 function renderSchedule(){
   const host=document.getElementById('schedBody');if(!host)return;
   if(!WK_START)WK_START=mondayOf(todayISO());
-  const days=[0,1,2,3,4,5,6].map(i=>addDays(WK_START,i));
+  const week=[0,1,2,3,4,5,6].map(i=>addDays(WK_START,i));
   const today=todayISO();
-  document.getElementById('wkLabel').textContent=`${ymdLabel(days[0])} 〜 ${fmtDate(days[6]).full}`;
+  const mobile=wkMobile();_wkMob=mobile;
+  if(!WK_SEL||!week.includes(WK_SEL))WK_SEL=week.includes(today)?today:week[0];
+  const days=mobile?[WK_SEL]:week;
+  document.getElementById('wkLabel').textContent=`${ymdLabel(week[0])} 〜 ${fmtDate(week[6]).full}`;
   const activeIds=DB.templates.filter(t=>t.active).map(t=>t.id);
   const tomorrow=addDays(today,1);
-  const cands=DB.schedReady?genCandidates(days[0]<tomorrow?tomorrow:days[0],days[6],activeIds):[];
+  const cands=DB.schedReady?genCandidates(week[0]<tomorrow?tomorrow:week[0],week[6],activeIds):[];
   const pos=(s,e)=>{const top=Math.max(0,(s/60-GRID_H0)*GRID_PX),bot=Math.min((GRID_H1-GRID_H0)*GRID_PX,(e/60-GRID_H0)*GRID_PX);return bot>top?`top:${top}px;height:${Math.max(18,bot-top-2)}px`:null;};
   const hours=[];for(let h=GRID_H0;h<GRID_H1;h++)hours.push(h);
   const cols=days.map(d=>{
@@ -2548,7 +2593,13 @@ function renderSchedule(){
     cands.filter(c=>c.date===d).forEach((c,i)=>{const s=toMin(c.time);const p=pos(s,s+durMin(c.tpl.dur));if(p)inner+=`<div class="wk-ev wk-cand" style="${p}" onclick="event.stopPropagation();openCandidate('${c.date}','${c.time}','${c.tpl.id}')" title="この時間に レッスンを作る"><b>＋ ${esc(c.tpl.title)}</b>${c.time} 空き</div>`;});
     return `<div class="wk-col ${d<today?'past':''}" onclick="wkClick(event,'${d}')">${inner}</div>`;
   }).join('');
-  document.getElementById('wkGrid').innerHTML=`
+  const grid=document.getElementById('wkGrid');
+  grid.classList.toggle('one',mobile);
+  // スマホ：上に 7日の タブ（予定の数つき）→ 下に 1日の タイムライン
+  const mstrip=mobile?`<div class="wk-mdays">${week.map(d=>{
+      const n=blocksOn(d).length+lessonsOn(d).length+agentGridItems(d).length;
+      return `<button class="wk-mday ${d===WK_SEL?'on':''} ${d===today?'today':''}" onclick="wkPick('${d}')"><span>${WD_JA[dow(d)]}</span><b>${Number(d.slice(8,10))}</b><i>${n?'•'.repeat(Math.min(n,3)):''}</i></button>`;}).join('')}</div>`:'';
+  grid.innerHTML=mstrip+`
     <div class="wk-head"><div></div>${days.map(d=>`<div class="wk-day ${d===today?'today':''}"><b>${fmtDate(d).full}</b>${WD_JA[dow(d)]}</div>`).join('')}</div>
     ${days.some(d=>agentGridItems(d).some(x=>x.kind==='chip'))?`<div class="wk-allday"><div class="wk-ad-lbl">依頼</div>${days.map(d=>`<div class="wk-ad">${agentGridItems(d).filter(x=>x.kind==='chip').map(x=>`<button class="wk-chip ${x.ok===false?'ng':''}" onclick="openRequest('${x.r.id}')" title="${esc(x.label+(x.reason?'：'+x.reason:''))}">${esc(x.label)}</button>`).join('')}</div>`).join('')}</div>`:''}
     <div class="wk-body" style="height:${(GRID_H1-GRID_H0)*GRID_PX}px">
@@ -2998,7 +3049,7 @@ function conflictingLessons(){
    ・候補日に 空きがあるかを 自動判定 → 確定 or 再提案
    ・候補は 週カレンダーと Googleカレンダーに 透明で 表示
    ============================================================ */
-const AGENT_SET_DEFAULT={emptyLessonsFree:true,lastStart:'14:00',autoConfirmSlots:true,pickDays:21,autoConfirm:false,autoRepropose:false,travel:30,proposeCount:3,leadDays:1};
+const AGENT_SET_DEFAULT={emptyLessonsFree:true,lastStart:'14:00',autoConfirmSlots:true,pickDays:30,autoConfirm:false,autoRepropose:false,travel:30,proposeCount:3,leadDays:1};
 let AGENT_SET=Object.assign({},AGENT_SET_DEFAULT);
 let AGENT_PLANS={},AGENT_FN=null,AGENT_ERR='';
 const jaDay=iso=>`${fmtDate(iso).full}（${weekday(iso)}）`;
@@ -3146,7 +3197,7 @@ function agentSetHTML(){
     <div class="field-row-3 ag-grid" style="margin-top:12px">
       <div class="field"><label>移動の ゆとり</label><select id="asTravel">${[0,30,60,90].map(m=>`<option value="${m}" ${Number(AGENT_SET.travel)===m?'selected':''}>前後 ${m}分</option>`).join('')}</select></div>
       <div class="field"><label>再提案の 数</label><select id="asCount">${[2,3,4,5].map(n=>`<option value="${n}" ${Number(AGENT_SET.proposeCount)===n?'selected':''}>${n}案</option>`).join('')}</select></div>
-      <div class="field"><label>お客様に 見せる 期間</label><select id="asPick">${[14,21,28,42].map(n=>`<option value="${n}" ${Number(AGENT_SET.pickDays)===n?'selected':''}>${n}日先まで</option>`).join('')}</select></div>
+      <div class="field"><label>お客様に 見せる 期間</label><select id="asPick">${[14,21,30,45,60].map(n=>`<option value="${n}" ${Number(AGENT_SET.pickDays)===n?'selected':''}>${n}日先まで</option>`).join('')}</select></div>
       <div class="field"><label>最終受付</label><select id="asLast">${['12:00','13:00','14:00','15:00','16:00'].map(t=>`<option ${String(AGENT_SET.lastStart||'14:00')===t?'selected':''}>${t}</option>`).join('')}</select></div>
       <div class="field"><label>最短で 何日後から</label><select id="asLead">${[1,2,3,5,7].map(n=>`<option value="${n}" ${Number(AGENT_SET.leadDays)===n?'selected':''}>${n}日後</option>`).join('')}</select></div>
     </div>
