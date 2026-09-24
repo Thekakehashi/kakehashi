@@ -443,7 +443,7 @@ body{
 .ag-set{display:flex;flex-direction:column;gap:8px}
 .field-row-3.ag-grid{grid-template-columns:repeat(5,1fr)}
 @media(max-width:820px){.field-row-3.ag-grid{grid-template-columns:1fr 1fr}}
-.av-day{display:grid;grid-template-columns:96px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}
+.av-day{padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}.av-day summary{display:grid;grid-template-columns:96px 1fr;gap:10px;cursor:pointer;list-style:none}.av-day summary::-webkit-details-marker{display:none}.av-day.none summary b{color:var(--muted)}.av-times span.off{border-color:var(--line);color:var(--muted)}.av-busy{margin:8px 0 2px 106px;font-size:12px;color:var(--muted)}.av-busy div{padding:2px 0}.av-busy span{font-family:Inter;display:inline-block;width:92px;color:var(--ink)}
 .av-day b{font-weight:700}
 .av-times{display:flex;flex-wrap:wrap;gap:5px}
 .av-times span{font-family:"Inter";font-size:12px;border:1px solid rgba(74,159,184,.4);color:var(--teal);border-radius:999px;padding:1px 9px}
@@ -2983,9 +2983,14 @@ async function syncCalendar(silent){
 /* これからの レッスンのうち、予定（学校・バイト・Google）と 重なっているもの */
 function conflictingLessons(){
   const today=todayISO();
-  return DB.lessons.filter(l=>l.date>=today&&blocksOn(l.date).some(b=>{
-    const s=toMin(l.time),e=s+durMin(l.dur);return s<toMin(b.end)&&e>toMin(b.start);
-  })).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+  return DB.lessons.filter(l=>{
+    if(l.date<today)return false;
+    const s=toMin(l.time),e=s+durMin(l.dur);
+    if(blocksOn(l.date).some(b=>s<toMin(b.end)&&e>toMin(b.start)))return true;
+    // 確定した エージェント依頼（前後30分の移動を ふくむ）と 重なる レッスン
+    return DB.requests.some(r=>reqActive(r)&&r.confirmed&&r.confirmed.date===l.date&&r.confirmed.time&&(()=>{
+      const rs=toMin(r.confirmed.time)-30,re=toMin(r.confirmed.time)+(r.durationMin||120)+30;return s<re&&e>rs;})());
+  }).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
 }
 
 /* ============================================================
@@ -2993,7 +2998,7 @@ function conflictingLessons(){
    ・候補日に 空きがあるかを 自動判定 → 確定 or 再提案
    ・候補は 週カレンダーと Googleカレンダーに 透明で 表示
    ============================================================ */
-const AGENT_SET_DEFAULT={lastStart:'14:00',autoConfirmSlots:true,pickDays:21,autoConfirm:false,autoRepropose:false,travel:30,proposeCount:3,leadDays:1};
+const AGENT_SET_DEFAULT={emptyLessonsFree:true,lastStart:'14:00',autoConfirmSlots:true,pickDays:21,autoConfirm:false,autoRepropose:false,travel:30,proposeCount:3,leadDays:1};
 let AGENT_SET=Object.assign({},AGENT_SET_DEFAULT);
 let AGENT_PLANS={},AGENT_FN=null,AGENT_ERR='';
 const jaDay=iso=>`${fmtDate(iso).full}（${weekday(iso)}）`;
@@ -3133,6 +3138,7 @@ function agentSetHTML(){
     :'<span class="gc-dot run"></span>確認中…';
   return `<div class="gc-status">${st}</div>
     <div class="ag-set">
+      <label class="mini-chk"><input type="checkbox" id="asEmpty" ${AGENT_SET.emptyLessonsFree!==false?'checked':''}> 予約が 入っていない レッスンは、エージェントの 空き時間として 扱う（依頼が 確定したら 重なりを お知らせ）</label>
       <label class="mini-chk"><input type="checkbox" id="asSlots" ${AGENT_SET.autoConfirmSlots!==false?'checked':''}> お客様が 空き時間から えらんだ依頼は、その時間が まだ空いていれば 自動確定する</label>
       <label class="mini-chk"><input type="checkbox" id="asConfirm" ${AGENT_SET.autoConfirm?'checked':''}> 候補日に 空きが あれば、その場で 自動確定して 通知する</label>
       <label class="mini-chk"><input type="checkbox" id="asRepropose" ${AGENT_SET.autoRepropose?'checked':''}> 候補日が 全部うまっていたら、別の日程を 自動で 再提案する</label>
@@ -3148,7 +3154,7 @@ function agentSetHTML(){
     <div class="g-hint" style="text-align:left;margin-top:10px">オフの ときは 判定だけ 出て、確定・再提案は ボタンで 行います。オンの 自動処理は、依頼が 入った 瞬間（Database Webhook を 設定した場合）か、admin を 開いたときに 動きます。</div>`;
 }
 async function saveAgentSet(){
-  const next={lastStart:document.getElementById('asLast').value,autoConfirmSlots:document.getElementById('asSlots').checked,pickDays:+document.getElementById('asPick').value,autoConfirm:document.getElementById('asConfirm').checked,autoRepropose:document.getElementById('asRepropose').checked,
+  const next={emptyLessonsFree:document.getElementById('asEmpty').checked,lastStart:document.getElementById('asLast').value,autoConfirmSlots:document.getElementById('asSlots').checked,pickDays:+document.getElementById('asPick').value,autoConfirm:document.getElementById('asConfirm').checked,autoRepropose:document.getElementById('asRepropose').checked,
     travel:+document.getElementById('asTravel').value,proposeCount:+document.getElementById('asCount').value,leadDays:+document.getElementById('asLead').value};
   const {error}=await sb.from('admin_settings').upsert({key:'agent',value:next,updated_at:new Date().toISOString()});
   if(error){console.error(error);toast('保存できませんでした');return;}
@@ -3168,8 +3174,11 @@ async function loadAvailPreview(){
   const box=document.getElementById('avBox');box.textContent='読み込み中…';
   try{
     const d=await agentFn({action:'availability',service:document.getElementById('avSvc').value});
-    box.innerHTML=`<div class="g-hint" style="text-align:left;margin:0 0 8px">所要 ${d.dur/60}時間 ／ ${d.window[0]}〜${d.window[1]}${d.weekdaysOnly?' ／ 平日のみ':''}。開始時刻の 候補です。</div>`+
-      (d.days.length?d.days.map(x=>`<div class="av-day"><b>${jaDay(x.date)}</b><div class="av-times">${x.times.map(t=>`<span>${t}</span>`).join('')}</div></div>`).join(''):emptyHTML('🗓️','この期間に 空きが ありません','No availability'));
+    const open=d.days.filter(x=>x.times.length).length,closed=d.days.filter(x=>x.closed).length,full=d.days.length-open-closed;
+    box.innerHTML=`<div class="g-hint" style="text-align:left;margin:0 0 8px">所要 ${d.dur/60}時間 ／ ${d.window[0]}〜${d.window[1]}（最終受付 ${d.lastStart}）／ 前後の移動 ${d.travel}分${d.weekdaysOnly?' ／ 平日のみ':''}<br>
+      <b>空きあり ${open}日</b> ・ 満席 ${full}日 ・ 休み ${closed}日　—　日にちを 押すと、なにで ふさがっているか 見られます</div>`+
+      d.days.map(x=>`<details class="av-day ${x.times.length?'':'none'}"><summary><b>${jaDay(x.date)}</b><div class="av-times">${x.closed?'<span class="off">土日祝 休み</span>':x.times.length?x.times.map(t=>`<span>${t}</span>`).join(''):'<span class="off">空きなし</span>'}</div></summary>
+        ${(x.busy||[]).length?`<div class="av-busy">${x.busy.map(b=>`<div><span>${b.from}–${b.to}</span>${esc(b.what)}</div>`).join('')}</div>`:'<div class="av-busy"><div>予定は ありません</div></div>'}</details>`).join('');
   }catch(e){box.innerHTML=`<div class="gc-err">${esc(e.message)}</div>`;}
 }
 
