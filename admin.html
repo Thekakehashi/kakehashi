@@ -290,6 +290,74 @@ body{
 .toast.on{transform:translateX(-50%) translateY(0);opacity:1}
 .toast .t-ic{color:var(--teal);font-size:16px}
 
+/* ============ 会員詳細・記録 ============ */
+.notice{background:rgba(201,162,75,.12);border:1px solid rgba(201,162,75,.45);color:#7a5c16;border-radius:12px;padding:12px 16px;font-size:13px;margin-bottom:18px;line-height:1.7}
+.utable tbody tr{cursor:pointer}
+.ud-back{background:none;border:none;font:inherit;font-size:13.5px;font-weight:600;color:var(--teal);cursor:pointer;padding:4px 0;margin-bottom:14px}
+.ud-back:hover{text-decoration:underline}
+.ud-head{display:flex;gap:18px;align-items:center;margin-bottom:22px;flex-wrap:wrap}
+.ud-av{width:64px;height:64px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:26px;font-family:"Inter"}
+.ud-id{flex:1;min-width:220px}
+.ud-name{font-family:"Zen Old Mincho",serif;font-size:clamp(22px,3vw,28px);font-weight:700;line-height:1.3}
+.ud-meta{font-size:12.5px;color:var(--muted);margin-top:2px;word-break:break-all}
+.ud-tags{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.ud-actions{display:flex;gap:8px;flex-wrap:wrap}
+.ud-kpis .k-num small{font-size:14px;font-weight:600;color:var(--muted)}
+.kpi .k-mid{font-size:19px;line-height:1.3}
+.kpi.warn{border-color:rgba(201,80,63,.4);background:linear-gradient(180deg,rgba(201,80,63,.05),#fff)}
+.kpi.warn .k-sub{color:var(--danger)}
+.kpi.link{cursor:pointer}
+.kpi.link:hover{border-color:var(--sky)}
+.subtabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:18px;overflow-x:auto}
+.subtab{padding:10px 16px;border:none;background:none;font:inherit;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.subtab:hover{color:var(--ink)}
+.subtab.on{color:var(--ink);border-bottom-color:var(--gold)}
+.tl-month{font-size:12px;font-weight:800;color:var(--muted);margin:20px 0 2px;letter-spacing:.04em}
+.tl-month:first-child{margin-top:0}
+.tl-item{display:grid;grid-template-columns:64px 26px 1fr auto;gap:12px;align-items:start;padding:12px 0;border-bottom:1px solid var(--line)}
+.tl-date{font-family:"Inter";font-size:13px;font-weight:600;line-height:1.3}
+.tl-date span{display:block;font-size:11px;font-weight:400;color:var(--muted)}
+.tl-ic{font-size:16px;text-align:center;line-height:1.3}
+.tl-t{font-size:14px;font-weight:700;line-height:1.5}
+.tl-sub{font-size:12px;color:var(--muted);line-height:1.5}
+.tl-amt{font-family:"Inter";font-weight:700;font-size:14px;text-align:right;white-space:nowrap}
+.tl-amt.neg,.amt.neg{color:var(--muted);text-decoration:line-through}
+.amt{font-family:"Inter";font-weight:700;font-size:15px;margin-right:6px;white-space:nowrap}
+.mgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.mcell{border:1px solid var(--line);border-radius:11px;padding:11px 8px;text-align:center}
+.mcell .mm{font-size:11.5px;color:var(--muted)}
+.mcell .ms{font-size:13.5px;font-weight:700;margin-top:2px}
+.mcell.paid{background:rgba(74,159,184,.08);border-color:rgba(74,159,184,.35)}
+.mcell.paid .ms{color:var(--teal)}
+.mcell.due{background:rgba(201,80,63,.05);border-color:rgba(201,80,63,.4);cursor:pointer}
+.mcell.due .ms{color:var(--danger)}
+.mcell.soon{border-style:dashed;cursor:pointer}
+.mcell.soon .ms{color:var(--muted)}
+.mcell.due:hover,.mcell.soon:hover{border-color:var(--gold)}
+.mcell.na{opacity:.45}
+.att{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;flex:none}
+.att button{border:none;background:#fff;padding:6px 12px;font:inherit;font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer}
+.att button+button{border-left:1px solid var(--line)}
+.att button:hover{color:var(--ink)}
+.att button.on-ok{background:rgba(74,159,184,.16);color:var(--teal)}
+.att button.on-ng{background:rgba(201,80,63,.1);color:var(--danger)}
+.bill-btn{border:1px dashed rgba(201,80,63,.55);background:rgba(201,80,63,.05);color:var(--danger);border-radius:999px;padding:2px 10px;font:inherit;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap}
+.bill-btn:hover{background:rgba(201,80,63,.1)}
+.ulink{color:var(--ink);cursor:pointer;text-decoration:underline;text-decoration-color:rgba(15,42,63,.25);text-underline-offset:3px}
+.ulink:hover{color:var(--teal)}
+.ud-contract{background:var(--washi-2);border-radius:14px;padding:18px 20px}
+.ud-p{font-size:14px;margin-bottom:14px;line-height:1.8}
+.quick{display:flex;gap:6px;margin-top:7px}
+.quick button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:3px 11px;font:inherit;font-size:12px;font-weight:600;cursor:pointer;color:var(--muted)}
+.quick button:hover{border-color:var(--gold);color:var(--ink)}
+.chk{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;margin:2px 0 18px;cursor:pointer}
+.chk input{margin-top:5px}
+.month-nav{display:flex;align-items:center;gap:10px}
+.month-nav b{font-family:"Zen Old Mincho",serif;font-size:18px;min-width:110px;text-align:center}
+.todo-h{font-size:13px;font-weight:800;margin:18px 0 2px;display:flex;align-items:center;gap:8px}
+.todo-h:first-child{margin-top:0}
+.modal.wide{max-width:680px}
+
 /* mobile */
 .side-toggle{display:none}
 @media(max-width:820px){
@@ -300,6 +368,10 @@ body{
   .side-scrim.on{display:block}
   .side-toggle{display:inline-flex;align-items:center;gap:8px;background:var(--indigo);color:var(--washi);border:none;border-radius:11px;padding:10px 16px;font-family:inherit;font-weight:600;font-size:14px;cursor:pointer;margin-bottom:18px}
   .kpi-grid{grid-template-columns:1fr 1fr}
+  .mgrid{grid-template-columns:repeat(3,1fr)}
+  .tl-item{grid-template-columns:52px 22px 1fr;}
+  .tl-amt{grid-column:3;text-align:left}
+  .ud-actions{width:100%}
   .field-row,.field-row-3{grid-template-columns:1fr}
   .utable thead{display:none}
   .utable td{display:block;padding:6px 0;border:none}
@@ -368,6 +440,7 @@ body{
 
     <div class="side-label">会員 · Members</div>
     <button class="nav-item" data-tab="users" onclick="go('users')"><span class="ic">👥</span> ユーザー管理</button>
+    <button class="nav-item" data-tab="ledger" onclick="go('ledger')"><span class="ic">📒</span> 記録・売上</button>
 
     <div class="side-foot">
       <div class="side-user">
@@ -392,6 +465,12 @@ body{
         <div class="kpi alert" onclick="go('agent')"><div class="k-label">未対応の依頼 / New requests</div><div class="k-num" id="kAgent">–</div><div class="k-sub">クリックで一覧へ →</div></div>
         <div class="kpi"><div class="k-label">今後のレッスン / Lessons</div><div class="k-num" id="kLessons">–</div><div class="k-sub">公開中</div></div>
         <div class="kpi"><div class="k-label">今後のイベント / Events</div><div class="k-num" id="kEvents">–</div><div class="k-sub">公開中</div></div>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi link" onclick="go('ledger')"><div class="k-label">今月の入金</div><div class="k-num" id="kIncome">–</div><div class="k-sub" id="kIncomeSub"></div></div>
+        <div class="kpi link" onclick="go('ledger')"><div class="k-label">今月 実施したレッスン</div><div class="k-num" id="kDone">–</div><div class="k-sub">出席を記録した数</div></div>
+        <div class="kpi link" id="kPendingBox" onclick="go('ledger')"><div class="k-label">出欠が 未記録</div><div class="k-num" id="kPending">–</div><div class="k-sub">おわった予約のうち</div></div>
+        <div class="kpi link" id="kUnpaidBox" onclick="go('ledger')"><div class="k-label">今月の 未入金</div><div class="k-num" id="kUnpaid">–</div><div class="k-sub" id="kUnpaidSub"></div></div>
       </div>
       <div class="panel">
         <div class="panel-h"><h2>📣 お知らせ <span class="en">Announcements</span></h2><button class="btn btn-ghost btn-sm" onclick="go('news')">管理する →</button></div>
@@ -454,21 +533,40 @@ body{
 
     <!-- ---------- USERS ---------- -->
     <section class="tab" data-tab="users">
+      <div id="userListView">
+        <div class="phead">
+          <div><h1>ユーザー管理</h1><div class="sub">会員を えらぶと 入金・受講・解約の 記録を 見られます <span class="en">Members</span></div></div>
+        </div>
+        <div id="userNotice"></div>
+        <div class="fbar" id="userFbar">
+          <button class="fchip on" data-f="all" onclick="userFilter('all',this)">すべて</button>
+          <button class="fchip" data-f="PREMIUM" onclick="userFilter('PREMIUM',this)">PREMIUM</button>
+          <button class="fchip" data-f="FREE" onclick="userFilter('FREE',this)">FREE</button>
+          <button class="fchip" data-f="INVITED" onclick="userFilter('INVITED',this)">🎟️ 招待</button>
+          <button class="fchip" data-f="unpaid" onclick="userFilter('unpaid',this)">今月 未入金</button>
+          <button class="fchip" data-f="cancel" onclick="userFilter('cancel',this)">解約</button>
+        </div>
+        <div class="panel">
+          <table class="utable">
+            <thead><tr><th>会員 / Member</th><th>プラン</th><th>契約</th><th>今月の月額</th><th>受講</th><th></th></tr></thead>
+            <tbody id="userBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div id="userDetail" style="display:none"></div>
+    </section>
+
+    <!-- ---------- LEDGER ---------- -->
+    <section class="tab" data-tab="ledger">
       <div class="phead">
-        <div><h1>ユーザー管理</h1><div class="sub">会員の一覧とプラン <span class="en">Members</span></div></div>
+        <div><h1>記録・売上</h1><div class="sub">入金と レッスン実施の 記録（月ごと） <span class="en">Payments &amp; delivery</span></div></div>
+        <div class="month-nav">
+          <button class="btn btn-ghost btn-sm" onclick="ledgerMonth(-1)" aria-label="前の月">‹ 前の月</button>
+          <b id="lgMonth"></b>
+          <button class="btn btn-ghost btn-sm" onclick="ledgerMonth(1)" aria-label="次の月">次の月 ›</button>
+        </div>
       </div>
-      <div class="fbar" id="userFbar">
-        <button class="fchip on" data-f="all" onclick="userFilter('all',this)">すべて</button>
-        <button class="fchip" data-f="INVITED" onclick="userFilter('INVITED',this)">🎟️ 招待</button>
-        <button class="fchip" data-f="PREMIUM" onclick="userFilter('PREMIUM',this)">PREMIUM</button>
-        <button class="fchip" data-f="FREE" onclick="userFilter('FREE',this)">FREE</button>
-      </div>
-      <div class="panel">
-        <table class="utable">
-          <thead><tr><th>会員 / Member</th><th>プラン</th><th>登録日</th><th>レッスン</th><th></th></tr></thead>
-          <tbody id="userBody"></tbody>
-        </table>
-      </div>
+      <div id="ledgerBody"></div>
     </section>
 
     <!-- ---------- MESSAGES ---------- -->
@@ -530,7 +628,8 @@ const avColor=s=>AVCOL[[...s].reduce((a,c)=>a+c.charCodeAt(0),0)%AVCOL.length];
 const initial=s=>(s||'?').trim().charAt(0).toUpperCase();
 const MON=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
 const yen=n=>'¥'+Number(n).toLocaleString('ja-JP');
-const todayISO=()=>new Date().toISOString().slice(0,10);
+// 日本時間の今日（UTCのままだと 朝9時まで 前日扱いになるため）
+const todayISO=()=>new Date(Date.now()+9*3600e3).toISOString().slice(0,10);
 function daysFromNow(n){const d=new Date();d.setDate(d.getDate()+n);return d.toISOString().slice(0,10);}
 // 候補日文字列を Date に正規化。ISO(2026-09-07) と 旧表示形式(2026/9/7（月）) の両対応。
 function parseCandDate(v){
@@ -597,14 +696,14 @@ function seed(){
      title_en    titleEn
      place_en    placeEn / host_en hostEn / body_en bodyEn / descr_en descEn
    ============================================================ */
-let DB={lessons:[],announcements:[],events:[],users:[],requests:[]};
+let DB={lessons:[],announcements:[],events:[],users:[],requests:[],bookings:[],signups:[],payments:[],logs:[],billingReady:false};
 
 /* ---- row → 画面オブジェクト ---- */
 const mapLessonIn =r=>({id:r.id,date:r.date,time:r.time,dur:r.dur,title:r.title,titleEn:r.title_en||'',format:r.format,size:r.size,level:r.level,gender:r.gender,cap:r.cap,max:r.max,desc:r.descr||'',meetUrl:r.meet_url||'',place:r.place||'',mapUrl:r.map_url||''});
 const mapEventIn  =r=>({id:r.id,type:r.type,emoji:r.emoji,date:r.date,time:r.time,title:r.title,titleEn:r.title_en||'',place:r.place,placeEn:r.place_en||'',host:r.host,hostEn:r.host_en||'',price:r.price,cap:r.cap,seats:r.seats,desc:r.descr||'',descEn:r.descr_en||'',format:r.format||'offline',mapUrl:r.map_url||'',meetUrl:r.meet_url||''});
 const mapNewsIn   =r=>({id:r.id,kind:r.kind,emoji:r.emoji,title:r.title,titleEn:r.title_en||'',body:r.body||'',bodyEn:r.body_en||'',date:r.date,link:r.link||''});
-const mapReqIn    =r=>({id:r.id,user:(r.profiles?((r.profiles.first_name||'')+' '+(r.profiles.last_name||'')).trim():'')||'—',service:r.service,ic:r.ic,candidates:r.candidates||[],confirmed:r.confirmed||null,amount:r.amount,status:r.status,note:r.note||'',created:r.created_at?r.created_at.slice(0,10):todayISO()});
-const mapUserIn   =r=>({id:r.id,name:((r.first_name||'')+' '+(r.last_name||'')).trim()||'—',email:r.email||'',plan:r.plan,joined:r.created_at?r.created_at.slice(0,10):'',lessons:0,country:r.country||''});
+const mapReqIn    =r=>({id:r.id,uid:r.user_id||r.uid||'',user:(r.profiles?((r.profiles.first_name||'')+' '+(r.profiles.last_name||'')).trim():'')||'—',service:r.service,ic:r.ic,candidates:r.candidates||[],confirmed:r.confirmed||null,amount:r.amount,status:r.status,note:r.note||'',created:r.created_at?r.created_at.slice(0,10):todayISO()});
+const mapUserIn   =r=>({id:r.id,name:((r.first_name||'')+' '+(r.last_name||'')).trim()||'—',email:r.email||'',plan:r.plan,joined:r.created_at?r.created_at.slice(0,10):'',lessons:0,country:r.country||'',createdAt:r.created_at||'',mstatus:r.membership_status||'active',cancelOn:r.cancel_effective_on||'',cancelReason:r.cancel_reason||''});
 
 /* ---- 画面オブジェクト → row（書き込み用） ---- */
 const mapLessonOut=d=>({date:d.date,time:d.time,dur:d.dur,title:d.title,title_en:d.titleEn||null,format:d.format,size:d.size,level:d.level,gender:d.gender,max:d.max,descr:d.desc||null,place:d.place||null,map_url:d.mapUrl||null});
@@ -613,12 +712,16 @@ const mapNewsOut  =d=>({kind:d.kind,emoji:d.emoji,title:d.title,title_en:d.title
 
 /* ---- Supabase から全テーブル読み込み ---- */
 async function load(){
-  const [les,eve,ann,req,usr]=await Promise.all([
+  const [les,eve,ann,req,usr,bk,sg,pay,lg]=await Promise.all([
     sb.from('lessons').select('*').order('date').order('time'),
     sb.from('events').select('*').order('date'),
     sb.from('announcements').select('*').order('date',{ascending:false}),
     sb.from('agent_requests').select('*').order('created_at',{ascending:false}),
     sb.from('profiles').select('*').order('created_at',{ascending:false}),
+    sb.from('lesson_bookings').select('*'),
+    sb.from('event_signups').select('*'),
+    sb.from('payments').select('*').order('paid_on',{ascending:false}),
+    sb.from('member_logs').select('*').order('created_at',{ascending:false}),
   ]);
   const parts=[['lessons',les],['events',eve],['announcements',ann],['agent_requests',req],['profiles',usr]];
   const failed=parts.filter(([n,r])=>r.error);
@@ -637,6 +740,16 @@ async function load(){
   DB.announcements=(ann.data||[]).map(mapNewsIn);
   DB.requests     =reqRows.map(mapReqIn);
   DB.users        =(usr.data||[]).map(mapUserIn);
+  // 予約・申込・入金・ログ（入金/ログは kakehashi_billing.sql 実行後に使える）
+  if(bk.error)console.error('load lesson_bookings:',bk.error.message||bk.error);
+  if(sg.error)console.error('load event_signups:',sg.error.message||sg.error);
+  DB.bookings=(bk.data||[]).map(mapBookingIn);
+  DB.signups =(sg.data||[]).map(mapSignupIn);
+  DB.billingReady=!pay.error&&!lg.error;
+  if(!DB.billingReady)console.warn('payments / member_logs が まだありません → kakehashi_billing.sql を実行してください',pay.error||lg.error);
+  DB.payments=(pay.data||[]).map(mapPayIn);
+  DB.logs    =(lg.data||[]).map(mapLogIn);
+  if(DB.billingReady)await finalizeCancellations();
 }
 /* 旧 save() は行単位の書き込みに置き換え。互換のため空関数を残す */
 function save(){}
@@ -878,12 +991,15 @@ async function logout(){
 })();
 
 /* ---------- nav ---------- */
-function go(tab){
+function go(tab,keepDetail){
+  if(tab==='users'&&!keepDetail)UD=null;
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('on',n.dataset.tab===tab));
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.tab===tab));
   if(window.innerWidth<=820)closeSide();
   window.scrollTo(0,0);
   if(tab==='messages')loadThreads();
+  if(tab==='users')renderUsers();
+  if(tab==='ledger')renderLedger();
 }
 function toggleSide(){document.getElementById('side').classList.toggle('open');document.getElementById('sideScrim').classList.toggle('on');}
 function closeSide(){document.getElementById('side').classList.remove('open');document.getElementById('sideScrim').classList.remove('on');}
@@ -898,14 +1014,14 @@ function toast(msg){
 }
 
 /* ---------- modal ---------- */
-function openModal(html){document.getElementById('modal').innerHTML=html;document.getElementById('scrim').classList.add('on');}
-function closeModal(){document.getElementById('scrim').classList.remove('on');}
+function openModal(html){const md=document.getElementById('modal');md.classList.remove('wide');md.innerHTML=html;document.getElementById('scrim').classList.add('on');}
+function closeModal(){document.getElementById('scrim').classList.remove('on');_partCtx=null;}
 document.getElementById('scrim').addEventListener('click',e=>{if(e.target.id==='scrim')closeModal();});
 
 /* ============================================================
    RENDER — everything
    ============================================================ */
-function renderAll(){renderHome();renderNews();renderAgent();renderLessons();renderEvents();renderUsers();updateBadges();}
+function renderAll(){renderHome();renderNews();renderAgent();renderLessons();renderEvents();renderUsers();renderLedger();updateBadges();}
 
 function updateBadges(){
   const n=DB.requests.filter(r=>r.status==='new').length;
@@ -925,6 +1041,16 @@ function renderHome(){
   document.getElementById('kAgent').textContent=newReq;
   document.getElementById('kLessons').textContent=DB.lessons.filter(l=>l.date>=todayISO()).length;
   document.getElementById('kEvents').textContent=DB.events.filter(e=>e.date>=todayISO()).length;
+  const lg=ledgerData(curMonth());
+  document.getElementById('kIncome').textContent=yen(lg.income);
+  document.getElementById('kIncomeSub').textContent=DB.billingReady?`${lg.pays.length}件の入金`:'SQLの実行が 必要です';
+  document.getElementById('kDone').textContent=lg.done.filter(x=>x.kind==='lesson').length;
+  document.getElementById('kPending').textContent=lg.pending.length;
+  document.getElementById('kPendingBox').classList.toggle('warn',lg.pending.length>0);
+  const un=lg.unpaidDone.length+lg.memUnpaid.length;
+  document.getElementById('kUnpaid').textContent=un;
+  document.getElementById('kUnpaidSub').textContent=`単発 ${lg.unpaidDone.length} ／ 月額 ${lg.memUnpaid.length}`;
+  document.getElementById('kUnpaidBox').classList.toggle('warn',un>0);
   const news=[...(DB.announcements||[])].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3);
   const nwrap=document.getElementById('homeNews');
   if(nwrap)nwrap.innerHTML=news.length?news.map(newsRowHTML).join(''):emptyHTML('📣','お知らせは まだ ありません','No announcements yet');
@@ -1217,64 +1343,6 @@ async function delLesson(id){
   DB.lessons=DB.lessons.filter(x=>x.id!==id);renderAll();toast('レッスンを さくじょしました');
 }
 
-/* ---------- 参加者一覧（レッスン予約 / イベント申込）＋ 個別キャンセル ---------- */
-// kind: 'lesson' | 'event'
-async function openParticipants(kind,id,title){
-  openModal(`
-    <div class="modal-head"><button class="modal-x" onclick="closeModal()">✕</button>
-      <h2>参加者</h2><div class="m-sub">${(title||'').replace(/</g,'&lt;')} · Participants</div></div>
-    <div class="modal-body"><div id="partList" style="min-height:60px">読み込み中…</div></div>`);
-  const box=document.getElementById('partList');
-  try{
-    // FKの結合記法に依存せず、予約→ユーザーID→profiles を2段で取得して突き合わせる
-    let rows;
-    if(kind==='lesson'){
-      const {data,error}=await sb.from('lesson_bookings')
-        .select('id,status,user_id')
-        .eq('lesson_id',id).eq('status','confirmed');
-      if(error)throw error; rows=data||[];
-    }else{
-      const {data,error}=await sb.from('event_signups')
-        .select('id,status,user_id,attendee_email')
-        .eq('event_id',id).eq('status','confirmed');
-      if(error)throw error; rows=data||[];
-    }
-    if(!rows.length){ box.innerHTML='<div style="color:var(--muted);font-size:14px;padding:14px 0">まだ 参加者は いません / No participants yet</div>'; return; }
-
-    // 名前を profiles からまとめて取得
-    const ids=[...new Set(rows.map(r=>r.user_id).filter(Boolean))];
-    let nmeta={};
-    if(ids.length){
-      const {data:profs}=await sb.from('profiles').select('id,first_name,last_name').in('id',ids);
-      (profs||[]).forEach(p=>{ nmeta[p.id]=((p.first_name||'')+' '+(p.last_name||'')).trim(); });
-    }
-    box.innerHTML=rows.map(r=>{
-      const nm=nmeta[r.user_id]||r.attendee_email||'—';
-      return `<div class="row" style="padding:12px 0">
-        <div class="row-main"><div class="row-title" style="font-size:14px">${(nm||'—').replace(/</g,'&lt;')}</div></div>
-        <div class="row-act"><button class="btn btn-danger btn-sm" onclick="cancelParticipant('${kind}','${r.id}',this)">キャンセル</button></div>
-      </div>`;
-    }).join('');
-  }catch(e){
-    console.error('participants load:',e.message||e.hint||JSON.stringify(e));
-    box.innerHTML='<div style="color:#c9503f;font-size:14px;padding:14px 0">読み込みに 失敗しました / Failed to load</div>';
-  }
-}
-async function cancelParticipant(kind,rowId,btn){
-  if(btn){btn.disabled=true;btn.textContent='処理中…';}
-  const table=kind==='lesson'?'lesson_bookings':'event_signups';
-  const {data,error}=await sb.from(table).delete().eq('id',rowId).select('id');
-  if(error||!data||!data.length){
-    console.error('cancel participant:',error||'0 rows');
-    if(btn){btn.disabled=false;btn.textContent='キャンセル';}
-    toast('キャンセルできませんでした（権限をご確認ください）');return;
-  }
-  if(btn){const row=btn.closest('.row'); if(row)row.remove();}
-  renderAll();
-  toast('参加を キャンセルしました');
-}
-window.openParticipants=openParticipants;
-window.cancelParticipant=cancelParticipant;
 
 /* ---------- ANNOUNCEMENTS ---------- */
 const NEWS_KIND={urgent:'重要 / Urgent',info:'お知らせ / Info'};
@@ -1500,56 +1568,718 @@ async function delEvent(id){
   DB.events=DB.events.filter(x=>x.id!==id);renderAll();toast('イベントを さくじょしました');
 }
 
-/* ---------- USERS ---------- */
+/* ============================================================
+   会員・記録 — 入金 / 出欠（実施）/ 解約 / 個人ログ
+   テーブル：payments, member_logs, lesson_bookings, event_signups, profiles
+   ============================================================ */
+const KIND_LABEL={membership:'月額メンバーシップ',lesson:'単発レッスン',event:'イベント',agent:'エージェント',other:'その他'};
+const KIND_SHORT={membership:'月額',lesson:'レッスン',event:'イベント',agent:'エージェント',other:'その他'};
+const METHOD_LABEL={bank:'銀行振込',cash:'現金',paypay:'PayPay',stripe:'Stripe',card:'カード',other:'その他'};
+const CANCEL_REASONS=['帰国・転居','費用の負担','時間が合わない','内容が合わない','ほかのサービスへ','その他'];
+const PRICE={membership:18000,campaign:15000,private:3000,group:2000};
+
+/* ---- 日付ヘルパー（すべて日本時間） ---- */
+const curMonth=()=>todayISO().slice(0,7);
+function addMonths(ym,n){const [y,m]=ym.split('-').map(Number);return new Date(Date.UTC(y,m-1+n,1)).toISOString().slice(0,7);}
+function lastDay(ym){const [y,m]=ym.split('-').map(Number);return new Date(Date.UTC(y,m,0)).toISOString().slice(0,10);}
+function ymLabel(ym){if(!ym)return '—';const [y,m]=ym.split('-').map(Number);return `${y}年${m}月`;}
+function ymdLabel(iso){const d=parseCandDate(iso);return d?`${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`:'—';}
+function jstParts(at){
+  if(!at)return null;const s=String(at);
+  if(/^\d{4}-\d{2}-\d{2}$/.test(s))return {ymd:s,hm:''};
+  if(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(s))return {ymd:s.slice(0,10),hm:s.slice(11,16)};
+  const d=new Date(s);if(isNaN(d))return null;
+  const j=new Date(d.getTime()+9*3600e3).toISOString();return {ymd:j.slice(0,10),hm:j.slice(11,16)};
+}
+
+/* ---- row → 画面オブジェクト ---- */
+const mapBookingIn=r=>({id:r.id,uid:r.user_id,lessonId:r.lesson_id,status:r.status||'confirmed',attendance:r.attendance||'',attendedAt:r.attended_at||'',createdAt:r.created_at||''});
+const mapSignupIn =r=>({id:r.id,uid:r.user_id,eventId:r.event_id,status:r.status||'confirmed',attendance:r.attendance||'',attendedAt:r.attended_at||'',createdAt:r.created_at||''});
+const mapPayIn    =r=>({id:r.id,uid:r.user_id,kind:r.kind,amount:Number(r.amount)||0,method:r.method,paidOn:r.paid_on||'',period:r.period_month||'',refId:r.ref_id||'',status:r.status||'paid',note:r.note||'',createdAt:r.created_at||''});
+const mapLogIn    =r=>({id:r.id,uid:r.user_id,action:r.action,detail:r.detail||{},note:r.note||'',createdAt:r.created_at||''});
+
+/* ---- 参照 ---- */
+const userById  =id=>DB.users.find(u=>u.id===id);
+const lessonById=id=>DB.lessons.find(l=>l.id===id);
+const eventById =id=>DB.events.find(e=>e.id===id);
+const isLive=r=>r.status!=='cancelled';
+function itemOf(kind,rec){
+  const it=kind==='lesson'?lessonById(rec.lessonId):eventById(rec.eventId);
+  return {kind,rec,it,date:it?it.date:'',time:it?String(it.time||'').slice(0,5):'',title:it?it.title:'（削除された'+(kind==='lesson'?'レッスン':'イベント')+'）'};
+}
+function userItems(uid){
+  return [
+    ...DB.bookings.filter(b=>b.uid===uid).map(b=>itemOf('lesson',b)),
+    ...DB.signups.filter(s=>s.uid===uid).map(s=>itemOf('event',s)),
+  ];
+}
+const attendedCount=uid=>DB.bookings.filter(b=>b.uid===uid&&b.attendance==='attended').length;
+
+/* ---- 契約・月額 ---- */
+function planTag(p){
+  return p==='PREMIUM'?'<span class="tag tag-premium">PREMIUM</span>':p==='INVITED'?'<span class="tag tag-invited">🎟️ 招待</span>':'<span class="tag tag-free">FREE</span>';
+}
+function memberState(u){
+  if(u.plan==='INVITED')return {key:'invited',html:'<span class="tag tag-lv">無料招待</span>'};
+  if(u.mstatus==='cancelled')return {key:'cancelled',html:'<span class="tag tag-cancel">解約済み</span>'};
+  if(u.mstatus==='cancel_scheduled')return {key:'cancel_scheduled',html:`<span class="tag tag-wait">解約予定 ${u.cancelOn?fmtDate(u.cancelOn).full+' まで':''}</span>`};
+  if(u.plan==='PREMIUM')return {key:'active',html:'<span class="tag tag-done">● 契約中</span>'};
+  return {key:'free',html:'<span class="tag tag-lv">都度払い</span>'};
+}
+const membershipPaid=(uid,ym)=>DB.payments.some(p=>p.uid===uid&&p.kind==='membership'&&p.status==='paid'&&p.period===ym);
+function paidThrough(uid){
+  const ms=DB.payments.filter(p=>p.uid===uid&&p.kind==='membership'&&p.status==='paid'&&p.period).map(p=>p.period).sort();
+  return ms.length?ms[ms.length-1]:'';
+}
+// その月の月額が発生する会員か
+function membershipDue(u,ym){
+  if(u.plan!=='PREMIUM'||u.mstatus==='cancelled')return false;
+  if(u.joined&&u.joined.slice(0,7)>ym)return false;
+  if(u.mstatus==='cancel_scheduled'&&u.cancelOn&&u.cancelOn.slice(0,7)<ym)return false;
+  return true;
+}
+const membershipUnpaid=(u,ym)=>membershipDue(u,ym)&&!membershipPaid(u.id,ym);
+const nextDueMonth=uid=>{const pt=paidThrough(uid);return pt?addMonths(pt,1):curMonth();};
+
+/* ---- 支払い状態（予約1件ごと） ---- */
+function billingOf(kind,rec){
+  const u=userById(rec.uid);
+  const pay=DB.payments.find(p=>p.refId===rec.id&&p.status==='paid');
+  if(pay)return {key:'paid',amt:pay.amount};
+  if(kind==='lesson'){
+    if(u&&u.plan==='INVITED')return {key:'invited'};
+    if(u&&u.plan==='PREMIUM')return {key:'plan'};
+    const l=lessonById(rec.lessonId);
+    return {key:'unpaid',amt:l&&l.size==='private'?PRICE.private:PRICE.group};
+  }
+  const e=eventById(rec.eventId);const price=e?Number(e.price)||0:0;
+  if(!price)return {key:'free'};
+  if(u&&u.plan==='INVITED')return {key:'invited'};
+  return {key:'unpaid',amt:price};
+}
+function billChip(kind,rec,date){
+  const b=billingOf(kind,rec);
+  if(b.key==='paid')return `<span class="tag tag-paid">✓ 支払済 ${yen(b.amt)}</span>`;
+  if(b.key==='invited')return '<span class="tag tag-lv">招待・無料</span>';
+  if(b.key==='free')return '<span class="tag tag-lv">無料</span>';
+  if(b.key==='plan'){
+    const u=userById(rec.uid);
+    return (u&&date&&membershipUnpaid(u,date.slice(0,7)))
+      ?'<span class="tag tag-wait">月額に含む・月額未入金</span>'
+      :'<span class="tag tag-premium">月額に含む</span>';
+  }
+  return `<button class="bill-btn" onclick="event.stopPropagation();openPaymentForm('${rec.uid}',{kind:'${kind}',refId:'${rec.id}',amount:${b.amt}})">未払い ${yen(b.amt)} ・ 入金を記録</button>`;
+}
+function attControl(kind,rec,date){
+  if(!isLive(rec))return '<span class="tag tag-cancel">キャンセル</span>';
+  if(!date||date>todayISO())return '<span class="tag tag-lv">予約中</span>';
+  const a=rec.attendance;
+  return `<span class="att"><button class="${a==='attended'?'on-ok':''}" onclick="event.stopPropagation();setAttendance('${kind}','${rec.id}','attended')">出席</button><button class="${a==='no_show'?'on-ng':''}" onclick="event.stopPropagation();setAttendance('${kind}','${rec.id}','no_show')">欠席</button></span>`;
+}
+
+/* ---- ログ ---- */
+async function addLog(uid,action,detail,note){
+  if(!DB.billingReady)return;
+  const {data,error}=await sb.from('member_logs').insert({user_id:uid,action,detail:detail||{},note:note||null}).select().single();
+  if(error){console.error('member_logs:',error.message||error);return;}
+  DB.logs.unshift(mapLogIn(data));
+}
+function logText(l){
+  const d=l.detail||{};
+  switch(l.action){
+    case 'plan_change':      return {ic:'🔁',t:`プランを変更：${d.from||'—'} → ${d.to||'—'}`};
+    case 'cancel_scheduled': return {ic:'📝',t:`解約を受付（最終利用日 ${ymdLabel(d.on)}）`,sub:d.reason||''};
+    case 'cancelled':        return {ic:'🚪',t:d.auto?`解約が確定（最終利用日 ${ymdLabel(d.on)} を過ぎたため自動）`:'即時解約',sub:d.reason||''};
+    case 'cancel_undone':    return {ic:'↩️',t:'解約を取り消し'};
+    case 'reactivated':      return {ic:'🌱',t:'再入会（PREMIUM）'};
+    case 'booking_cancelled':return {ic:'✕',t:`${d.kind==='event'?'イベント':'レッスン'}予約を運営がキャンセル：${d.title||''}`,sub:d.date?`${ymdLabel(d.date)} ${d.time||''}`:''};
+    case 'payment_refunded': return {ic:'↩️',t:`返金：${KIND_LABEL[d.kind]||''} ${yen(d.amount||0)}`,sub:d.period?ymLabel(d.period)+'分':''};
+    case 'payment_deleted':  return {ic:'🗑️',t:`入金記録を削除：${KIND_LABEL[d.kind]||''} ${yen(d.amount||0)}`,sub:d.paidOn?`入金日 ${ymdLabel(d.paidOn)}`:''};
+    case 'note':             return {ic:'🗒️',t:'メモ'};
+    default:                 return {ic:'•',t:l.action};
+  }
+}
+function userTimeline(uid){
+  const u=userById(uid);const ev=[];
+  const push=(at,o)=>{const p=jstParts(at);if(p)ev.push(Object.assign({ymd:p.ymd,hm:p.hm},o));};
+  if(u&&u.createdAt)push(u.createdAt,{ic:'🌱',t:'会員登録'});
+  DB.payments.filter(p=>p.uid===uid).forEach(p=>{
+    const ref=p.refId?(DB.bookings.find(b=>b.id===p.refId)||DB.signups.find(s=>s.id===p.refId)):null;
+    const refIt=ref?itemOf(ref.lessonId?'lesson':'event',ref):null;
+    push(p.paidOn,{ic:'💴',t:`入金：${KIND_LABEL[p.kind]||p.kind}${p.period?`（${ymLabel(p.period)}分）`:''}`,
+      sub:[METHOD_LABEL[p.method]||p.method,refIt?refIt.title:'',p.note].filter(Boolean).join(' ／ '),
+      amt:p.amount,refunded:p.status==='refunded',sort:(p.createdAt||'').slice(11,16)});
+  });
+  userItems(uid).forEach(x=>{
+    const what=x.kind==='lesson'?'レッスン':'イベント';
+    if(x.rec.createdAt)push(x.rec.createdAt,{ic:'📅',t:`${what}を予約：${x.title}`,sub:x.date?`${ymdLabel(x.date)} ${x.time}`:''});
+    if(x.rec.attendance==='attended')push(x.date?(x.date+(x.time?'T'+x.time:'')):x.rec.attendedAt,{ic:'✅',t:`${what}を受講：${x.title}`});
+    if(x.rec.attendance==='no_show') push(x.date?(x.date+(x.time?'T'+x.time:'')):x.rec.attendedAt,{ic:'⚠️',t:`${what}を欠席：${x.title}`});
+  });
+  DB.requests.filter(r=>r.uid===uid).forEach(r=>push(r.created,{ic:'🤝',t:`エージェント依頼：${r.service}`,sub:{new:'未対応',progress:'対応中',done:'完了',cancelled:'キャンセル'}[r.status]||''}));
+  DB.logs.filter(l=>l.uid===uid).forEach(l=>{const o=logText(l);push(l.createdAt,Object.assign({},o,{sub:[o.sub,l.note].filter(Boolean).join(' ／ ')}));});
+  return ev.sort((a,b)=>(b.ymd+(b.hm||b.sort||'')).localeCompare(a.ymd+(a.hm||a.sort||'')));
+}
+
+function setupNotice(){
+  if(DB.billingReady)return '';
+  return `<div class="notice">⚠ 入金・出欠・解約の記録を使うには、Supabase の SQL Editor で <b>kakehashi_billing.sql</b> を実行してください。実行後、このページを再読み込みすると使えます。</div>`;
+}
+
+/* ============================================================
+   会員一覧 ⇄ 会員詳細
+   ============================================================ */
 let uFilter='all';
+let UD=null, udTab='log';
 function userFilter(f,el){uFilter=f;document.querySelectorAll('#userFbar .fchip').forEach(c=>c.classList.toggle('on',c===el));renderUsers();}
+function userMatches(u){
+  if(uFilter==='all')return true;
+  if(uFilter==='cancel')return u.mstatus==='cancel_scheduled'||u.mstatus==='cancelled';
+  if(uFilter==='unpaid')return membershipUnpaid(u,curMonth());
+  return u.plan===uFilter;
+}
 function renderUsers(){
-  let list=DB.users;
-  if(uFilter!=='all')list=list.filter(u=>u.plan===uFilter);
+  const lv=document.getElementById('userListView'),dv=document.getElementById('userDetail');
+  if(UD&&userById(UD)){lv.style.display='none';dv.style.display='block';renderUserDetail();return;}
+  UD=null;lv.style.display='';dv.style.display='none';
+  document.getElementById('userNotice').innerHTML=setupNotice();
+  const cm=curMonth();
+  const list=DB.users.filter(userMatches);
   const body=document.getElementById('userBody');
-  if(!list.length){body.innerHTML=`<tr><td colspan="5">${emptyHTML('👥','ユーザーが いません','No members')}</td></tr>`;return;}
+  if(!list.length){body.innerHTML=`<tr><td colspan="6">${emptyHTML('👥','該当する 会員は いません','No members')}</td></tr>`;return;}
   body.innerHTML=list.map(u=>{
-    const dt=fmtDate(u.joined);
-    const plan=u.plan==='PREMIUM'?'<span class="tag tag-premium">PREMIUM</span>':u.plan==='INVITED'?'<span class="tag tag-invited">🎟️ 招待</span>':'<span class="tag tag-free">FREE</span>';
-    return `<tr>
-      <td><div class="u-name"><div class="u-av" style="background:${avColor(u.name)}">${initial(u.name)}</div>
-        <div><div class="un">${u.name} <span style="font-weight:500;color:var(--muted);font-size:12px">${u.country}</span></div><div class="ue">${u.email}</div></div></div></td>
-      <td>${plan}</td>
-      <td class="u-num">${dt.full}</td>
-      <td class="u-num">${u.lessons}<span style="color:var(--muted);font-size:12px">回</span></td>
-      <td style="text-align:right"><button class="btn btn-ghost btn-sm" onclick="openUser('${u.id}')">管理</button></td>
+    const month=u.plan!=='PREMIUM'?'<span style="color:var(--muted)">—</span>'
+      :membershipPaid(u.id,cm)?'<span class="tag tag-paid">✓ 入金済</span>'
+      :membershipDue(u,cm)?'<span class="tag tag-cancel">未入金</span>':'<span style="color:var(--muted)">—</span>';
+    return `<tr onclick="openUserDetail('${u.id}')">
+      <td><div class="u-name"><div class="u-av" style="background:${avColor(u.name)}">${esc(initial(u.name))}</div>
+        <div><div class="un">${esc(u.name)} <span style="font-weight:500;color:var(--muted);font-size:12px">${esc(u.country||'')}</span></div><div class="ue">${esc(u.email)}</div></div></div></td>
+      <td>${planTag(u.plan)}</td>
+      <td>${memberState(u).html}</td>
+      <td>${month}</td>
+      <td class="u-num">${attendedCount(u.id)}<span style="color:var(--muted);font-size:12px">回</span></td>
+      <td style="text-align:right"><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openUserDetail('${u.id}')">記録を見る</button></td>
     </tr>`;
   }).join('');
 }
-function openUser(id){
-  const u=DB.users.find(x=>x.id===id);if(!u)return;
+function openUserDetail(id){closeModal();UD=id;udTab='log';go('users',true);}
+function openUser(id){openUserDetail(id);}   // 旧名の互換
+function closeUserDetail(){UD=null;renderUsers();window.scrollTo(0,0);}
+function udSwitch(t){udTab=t;renderUserDetail();}
+
+function renderUserDetail(){
+  const u=userById(UD);if(!u)return closeUserDetail();
+  const dv=document.getElementById('userDetail');
+  const pays=DB.payments.filter(p=>p.uid===u.id);
+  const total=pays.filter(p=>p.status==='paid').reduce((a,p)=>a+p.amount,0);
+  const items=userItems(u.id);
+  const att=items.filter(x=>x.kind==='lesson'&&x.rec.attendance==='attended').length;
+  const ns=items.filter(x=>x.rec.attendance==='no_show').length;
+  const today=todayISO();
+  const next=items.filter(x=>isLive(x.rec)&&x.date>=today).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time))[0];
+  const pt=paidThrough(u.id);const cm=curMonth();
+  const monthSub=u.plan==='PREMIUM'?(membershipPaid(u.id,cm)?'今月分は 入金済み':membershipDue(u,cm)?'今月分が 未入金':'—'):'月額契約なし';
+  const tabs=[['log','記録ログ'],['pay','入金'],['att','受講・出欠'],['plan','契約・解約']];
+  dv.innerHTML=`
+    <button class="ud-back" onclick="closeUserDetail()">← 会員一覧</button>
+    <div class="ud-head">
+      <div class="ud-av" style="background:${avColor(u.name)}">${esc(initial(u.name))}</div>
+      <div class="ud-id">
+        <div class="ud-name">${esc(u.name)}</div>
+        <div class="ud-meta">${esc(u.email)}${u.country?' ／ '+esc(u.country):''} ／ 登録 ${ymdLabel(u.joined)}</div>
+        <div class="ud-tags">${planTag(u.plan)}${memberState(u).html}</div>
+      </div>
+      <div class="ud-actions">
+        <button class="btn btn-gold btn-sm" onclick="openPaymentForm('${u.id}')">＋ 入金を記録</button>
+        <button class="btn btn-ghost btn-sm" onclick="openNoteForm('${u.id}')">🗒️ メモ</button>
+        <button class="btn btn-ghost btn-sm" onclick="startNewThread('${u.id}')">💬 メッセージ</button>
+      </div>
+    </div>
+    ${setupNotice()}
+    <div class="kpi-grid ud-kpis">
+      <div class="kpi"><div class="k-label">入金の合計</div><div class="k-num">${yen(total)}</div><div class="k-sub">${pays.length}件の記録</div></div>
+      <div class="kpi"><div class="k-label">受講したレッスン</div><div class="k-num">${att}<small> 回</small></div><div class="k-sub">欠席 ${ns} 回</div></div>
+      <div class="kpi ${u.plan==='PREMIUM'&&membershipUnpaid(u,cm)?'warn':''}"><div class="k-label">月額の入金</div><div class="k-num k-mid">${pt?ymLabel(pt)+'分まで':'—'}</div><div class="k-sub">${monthSub}</div></div>
+      <div class="kpi"><div class="k-label">次の予定</div><div class="k-num k-mid">${next?fmtDate(next.date).full+' '+next.time:'—'}</div><div class="k-sub">${next?esc(next.title):'予定なし'}</div></div>
+    </div>
+    <div class="subtabs">${tabs.map(([k,l])=>`<button class="subtab ${udTab===k?'on':''}" onclick="udSwitch('${k}')">${l}</button>`).join('')}</div>
+    <div class="panel">${udTab==='log'?udLogHTML(u):udTab==='pay'?udPayHTML(u):udTab==='att'?udAttHTML(u):udPlanHTML(u)}</div>`;
+}
+
+function udLogHTML(u){
+  const ev=userTimeline(u.id);
+  if(!ev.length)return emptyHTML('🗂️','まだ 記録は ありません','No activity yet');
+  let html='',lastM='';
+  ev.forEach(e=>{
+    const m=e.ymd.slice(0,7);
+    if(m!==lastM){html+=`<div class="tl-month">${ymLabel(m)}</div>`;lastM=m;}
+    html+=`<div class="tl-item">
+      <div class="tl-date">${fmtDate(e.ymd).full}<span>${e.hm||''}</span></div>
+      <div class="tl-ic">${e.ic}</div>
+      <div><div class="tl-t">${esc(e.t)}</div>${e.sub?`<div class="tl-sub">${esc(e.sub)}</div>`:''}</div>
+      <div class="tl-amt ${e.refunded?'neg':''}">${e.amt!=null?yen(e.amt):''}${e.refunded?'<div class="tl-sub">返金済</div>':''}</div>
+    </div>`;
+  });
+  return html;
+}
+
+function udPayHTML(u){
+  const cm=curMonth();let html='';
+  const hasMem=u.plan==='PREMIUM'||DB.payments.some(p=>p.uid===u.id&&p.kind==='membership');
+  if(hasMem){
+    const months=[-4,-3,-2,-1,0,1].map(n=>addMonths(cm,n));
+    html+=`<div class="panel-h"><h2>月額の入金状況 <span class="en">Membership</span></h2></div><div class="mgrid">${months.map(m=>{
+      const paid=membershipPaid(u.id,m),due=membershipDue(u,m);
+      const cls=paid?'paid':(!due?'na':m>cm?'soon':'due');
+      const st=paid?'入金済':!due?'対象外':m>cm?'これから':'未入金';
+      const click=(!paid&&due)?`onclick="openPaymentForm('${u.id}',{kind:'membership',period:'${m}'})" role="button" tabindex="0"`:'';
+      return `<div class="mcell ${cls}" ${click}><div class="mm">${ymLabel(m)}</div><div class="ms">${st}</div></div>`;
+    }).join('')}</div><div style="height:26px"></div>`;
+  }
+  const pays=DB.payments.filter(p=>p.uid===u.id).sort((a,b)=>(b.paidOn+b.createdAt).localeCompare(a.paidOn+a.createdAt));
+  html+=`<div class="panel-h"><h2>入金の記録 <span class="en">Payments</span></h2><div class="p-actions"><button class="btn btn-gold btn-sm" onclick="openPaymentForm('${u.id}')">＋ 入金を記録</button></div></div>`;
+  html+=pays.length?`<div class="rows">${pays.map(p=>payRowHTML(p,false)).join('')}</div>`:emptyHTML('💴','入金の 記録は まだ ありません','No payments yet');
+  return html;
+}
+function payRowHTML(p,showName){
+  const dt=fmtDate(p.paidOn);const u=userById(p.uid);
+  const ref=p.refId?(DB.bookings.find(b=>b.id===p.refId)||DB.signups.find(s=>s.id===p.refId)):null;
+  const refIt=ref?itemOf(ref.lessonId?'lesson':'event',ref):null;
+  const req=p.kind==='agent'&&p.refId?DB.requests.find(r=>r.id===p.refId):null;
+  const what=[p.period?ymLabel(p.period)+'分':'',refIt?`${fmtDate(refIt.date).full} ${refIt.title}`:'',req?req.service:''].filter(Boolean).join(' ');
+  return `<div class="row${p.status==='refunded'?' is-past':''}">
+    <div class="row-when"><div class="d">${dt.d}</div><div class="m">${dt.m}</div></div>
+    <div class="row-main">
+      <div class="row-title">${showName?`<a class="ulink" onclick="openUserDetail('${p.uid}')">${esc(u?u.name:'—')}</a> ・ `:''}${KIND_LABEL[p.kind]||p.kind}${what?` <span style="font-weight:500;color:var(--muted)">${esc(what)}</span>`:''}</div>
+      <div class="row-meta"><span class="tag tag-lv">${METHOD_LABEL[p.method]||p.method}</span>${p.status==='refunded'?'<span class="tag tag-cancel">返金済</span>':''}${p.note?`<span>${esc(p.note)}</span>`:''}</div>
+    </div>
+    <div class="row-act"><span class="amt ${p.status==='refunded'?'neg':''}">${yen(p.amount)}</span>
+      ${showName?'':`${p.status==='paid'?`<button class="btn btn-ghost btn-sm" onclick="refundPayment('${p.id}')">返金にする</button>`:''}<button class="btn btn-danger btn-sm" onclick="deletePayment('${p.id}')">削除</button>`}
+    </div>
+  </div>`;
+}
+
+function udAttHTML(u){
+  const today=todayISO();
+  const items=userItems(u.id);
+  const up=items.filter(x=>isLive(x.rec)&&x.date>=today).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+  const past=items.filter(x=>!(isLive(x.rec)&&x.date>=today)).sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time));
+  const row=(x,isUp)=>{const dt=fmtDate(x.date);return `<div class="row">
+    <div class="row-when"><div class="d">${dt.d}</div><div class="m">${dt.m}</div><div class="t">${x.time}</div></div>
+    <div class="row-main"><div class="row-title">${esc(x.title)}</div>
+      <div class="row-meta"><span class="tag ${x.kind==='lesson'?'tag-group':'tag-offline'}">${x.kind==='lesson'?'レッスン':'イベント'}</span>${x.it&&x.it.format==='online'?'<span class="tag tag-online">オンライン</span>':''}${billChip(x.kind,x.rec,x.date)}</div></div>
+    <div class="row-act">${attControl(x.kind,x.rec,x.date)}${isUp?`<button class="btn btn-danger btn-sm" onclick="cancelBookingFromUser('${x.kind}','${x.rec.id}')">キャンセル</button>`:''}</div>
+  </div>`;};
+  const head=(ic,ja,en,n,cls)=>`<div class="row-group ${cls||''}"><div class="rg-label">${ic} ${ja} <span class="rg-en">${en}</span></div><span class="rg-count">${n}</span></div>`;
+  if(!items.length)return emptyHTML('📚','予約・受講の 記録は まだ ありません','No bookings yet');
+  let html='';
+  if(up.length)html+=head('🗓️','これからの予約','Upcoming',up.length)+`<div class="rows">${up.map(x=>row(x,true)).join('')}</div>`;
+  if(past.length)html+=head('✔️','受講の記録','History',past.length,'past')+`<div class="rows">${past.map(x=>row(x,false)).join('')}</div>`;
+  return html;
+}
+
+function udPlanHTML(u){
+  const st=memberState(u);const pt=paidThrough(u.id);
+  let status='';
+  if(u.plan==='PREMIUM'&&st.key==='active'){
+    status=`<p class="ud-p">月額メンバーシップ 契約中です。入金済みの期間：<b>${pt?ymLabel(pt)+'分まで':'記録なし'}</b></p>
+      <button class="btn btn-danger" onclick="openCancelForm('${u.id}')">解約の手続きをする</button>`;
+  }else if(st.key==='cancel_scheduled'){
+    status=`<p class="ud-p">解約を受け付けています。<b>${ymdLabel(u.cancelOn)}</b> まで利用でき、翌日に自動で FREE に切り替わります。${u.cancelReason?`<br>理由：${esc(u.cancelReason)}`:''}</p>
+      <button class="btn btn-ghost" onclick="undoCancel('${u.id}')">解約を取り消す</button>`;
+  }else if(st.key==='cancelled'){
+    status=`<p class="ud-p">解約済みです（最終利用日 ${ymdLabel(u.cancelOn)}）。${u.cancelReason?`<br>理由：${esc(u.cancelReason)}`:''}</p>
+      <button class="btn btn-gold" onclick="reactivate('${u.id}')">再入会（PREMIUM に戻す）</button>`;
+  }else if(st.key==='invited'){
+    status='<p class="ud-p">招待アカウントです。月額の請求は ありません。やめる場合は プランを FREE に変更してください。</p>';
+  }else{
+    status='<p class="ud-p">都度払いの会員です。月額契約は ありません。</p>';
+  }
+  return `
+    <div class="panel-h"><h2>契約の状態 <span class="en">Membership</span></h2></div>
+    <div class="ud-contract">${status}</div>
+    <div class="panel-h" style="margin-top:28px"><h2>プラン <span class="en">Plan</span></h2></div>
+    <div class="field-row" style="align-items:end">
+      <div class="field" style="margin:0"><select id="uPlan">
+        <option value="FREE" ${u.plan==='FREE'?'selected':''}>FREE（都度払い）</option>
+        <option value="PREMIUM" ${u.plan==='PREMIUM'?'selected':''}>PREMIUM（受け放題）</option>
+        <option value="INVITED" ${u.plan==='INVITED'?'selected':''}>🎟️ INVITED（招待・全機能無料）</option></select></div>
+      <div><button class="btn btn-gold" onclick="saveUserPlan('${u.id}')">プランを保存</button></div>
+    </div>
+    <div class="g-hint" style="margin-top:12px">プランの変更は 記録ログに 残ります。月額の解約は 上の「解約の手続き」から 行うと、最終利用日と理由も 記録されます。</div>`;
+}
+
+/* ============================================================
+   操作 — 出欠 / 入金 / 解約 / キャンセル / メモ
+   ============================================================ */
+async function setAttendance(kind,id,val){
+  const table=kind==='lesson'?'lesson_bookings':'event_signups';
+  const list=kind==='lesson'?DB.bookings:DB.signups;
+  const rec=list.find(x=>x.id===id);if(!rec)return;
+  const next=rec.attendance===val?'':val;
+  const at=next==='attended'?new Date().toISOString():null;
+  const {error}=await sb.from(table).update({attendance:next||null,attended_at:at}).eq('id',id);
+  if(error){console.error('attendance:',error.message||error);toast('出欠を 保存できませんでした（SQLの実行を ご確認ください）');return;}
+  rec.attendance=next;rec.attendedAt=at||'';
+  renderAll();renderParticipantsList();
+  toast(next==='attended'?'出席を 記録しました':next==='no_show'?'欠席を 記録しました':'出欠を 未記録に もどしました');
+}
+
+let _pf={};
+function openPaymentForm(uid,preset){
+  const u=userById(uid);if(!u)return;
+  if(!DB.billingReady){toast('先に kakehashi_billing.sql を 実行してください');return;}
+  preset=preset||{};
+  const kind=preset.kind||(u.plan==='PREMIUM'?'membership':'lesson');
+  _pf={uid,kind,method:'bank'};
+  const kinds=['membership','lesson','event','agent','other'];
+  const methods=['bank','cash','paypay','stripe','other'];
   openModal(`
     <div class="modal-head"><button class="modal-x" onclick="closeModal()">✕</button>
-      <h2>${u.name}</h2><div class="m-sub">${u.email} · ${u.country}</div></div>
+      <h2>入金を記録</h2><div class="m-sub">${esc(u.name)} ／ Record a payment</div></div>
     <div class="modal-body">
+      <div class="field"><label>種類</label><div class="seg" id="pfKindSeg">${kinds.map(k=>`<button class="seg-btn" data-k="${k}" onclick="pfKind('${k}')">${KIND_SHORT[k]}</button>`).join('')}</div></div>
+      <div class="field" id="pfPeriodWrap"><label>対象の月 <span class="hint">何月分の月額か</span></label><input type="month" id="pfPeriod"></div>
+      <div class="field" id="pfRefWrap"><label id="pfRefLbl">対象</label><select id="pfRef" onchange="pfRefChanged()"></select></div>
       <div class="field-row">
-        <div class="field"><label>プラン</label>
-          <select id="uPlan"><option value="FREE" ${u.plan==='FREE'?'selected':''}>FREE（都度払い）</option><option value="PREMIUM" ${u.plan==='PREMIUM'?'selected':''}>PREMIUM（受け放題）</option><option value="INVITED" ${u.plan==='INVITED'?'selected':''}>🎟️ INVITED（招待・全機能無料）</option></select></div>
-        <div class="field"><label>登録日</label><input value="${fmtDate(u.joined).full}" disabled></div>
+        <div class="field"><label>金額（円）<span class="req">*</span></label><input type="number" id="pfAmt" min="0" step="100"><div class="quick" id="pfQuick"></div></div>
+        <div class="field"><label>入金日<span class="req">*</span></label><input type="date" id="pfDate" value="${todayISO()}"></div>
       </div>
-      <div class="field"><label>受講レッスン数</label><input value="${u.lessons} 回" disabled></div>
-      <div class="g-hint" style="margin:2px 0 4px">🎟️ <b>INVITED</b>：招待アカウント。レッスン受け放題・イベント・エージェントを すべて無料で利用できます（決済なし）。運営が招待した人向け。</div>
+      <div class="field"><label>支払い方法</label><div class="seg" id="pfMethodSeg">${methods.map(m=>`<button class="seg-btn ${m==='bank'?'on':''}" data-m="${m}" onclick="pfMethod('${m}')">${METHOD_LABEL[m]}</button>`).join('')}</div></div>
+      <div class="field"><label>メモ <span class="hint">任意</span></label><input id="pfNote" placeholder="れい：キャンペーン価格 ／ 2か月分まとめて"></div>
       <div class="form-foot">
-        <button class="btn btn-danger" onclick="delUser('${u.id}')">退会にする</button>
-        <button class="btn btn-gold" onclick="saveUser('${u.id}')">保存する</button>
+        <button class="btn btn-ghost" onclick="closeModal()">やめる</button>
+        <button class="btn btn-gold" id="pfSave" onclick="savePayment()">入金を記録する</button>
       </div>
     </div>`);
+  pfKind(kind,preset);
 }
-async function saveUser(id){
-  const u=DB.users.find(x=>x.id===id);
-  const plan=document.getElementById('uPlan').value;
-  const {error}=await sb.from('profiles').update({plan}).eq('id',id);
+function pfMethod(m){_pf.method=m;document.querySelectorAll('#pfMethodSeg .seg-btn').forEach(b=>b.classList.toggle('on',b.dataset.m===m));}
+function pfRefOptions(kind,uid){
+  if(kind==='lesson'||kind==='event'){
+    return userItems(uid).filter(x=>x.kind===kind&&isLive(x.rec)).sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time)).map(x=>{
+      const b=billingOf(kind,x.rec);
+      const amt=b.key==='unpaid'?b.amt:(kind==='lesson'?(x.it&&x.it.size==='private'?PRICE.private:PRICE.group):(x.it?Number(x.it.price)||0:0));
+      return {v:x.rec.id,amt,label:`${ymdLabel(x.date)} ${x.time} ${x.title}${b.key==='paid'?'（支払済）':''}`};
+    });
+  }
+  if(kind==='agent')return DB.requests.filter(r=>r.uid===uid).map(r=>({v:r.id,amt:Number(r.amount)||0,label:`${r.service}（${ymdLabel(r.created)} 依頼）`}));
+  return [];
+}
+function pfKind(kind,preset){
+  preset=preset||{};_pf.kind=kind;
+  document.querySelectorAll('#pfKindSeg .seg-btn').forEach(b=>b.classList.toggle('on',b.dataset.k===kind));
+  document.getElementById('pfPeriodWrap').style.display=kind==='membership'?'block':'none';
+  if(kind==='membership')document.getElementById('pfPeriod').value=preset.period||nextDueMonth(_pf.uid);
+  const hasRef=kind==='lesson'||kind==='event'||kind==='agent';
+  document.getElementById('pfRefWrap').style.display=hasRef?'block':'none';
+  document.getElementById('pfRefLbl').textContent=kind==='agent'?'対象の依頼':kind==='event'?'対象のイベント':'対象のレッスン';
+  const opts=pfRefOptions(kind,_pf.uid);
+  document.getElementById('pfRef').innerHTML=`<option value="" data-amt="">指定しない</option>`+opts.map(o=>`<option value="${o.v}" data-amt="${o.amt}" ${preset.refId===o.v?'selected':''}>${esc(o.label)}</option>`).join('');
+  const quick={membership:[PRICE.membership,PRICE.campaign],lesson:[PRICE.private,PRICE.group]}[kind]||[];
+  document.getElementById('pfQuick').innerHTML=quick.map(a=>`<button type="button" onclick="document.getElementById('pfAmt').value=${a}">${yen(a)}</button>`).join('');
+  const amtEl=document.getElementById('pfAmt');
+  if(preset.amount!=null)amtEl.value=preset.amount;
+  else if(kind==='membership')amtEl.value=PRICE.membership;
+  else{amtEl.value='';pfRefChanged();}
+}
+function pfRefChanged(){
+  const sel=document.getElementById('pfRef');const o=sel.options[sel.selectedIndex];
+  if(o&&o.dataset.amt)document.getElementById('pfAmt').value=o.dataset.amt;
+}
+async function savePayment(){
+  const amount=parseInt(document.getElementById('pfAmt').value,10);
+  const paidOn=document.getElementById('pfDate').value;
+  const period=_pf.kind==='membership'?document.getElementById('pfPeriod').value:'';
+  const refId=['lesson','event','agent'].includes(_pf.kind)?document.getElementById('pfRef').value:'';
+  const note=document.getElementById('pfNote').value.trim();
+  if(!(amount>=0)||isNaN(amount)){toast('金額を 入力してください');return;}
+  if(!paidOn){toast('入金日を 入力してください');return;}
+  if(_pf.kind==='membership'&&!period){toast('対象の月を えらんでください');return;}
+  if(_pf.kind==='membership'&&membershipPaid(_pf.uid,period)&&!confirm(`${ymLabel(period)}分は すでに入金済みです。もう1件 記録しますか？`))return;
+  if(refId&&DB.payments.some(p=>p.refId===refId&&p.status==='paid')&&!confirm('この予約には すでに入金の記録があります。もう1件 記録しますか？'))return;
+  const btn=document.getElementById('pfSave');btn.disabled=true;btn.textContent='記録中…';
+  const {data,error}=await sb.from('payments').insert({user_id:_pf.uid,kind:_pf.kind,amount,method:_pf.method,paid_on:paidOn,period_month:period||null,ref_id:refId||null,note:note||null}).select().single();
+  if(error){console.error('payment:',error.message||error);btn.disabled=false;btn.textContent='入金を記録する';toast('記録できませんでした（権限・SQLを ご確認ください）');return;}
+  DB.payments.unshift(mapPayIn(data));
+  closeModal();renderAll();toast('入金を 記録しました');
+}
+async function refundPayment(id){
+  const p=DB.payments.find(x=>x.id===id);if(!p)return;
+  if(!confirm(`${yen(p.amount)} の入金を「返金済み」にしますか？`))return;
+  const {error}=await sb.from('payments').update({status:'refunded'}).eq('id',id);
+  if(error){console.error(error);toast('更新できませんでした');return;}
+  p.status='refunded';
+  await addLog(p.uid,'payment_refunded',{amount:p.amount,kind:p.kind,period:p.period});
+  renderAll();toast('返金済みに しました');
+}
+async function deletePayment(id){
+  const p=DB.payments.find(x=>x.id===id);if(!p)return;
+  if(!confirm('入力ミスとして この入金記録を削除しますか？\n（削除したことは 記録ログに 残ります）'))return;
+  const {error}=await sb.from('payments').delete().eq('id',id);
+  if(error){console.error(error);toast('削除できませんでした');return;}
+  DB.payments=DB.payments.filter(x=>x.id!==id);
+  await addLog(p.uid,'payment_deleted',{amount:p.amount,kind:p.kind,period:p.period,paidOn:p.paidOn});
+  renderAll();toast('入金記録を 削除しました');
+}
+
+/* ---- 予約キャンセル（運営） — 行は消すが、ログに中身を残す ---- */
+async function cancelBookingCore(kind,id,note){
+  const table=kind==='lesson'?'lesson_bookings':'event_signups';
+  const list=kind==='lesson'?DB.bookings:DB.signups;
+  const rec=list.find(x=>x.id===id);
+  const {data,error}=await sb.from(table).delete().eq('id',id).select('id');
+  if(error||!data||!data.length){console.error('cancel booking:',error||'0 rows');return false;}
+  if(kind==='lesson')DB.bookings=DB.bookings.filter(x=>x.id!==id);else DB.signups=DB.signups.filter(x=>x.id!==id);
+  if(rec){const x=itemOf(kind,rec);await addLog(rec.uid,'booking_cancelled',{kind,title:x.title,date:x.date,time:x.time},note||null);}
+  return true;
+}
+async function cancelBookingFromUser(kind,id){
+  if(!confirm('この予約を キャンセルしますか？'))return;
+  const ok=await cancelBookingCore(kind,id);
+  if(!ok){toast('キャンセルできませんでした（権限をご確認ください）');return;}
+  renderAll();toast('予約を キャンセルしました');
+}
+
+/* ---- 解約 ---- */
+let _cx={};
+function openCancelForm(id){
+  const u=userById(id);if(!u)return;
+  if(!DB.billingReady){toast('先に kakehashi_billing.sql を 実行してください');return;}
+  const pt=paidThrough(id);const cm=curMonth();
+  const endDate=lastDay(pt&&pt>cm?pt:cm);
+  _cx={id,mode:'end',endDate};
+  openModal(`
+    <div class="modal-head"><button class="modal-x" onclick="closeModal()">✕</button>
+      <h2>解約の手続き</h2><div class="m-sub">${esc(u.name)} ／ Cancel membership</div></div>
+    <div class="modal-body">
+      <div class="field"><label>いつ やめるか</label><div class="seg" id="cxSeg">
+        <button class="seg-btn on" data-m="end" onclick="pickCx('end')">入金済みの期間の おわりで</button>
+        <button class="seg-btn" data-m="now" onclick="pickCx('now')">今日で すぐに</button></div></div>
+      <div class="field"><label>最終利用日 <span class="hint">この日まで ポータルを 使えます</span></label><input type="date" id="cxDate" value="${endDate}" onchange="updateCxCount()"></div>
+      <div class="field"><label>理由</label><select id="cxReason">${CANCEL_REASONS.map(r=>`<option>${r}</option>`).join('')}</select></div>
+      <div class="field"><label>メモ <span class="hint">任意</span></label><textarea id="cxNote" placeholder="れい：来年春に 帰国のため。戻ったら 再開したいとのこと。"></textarea></div>
+      <label class="chk"><input type="checkbox" id="cxBk" checked> <span id="cxBkTxt"></span></label>
+      <div class="form-foot">
+        <button class="btn btn-ghost" onclick="closeModal()">やめる</button>
+        <button class="btn btn-danger" id="cxSave" onclick="saveCancel()">解約を 登録する</button>
+      </div>
+    </div>`);
+  updateCxCount();
+}
+function pickCx(mode){
+  _cx.mode=mode;
+  document.querySelectorAll('#cxSeg .seg-btn').forEach(b=>b.classList.toggle('on',b.dataset.m===mode));
+  document.getElementById('cxDate').value=mode==='now'?todayISO():_cx.endDate;
+  updateCxCount();
+}
+function cxFuture(id,date){
+  return userItems(id).filter(x=>isLive(x.rec)&&!x.rec.attendance&&x.date&&x.date>date);
+}
+function updateCxCount(){
+  const d=document.getElementById('cxDate').value;const n=cxFuture(_cx.id,d).length;
+  const cb=document.getElementById('cxBk');cb.disabled=!n;
+  document.getElementById('cxBkTxt').textContent=n?`最終利用日より あとの予約 ${n}件も キャンセルする`:'最終利用日より あとの予約は ありません';
+}
+async function saveCancel(){
+  const u=userById(_cx.id);if(!u)return;
+  const date=document.getElementById('cxDate').value;
+  if(!date){toast('最終利用日を 入力してください');return;}
+  const reason=document.getElementById('cxReason').value;
+  const note=document.getElementById('cxNote').value.trim();
+  const now=_cx.mode==='now'||date<todayISO();
+  const btn=document.getElementById('cxSave');btn.disabled=true;btn.textContent='登録中…';
+  const patch={membership_status:now?'cancelled':'cancel_scheduled',cancel_effective_on:date,cancel_reason:reason,cancel_requested_at:new Date().toISOString()};
+  if(now)patch.plan='FREE';
+  const {error}=await sb.from('profiles').update(patch).eq('id',u.id);
+  if(error){console.error('cancel:',error.message||error);btn.disabled=false;btn.textContent='解約を 登録する';toast('登録できませんでした（SQLの実行を ご確認ください）');return;}
+  let cancelled=0;
+  if(document.getElementById('cxBk').checked){
+    for(const x of cxFuture(u.id,date)){if(await cancelBookingCore(x.kind,x.rec.id,'解約に ともなう キャンセル'))cancelled++;}
+  }
+  await addLog(u.id,now?'cancelled':'cancel_scheduled',{on:date,reason,from:u.plan,bookingsCancelled:cancelled},note);
+  u.mstatus=patch.membership_status;u.cancelOn=date;u.cancelReason=reason;if(now)u.plan='FREE';
+  closeModal();renderAll();
+  toast(now?'解約しました':`解約を 受け付けました（${ymdLabel(date)} まで 利用可）`);
+}
+async function undoCancel(id){
+  const u=userById(id);if(!u)return;
+  if(!confirm('解約を 取り消して、契約中に もどしますか？'))return;
+  const {error}=await sb.from('profiles').update({membership_status:'active',cancel_effective_on:null,cancel_reason:null,cancel_requested_at:null}).eq('id',id);
+  if(error){console.error(error);toast('更新できませんでした');return;}
+  await addLog(id,'cancel_undone',{on:u.cancelOn});
+  u.mstatus='active';u.cancelOn='';u.cancelReason='';
+  renderAll();toast('解約を 取り消しました');
+}
+async function reactivate(id){
+  const u=userById(id);if(!u)return;
+  if(!confirm('PREMIUM に もどして、契約中に しますか？'))return;
+  const {error}=await sb.from('profiles').update({plan:'PREMIUM',membership_status:'active',cancel_effective_on:null,cancel_reason:null,cancel_requested_at:null}).eq('id',id);
+  if(error){console.error(error);toast('更新できませんでした');return;}
+  await addLog(id,'reactivated',{from:u.plan});
+  u.plan='PREMIUM';u.mstatus='active';u.cancelOn='';u.cancelReason='';
+  renderAll();toast('再入会に しました');
+}
+// 最終利用日を過ぎた「解約予定」を 起動時に確定させる（FREEへ）
+async function finalizeCancellations(){
+  const today=todayISO();
+  for(const u of DB.users.filter(x=>x.mstatus==='cancel_scheduled'&&x.cancelOn&&x.cancelOn<today)){
+    const {error}=await sb.from('profiles').update({membership_status:'cancelled',plan:'FREE'}).eq('id',u.id);
+    if(error){console.error('finalize cancel:',error.message||error);continue;}
+    await addLog(u.id,'cancelled',{auto:true,on:u.cancelOn,reason:u.cancelReason,from:u.plan});
+    u.mstatus='cancelled';u.plan='FREE';
+  }
+}
+
+/* ---- プラン変更 ---- */
+async function saveUserPlan(id){
+  const u=userById(id);const plan=document.getElementById('uPlan').value;
+  if(plan===u.plan){toast('変更は ありません');return;}
+  const patch={plan};
+  const revive=plan==='PREMIUM'&&u.mstatus!=='active'&&DB.billingReady;
+  if(revive)Object.assign(patch,{membership_status:'active',cancel_effective_on:null,cancel_reason:null,cancel_requested_at:null});
+  const {error}=await sb.from('profiles').update(patch).eq('id',id);
   if(error){console.error(error);toast('保存に 失敗しました');return;}
-  u.plan=plan;renderAll();closeModal();toast('ユーザーを こうしんしました');
+  await addLog(id,'plan_change',{from:u.plan,to:plan});
+  u.plan=plan;if(revive){u.mstatus='active';u.cancelOn='';u.cancelReason='';}
+  renderAll();toast('プランを 変更しました');
 }
-/* ユーザー削除は auth.users の削除を伴い、ブラウザからは行わない（M4でEdge Function化）。
-   ここでは画面から消すだけの誤操作を防ぐため無効化しておく。 */
+async function saveUser(id){return saveUserPlan(id);}
 function delUser(id){toast('ユーザー削除は 管理コンソールから 行います');}
+
+/* ---- メモ ---- */
+function openNoteForm(uid){
+  const u=userById(uid);if(!u)return;
+  if(!DB.billingReady){toast('先に kakehashi_billing.sql を 実行してください');return;}
+  openModal(`
+    <div class="modal-head"><button class="modal-x" onclick="closeModal()">✕</button>
+      <h2>メモを のこす</h2><div class="m-sub">${esc(u.name)} の記録ログに 追加されます</div></div>
+    <div class="modal-body">
+      <div class="field"><textarea id="ntText" placeholder="れい：電話で 相談。来月から 平日夜の レッスンを 希望。" style="min-height:120px"></textarea></div>
+      <div class="form-foot"><button class="btn btn-ghost" onclick="closeModal()">やめる</button><button class="btn btn-gold" onclick="saveNote('${uid}')">メモを 追加する</button></div>
+    </div>`);
+  setTimeout(()=>{const t=document.getElementById('ntText');if(t)t.focus();},50);
+}
+async function saveNote(uid){
+  const text=document.getElementById('ntText').value.trim();
+  if(!text){toast('メモを 入力してください');return;}
+  await addLog(uid,'note',{},text);
+  closeModal();udTab='log';renderAll();toast('メモを 追加しました');
+}
+
+/* ============================================================
+   参加者一覧（レッスン / イベント）— 出欠・入金もここで記録
+   ============================================================ */
+let _partCtx=null;
+async function openParticipants(kind,id,title){
+  _partCtx={kind,id,title};
+  const it=kind==='lesson'?lessonById(id):eventById(id);
+  openModal(`
+    <div class="modal-head"><button class="modal-x" onclick="closeModal()">✕</button>
+      <h2>参加者</h2><div class="m-sub">${esc(title||'')}${it?' ／ '+ymdLabel(it.date)+' '+String(it.time||''):''}</div></div>
+    <div class="modal-body"><div id="partList" style="min-height:60px">読み込み中…</div></div>`);
+  document.getElementById('modal').classList.add('wide');
+  try{
+    const table=kind==='lesson'?'lesson_bookings':'event_signups';
+    const col=kind==='lesson'?'lesson_id':'event_id';
+    const {data,error}=await sb.from(table).select('*').eq(col,id);
+    if(error)throw error;
+    if(kind==='lesson'){DB.bookings=DB.bookings.filter(b=>b.lessonId!==id).concat((data||[]).map(mapBookingIn));}
+    else{DB.signups=DB.signups.filter(s=>s.eventId!==id).concat((data||[]).map(mapSignupIn));}
+    renderParticipantsList();
+  }catch(e){
+    console.error('participants load:',e.message||e.hint||JSON.stringify(e));
+    const box=document.getElementById('partList');
+    if(box)box.innerHTML='<div style="color:#c9503f;font-size:14px;padding:14px 0">読み込みに 失敗しました / Failed to load</div>';
+  }
+}
+function renderParticipantsList(){
+  if(!_partCtx)return;const box=document.getElementById('partList');if(!box)return;
+  const {kind,id}=_partCtx;
+  const it=kind==='lesson'?lessonById(id):eventById(id);const date=it?it.date:'';
+  const rows=(kind==='lesson'?DB.bookings.filter(b=>b.lessonId===id):DB.signups.filter(s=>s.eventId===id)).filter(isLive);
+  if(!rows.length){box.innerHTML='<div style="color:var(--muted);font-size:14px;padding:14px 0">まだ 参加者は いません / No participants yet</div>';return;}
+  const started=date&&date<=todayISO();
+  box.innerHTML=(started?'<div class="g-hint" style="margin:0 0 6px">おわったら 出席／欠席を 記録してください。受講回数と 売上の記録に つかわれます。</div>':'')+
+    rows.map(r=>{const u=userById(r.uid);return `<div class="row" style="padding:12px 0">
+      <div class="row-main"><div class="row-title" style="font-size:14px"><a class="ulink" onclick="openUserDetail('${r.uid}')">${esc(u?u.name:'—')}</a> ${u?planTag(u.plan):''}</div>
+        <div class="row-meta">${billChip(kind,r,date)}</div></div>
+      <div class="row-act">${attControl(kind,r,date)}<button class="btn btn-danger btn-sm" onclick="cancelParticipant('${kind}','${r.id}',this)">キャンセル</button></div>
+    </div>`;}).join('');
+}
+async function cancelParticipant(kind,rowId,btn){
+  if(!confirm('この参加を キャンセルしますか？'))return;
+  if(btn){btn.disabled=true;btn.textContent='処理中…';}
+  const ok=await cancelBookingCore(kind,rowId);
+  if(!ok){if(btn){btn.disabled=false;btn.textContent='キャンセル';}toast('キャンセルできませんでした（権限をご確認ください）');return;}
+  renderAll();renderParticipantsList();
+  toast('参加を キャンセルしました');
+}
+window.openParticipants=openParticipants;
+window.cancelParticipant=cancelParticipant;
+
+/* ============================================================
+   記録・売上（月ごと）
+   ============================================================ */
+let LG_MONTH=null;
+function ledgerMonth(n){LG_MONTH=addMonths(LG_MONTH||curMonth(),n);renderLedger();}
+function ledgerData(m){
+  const today=todayISO();
+  const pays=DB.payments.filter(p=>(p.paidOn||'').startsWith(m)).sort((a,b)=>(b.paidOn+b.createdAt).localeCompare(a.paidOn+a.createdAt));
+  const income=pays.filter(p=>p.status==='paid').reduce((a,p)=>a+p.amount,0);
+  const refunds=pays.filter(p=>p.status==='refunded').reduce((a,p)=>a+p.amount,0);
+  const items=[...DB.bookings.map(b=>itemOf('lesson',b)),...DB.signups.map(s=>itemOf('event',s))]
+    .filter(x=>isLive(x.rec)&&x.date&&x.date.startsWith(m));
+  const done=items.filter(x=>x.rec.attendance==='attended').sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time));
+  const pending=items.filter(x=>x.date<today&&!x.rec.attendance).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+  const unpaidDone=done.filter(x=>billingOf(x.kind,x.rec).key==='unpaid');
+  const memUnpaid=m<=curMonth()?DB.users.filter(u=>membershipUnpaid(u,m)):[];
+  return {pays,income,refunds,done,pending,unpaidDone,memUnpaid};
+}
+function renderLedger(){
+  const el=document.getElementById('ledgerBody');if(!el)return;
+  const m=LG_MONTH||(LG_MONTH=curMonth());
+  document.getElementById('lgMonth').textContent=ymLabel(m);
+  const d=ledgerData(m);
+  const nm=uid=>{const u=userById(uid);return `<a class="ulink" onclick="openUserDetail('${uid}')">${esc(u?u.name:'—')}</a>`;};
+  const itemRow=(x,right)=>{const dt=fmtDate(x.date);return `<div class="row">
+    <div class="row-when"><div class="d">${dt.d}</div><div class="m">${dt.m}</div><div class="t">${x.time}</div></div>
+    <div class="row-main"><div class="row-title">${nm(x.rec.uid)} ・ ${esc(x.title)}</div><div class="row-meta"><span class="tag ${x.kind==='lesson'?'tag-group':'tag-offline'}">${x.kind==='lesson'?'レッスン':'イベント'}</span>${right==='att'?billChip(x.kind,x.rec,x.date):''}</div></div>
+    <div class="row-act">${right==='att'?attControl(x.kind,x.rec,x.date):billChip(x.kind,x.rec,x.date)}</div></div>`;};
+  const lessonsDone=d.done.filter(x=>x.kind==='lesson').length;
+  const todoN=d.pending.length+d.unpaidDone.length+d.memUnpaid.length;
+  let todo='';
+  if(d.pending.length)todo+=`<div class="todo-h">出欠が 未記録 <span class="rg-count">${d.pending.length}</span></div><div class="rows">${d.pending.map(x=>itemRow(x,'att')).join('')}</div>`;
+  if(d.unpaidDone.length)todo+=`<div class="todo-h">受講済み・未払い <span class="rg-count">${d.unpaidDone.length}</span></div><div class="rows">${d.unpaidDone.map(x=>itemRow(x,'bill')).join('')}</div>`;
+  if(d.memUnpaid.length)todo+=`<div class="todo-h">${ymLabel(m)}分の 月額が 未入金 <span class="rg-count">${d.memUnpaid.length}</span></div><div class="rows">${d.memUnpaid.map(u=>`<div class="row">
+      <div class="row-main"><div class="row-title">${nm(u.id)}</div><div class="row-meta">${planTag(u.plan)}${memberState(u).html}<span>入金済み：${paidThrough(u.id)?ymLabel(paidThrough(u.id))+'分まで':'記録なし'}</span></div></div>
+      <div class="row-act"><button class="btn btn-gold btn-sm" onclick="openPaymentForm('${u.id}',{kind:'membership',period:'${m}'})">入金を記録</button></div></div>`).join('')}</div>`;
+  el.innerHTML=`${setupNotice()}
+    <div class="kpi-grid">
+      <div class="kpi"><div class="k-label">入金の合計</div><div class="k-num">${yen(d.income)}</div><div class="k-sub">${d.pays.length}件${d.refunds?` ／ 返金 ${yen(d.refunds)}`:''}</div></div>
+      <div class="kpi"><div class="k-label">実施したレッスン</div><div class="k-num">${lessonsDone}<small> 件</small></div><div class="k-sub">イベント参加 ${d.done.length-lessonsDone} 件</div></div>
+      <div class="kpi ${d.pending.length?'warn':''}"><div class="k-label">出欠が 未記録</div><div class="k-num">${d.pending.length}</div><div class="k-sub">おわった予約のうち</div></div>
+      <div class="kpi ${(d.unpaidDone.length+d.memUnpaid.length)?'warn':''}"><div class="k-label">未入金</div><div class="k-num">${d.unpaidDone.length+d.memUnpaid.length}</div><div class="k-sub">単発 ${d.unpaidDone.length} ／ 月額 ${d.memUnpaid.length}</div></div>
+    </div>
+    <div class="panel"><div class="panel-h"><h2>要確認 <span class="en">To check</span></h2></div>
+      ${todoN?todo:emptyHTML('✓','この月の 要確認は ありません','All recorded')}</div>
+    <div class="panel"><div class="panel-h"><h2>入金 <span class="en">Payments</span></h2><div class="p-actions"><button class="btn btn-ghost btn-sm" onclick="exportLedgerCSV()">CSVで書き出す</button></div></div>
+      ${d.pays.length?`<div class="rows">${d.pays.map(p=>payRowHTML(p,true)).join('')}</div>`:emptyHTML('💴','この月の 入金は まだ ありません','No payments')}</div>
+    <div class="panel"><div class="panel-h"><h2>実施の記録 <span class="en">Delivered</span></h2></div>
+      ${d.done.length?`<div class="rows">${d.done.map(x=>itemRow(x,'bill')).join('')}</div>`:emptyHTML('📚','この月に 出席が記録された レッスンは ありません','No delivered lessons')}</div>`;
+}
+function exportLedgerCSV(){
+  const m=LG_MONTH||curMonth();const d=ledgerData(m);
+  const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';
+  const lines=[['区分','日付','会員','メール','種類','対象','金額','方法','状態','メモ'].map(q).join(',')];
+  d.pays.forEach(p=>{const u=userById(p.uid)||{};const ref=p.refId?(DB.bookings.find(b=>b.id===p.refId)||DB.signups.find(s=>s.id===p.refId)):null;const it=ref?itemOf(ref.lessonId?'lesson':'event',ref):null;
+    lines.push(['入金',p.paidOn,u.name,u.email,KIND_LABEL[p.kind],p.period||(it?`${it.date} ${it.title}`:''),p.amount,METHOD_LABEL[p.method],p.status==='paid'?'入金済':'返金済',p.note].map(q).join(','));});
+  d.done.forEach(x=>{const u=userById(x.rec.uid)||{};const b=billingOf(x.kind,x.rec);
+    lines.push(['実施',x.date,u.name,u.email,x.kind==='lesson'?'レッスン':'イベント',x.title,b.amt||'',' ',{paid:'支払済',plan:'月額に含む',invited:'招待',free:'無料',unpaid:'未払い'}[b.key],''].map(q).join(','));});
+  const blob=new Blob(['\ufeff'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`kakehashi_${m}.csv`;
+  document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);
+}
 
 /* ---------- helper ---------- */
 function emptyHTML(ic,ja,en){return `<div class="empty"><div class="e-ic">${ic}</div>${ja}<br><span style="font-size:12px">${en}</span></div>`;}
