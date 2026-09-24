@@ -4314,6 +4314,10 @@ async function openReviewResult(id){
   const box=PROOT.querySelector('#rvResFiles');if(box)box.innerHTML=links.join('')||TG('ファイルを <ruby>開<rt>ひら</rt></ruby>けませんでした','Could not open the files');
 }
 
+/* インラインの onclick から呼べるように 公開（ポータルのスクリプトは スコープの中にあるため） */
+Object.assign(window,{agNext,agConfirm,agSetBand,agSetDay,agMonth,agTogglePick,
+  openReviewForm,rvSet,rvCount,rvRemoveFile,rvAddFiles,rvSubmit,openReviewResult});
+
 function agReset(){agSelected.clear();agSlot=null;renderAgent();}
 
 // add agent booking to home "Upcoming events"
