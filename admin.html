@@ -441,7 +441,7 @@ body{
 .rq-opt-row{display:grid;grid-template-columns:1fr 110px auto;gap:8px;margin-bottom:6px}
 .rq-note{width:100%;min-height:54px;margin:4px 0 10px;resize:vertical}
 .ag-set{display:flex;flex-direction:column;gap:8px}
-.field-row-3.ag-grid{grid-template-columns:repeat(4,1fr)}
+.field-row-3.ag-grid{grid-template-columns:repeat(5,1fr)}
 @media(max-width:820px){.field-row-3.ag-grid{grid-template-columns:1fr 1fr}}
 .av-day{display:grid;grid-template-columns:96px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}
 .av-day b{font-weight:700}
@@ -456,6 +456,13 @@ body{
 .wk-chip:hover{opacity:1}
 .wk-req{background:rgba(201,162,75,.18);border:1.5px dashed rgba(201,162,75,.9);color:#6b5213;opacity:.9}
 .wk-agent{background:#c9a24b;color:var(--indigo);border:1px solid #b28c38}
+
+.rv-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.rv-meta div{background:var(--washi-2);border-radius:10px;padding:9px 12px;display:flex;flex-direction:column}
+.rv-meta span{font-size:11px;color:var(--muted)}
+.rv-meta b{font-size:14px}
+.rv-box{background:var(--washi-2);border-radius:10px;padding:10px 12px;font-size:13.5px;line-height:1.7;word-break:break-word}
+.rv-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 
 /* mobile */
 .side-toggle{display:none}
@@ -825,7 +832,7 @@ let DB={lessons:[],announcements:[],events:[],users:[],requests:[],bookings:[],s
 const mapLessonIn =r=>({id:r.id,date:r.date,time:r.time,dur:r.dur,title:r.title,titleEn:r.title_en||'',format:r.format,size:r.size,level:r.level,gender:r.gender,cap:r.cap,max:r.max,desc:r.descr||'',meetUrl:r.meet_url||'',place:r.place||'',mapUrl:r.map_url||'',auto:!!r.auto});
 const mapEventIn  =r=>({id:r.id,type:r.type,emoji:r.emoji,date:r.date,time:r.time,title:r.title,titleEn:r.title_en||'',place:r.place,placeEn:r.place_en||'',host:r.host,hostEn:r.host_en||'',price:r.price,cap:r.cap,seats:r.seats,desc:r.descr||'',descEn:r.descr_en||'',format:r.format||'offline',mapUrl:r.map_url||'',meetUrl:r.meet_url||''});
 const mapNewsIn   =r=>({id:r.id,kind:r.kind,emoji:r.emoji,title:r.title,titleEn:r.title_en||'',body:r.body||'',bodyEn:r.body_en||'',date:r.date,link:r.link||''});
-const mapReqIn    =r=>({id:r.id,uid:r.user_id||r.uid||'',proposals:r.proposals||null,slots:(r.candidate_slots||[]).filter(x=>x&&x.date&&x.time),durationMin:r.duration_min||null,user:(r.profiles?((r.profiles.first_name||'')+' '+(r.profiles.last_name||'')).trim():'')||'—',service:r.service,ic:r.ic,candidates:r.candidates||[],confirmed:r.confirmed||null,amount:r.amount,status:r.status,note:r.note||'',created:r.created_at?r.created_at.slice(0,10):todayISO()});
+const mapReqIn    =r=>({id:r.id,uid:r.user_id||r.uid||'',proposals:r.proposals||null,slots:(r.candidate_slots||[]).filter(x=>x&&x.date&&x.time),kind:r.kind||'visit',reviewMeta:r.review_meta||null,attachments:r.attachments||[],resultNote:r.result_note||'',resultFiles:r.result_files||[],durationMin:r.duration_min||null,user:(r.profiles?((r.profiles.first_name||'')+' '+(r.profiles.last_name||'')).trim():'')||'—',service:r.service,ic:r.ic,candidates:r.candidates||[],confirmed:r.confirmed||null,amount:r.amount,status:r.status,note:r.note||'',created:r.created_at?r.created_at.slice(0,10):todayISO()});
 const mapUserIn   =r=>({id:r.id,name:((r.first_name||'')+' '+(r.last_name||'')).trim()||'—',email:r.email||'',plan:r.plan,joined:r.created_at?r.created_at.slice(0,10):'',lessons:0,country:r.country||'',createdAt:r.created_at||'',mstatus:r.membership_status||'active',cancelOn:r.cancel_effective_on||'',cancelReason:r.cancel_reason||''});
 
 /* ---- 画面オブジェクト → row（書き込み用） ---- */
@@ -1238,6 +1245,7 @@ function renderAgent(){
 let _stat=null,_pickedDate=null;
 function openRequest(id){
   const r=DB.requests.find(x=>x.id===id);if(!r)return;
+  if(r.kind==='review')return openReviewAdmin(r);
   _stat=r.status; _pickedDate=r.confirmed&&r.confirmed.date?r.confirmed.date:null;
   const cands=(r.candidates||[]).slice().sort();
   const candChips=cands.length?cands.map(c=>{
@@ -2985,7 +2993,7 @@ function conflictingLessons(){
    ・候補日に 空きがあるかを 自動判定 → 確定 or 再提案
    ・候補は 週カレンダーと Googleカレンダーに 透明で 表示
    ============================================================ */
-const AGENT_SET_DEFAULT={autoConfirmSlots:true,pickDays:21,autoConfirm:false,autoRepropose:false,travel:30,proposeCount:3,leadDays:1};
+const AGENT_SET_DEFAULT={lastStart:'14:00',autoConfirmSlots:true,pickDays:21,autoConfirm:false,autoRepropose:false,travel:30,proposeCount:3,leadDays:1};
 let AGENT_SET=Object.assign({},AGENT_SET_DEFAULT);
 let AGENT_PLANS={},AGENT_FN=null,AGENT_ERR='';
 const jaDay=iso=>`${fmtDate(iso).full}（${weekday(iso)}）`;
@@ -3030,6 +3038,11 @@ async function agentSync(){
 
 /* ---- 一覧の タグ ---- */
 function reqPlanTag(r){
+  if(r.kind==='review'){
+    const n=(r.attachments||[]).length;
+    if(r.status==='done')return `<span class="tag tag-done">✓ 返却ずみ</span>`;
+    return `<span class="tag tag-wait">📝 添削 ${r.reviewMeta&&r.reviewMeta.count?r.reviewMeta.count+'件':''}${n?` ・ ファイル ${n}`:''}</span>`;
+  }
   if(r.confirmed&&r.confirmed.date)return `<span class="tag tag-done">🕒 ${fmtDate(r.confirmed.date).full} ${r.confirmed.time||''} 確定</span>`;
   if(r.proposals&&r.proposals.length)return `<span class="tag tag-wait">↻ 再提案中・返事待ち（${r.proposals.length}案）</span>`;
   const p=AGENT_PLANS[r.id];
@@ -3128,13 +3141,14 @@ function agentSetHTML(){
       <div class="field"><label>移動の ゆとり</label><select id="asTravel">${[0,30,60,90].map(m=>`<option value="${m}" ${Number(AGENT_SET.travel)===m?'selected':''}>前後 ${m}分</option>`).join('')}</select></div>
       <div class="field"><label>再提案の 数</label><select id="asCount">${[2,3,4,5].map(n=>`<option value="${n}" ${Number(AGENT_SET.proposeCount)===n?'selected':''}>${n}案</option>`).join('')}</select></div>
       <div class="field"><label>お客様に 見せる 期間</label><select id="asPick">${[14,21,28,42].map(n=>`<option value="${n}" ${Number(AGENT_SET.pickDays)===n?'selected':''}>${n}日先まで</option>`).join('')}</select></div>
+      <div class="field"><label>最終受付</label><select id="asLast">${['12:00','13:00','14:00','15:00','16:00'].map(t=>`<option ${String(AGENT_SET.lastStart||'14:00')===t?'selected':''}>${t}</option>`).join('')}</select></div>
       <div class="field"><label>最短で 何日後から</label><select id="asLead">${[1,2,3,5,7].map(n=>`<option value="${n}" ${Number(AGENT_SET.leadDays)===n?'selected':''}>${n}日後</option>`).join('')}</select></div>
     </div>
     <div class="p-actions"><button class="btn btn-ghost btn-sm" onclick="saveAgentSet()" ${DB.schedReady?'':'disabled'}>設定を 保存</button><button class="btn btn-ghost btn-sm" onclick="agentSync()">いま 空きを 確認する</button><button class="btn btn-ghost btn-sm" onclick="openAvailPreview()">お客様に 見える 空き時間</button></div>
     <div class="g-hint" style="text-align:left;margin-top:10px">オフの ときは 判定だけ 出て、確定・再提案は ボタンで 行います。オンの 自動処理は、依頼が 入った 瞬間（Database Webhook を 設定した場合）か、admin を 開いたときに 動きます。</div>`;
 }
 async function saveAgentSet(){
-  const next={autoConfirmSlots:document.getElementById('asSlots').checked,pickDays:+document.getElementById('asPick').value,autoConfirm:document.getElementById('asConfirm').checked,autoRepropose:document.getElementById('asRepropose').checked,
+  const next={lastStart:document.getElementById('asLast').value,autoConfirmSlots:document.getElementById('asSlots').checked,pickDays:+document.getElementById('asPick').value,autoConfirm:document.getElementById('asConfirm').checked,autoRepropose:document.getElementById('asRepropose').checked,
     travel:+document.getElementById('asTravel').value,proposeCount:+document.getElementById('asCount').value,leadDays:+document.getElementById('asLead').value};
   const {error}=await sb.from('admin_settings').upsert({key:'agent',value:next,updated_at:new Date().toISOString()});
   if(error){console.error(error);toast('保存できませんでした');return;}
@@ -3163,7 +3177,7 @@ async function loadAvailPreview(){
 function reqCandDates(r){return [...new Set((r.candidates||[]).map(toISODate).filter(Boolean))];}
 function agentGridItems(date){
   const out=[];
-  DB.requests.filter(reqActive).forEach(r=>{
+  DB.requests.filter(r=>reqActive(r)&&r.kind!=='review').forEach(r=>{
     const name=(r.user||'').split(' ')[0];
     if(r.confirmed&&r.confirmed.date){
       if(r.confirmed.date===date)out.push({kind:'confirmed',r,time:r.confirmed.time,dur:r.durationMin||120,label:`🤝 ${r.service}｜${name}`});
@@ -3177,15 +3191,96 @@ function agentGridItems(date){
     if(r.slots&&r.slots.length){
       r.slots.filter(o=>o.date===date).forEach(o=>{const c=p&&p.checks?p.checks.find(x=>x.date===o.date&&x.time===o.time):null;
         out.push({kind:'slot',r,time:o.time,dur:(p&&p.dur)||r.durationMin||120,label:`${c&&!c.ok?'× ':''}希望 ${r.service}｜${name}`});});
-      return;
+      // 「この日ならいつでも」の日は 下の チップで 出す
+      if(!reqCandDates(r).some(d=>d===date&&!r.slots.some(o=>o.date===d)))return;
     }
-    if(p&&p.kind==='confirm'&&p.date===date)out.push({kind:'slot',r,time:p.time,dur:p.dur,label:`確定できる ${r.service}｜${name}`});
+    else if(p&&p.kind==='confirm'&&p.date===date)out.push({kind:'slot',r,time:p.time,dur:p.dur,label:`確定できる ${r.service}｜${name}`});
     if(reqCandDates(r).includes(date)){
       const c=p&&p.checks?p.checks.find(x=>x.date===date):null;
       out.push({kind:'chip',r,ok:c?c.ok:null,reason:c&&!c.ok?c.reason:'',label:`🤝 ${r.service}`});
     }
   });
   return out;
+}
+
+
+/* ============================================================
+   添削（kind='review'）— ファイルを見て、コメントと添削済みファイルを返す
+   Storage：非公開バケット reviews/<会員id>/…（返却は …/returned/…）
+   ============================================================ */
+const RV_TYPE={resume:'履歴書',cv:'職務経歴書',doc:'書類・手紙',hw:'課題・レポート',other:'その他'};
+const RV_LANG={ja:'日本語',en:'英語'};
+let _rvFiles=[];
+function openReviewAdmin(r){
+  _rvFiles=[];
+  const m=r.reviewMeta||{};
+  const done=r.status==='done';
+  openModal(`
+    <div class="modal-head"><button class="modal-x" onclick="closeModal()">✕</button>
+      <h2>📝 ${esc(r.service)}</h2><div class="m-sub">依頼者：${esc(r.user)} ／ ${ymdLabel(String(r.created||'').slice(0,10))} 受付${r.amount>0?' ／ '+yen(r.amount):''}</div></div>
+    <div class="modal-body">
+      <div class="rv-meta">
+        <div><span>種類</span><b>${esc(RV_TYPE[m.type]||m.type||'—')}</b></div>
+        <div><span>言語</span><b>${esc(RV_LANG[m.lang]||m.lang||'—')}</b></div>
+        <div><span>件数</span><b>${m.count||1} 件</b></div>
+      </div>
+      ${m.point?`<div class="field"><label>見てほしいところ</label><div class="rv-box">${esc(m.point).replace(/\n/g,'<br>')}</div></div>`:''}
+      ${m.text?`<div class="field"><label>はりつけ・リンク</label><div class="rv-box">${linkify(esc(m.text)).replace(/\n/g,'<br>')}</div></div>`:''}
+      <div class="field"><label>届いたファイル</label>${(r.attachments||[]).length?`<div class="rv-list">${r.attachments.map((f,i)=>`<button class="btn btn-ghost btn-sm" onclick="rvOpen('${r.id}','in',${i})">📄 ${esc(f.name)}</button>`).join('')}</div>`:'<div class="g-hint" style="text-align:left;margin:0">ファイルは ありません</div>'}</div>
+      <div class="panel-h" style="margin-top:20px"><h2 style="font-size:16px">${done?'返却した内容':'返却する'}</h2></div>
+      ${done&&(r.resultFiles||[]).length?`<div class="rv-list" style="margin-bottom:10px">${r.resultFiles.map((f,i)=>`<button class="btn btn-ghost btn-sm" onclick="rvOpen('${r.id}','out',${i})">⬇️ ${esc(f.name)}</button>`).join('')}</div>`:''}
+      <div class="field"><label>コメント <span class="hint">会員に そのまま 表示されます</span></label><textarea id="rvNote" style="min-height:120px" placeholder="れい：全体的に よく書けています。志望動機の 2文目は「〜したく、」に すると 自然です。">${esc(r.resultNote||'')}</textarea></div>
+      <div class="field"><label>添削済みファイル <span class="hint">任意・複数可</span></label>
+        <input type="file" id="rvOut" multiple onchange="_rvFiles=[..._rvFiles,...this.files];this.value='';rvShowOut()"><div id="rvOutList" class="rv-list"></div></div>
+      <div class="form-foot">
+        ${done?'':`<button class="btn btn-ghost" onclick="rvSetStatus('${r.id}','progress')">${r.status==='progress'?'対応中のまま 閉じる':'対応中にする'}</button>`}
+        <button class="btn btn-gold" id="rvSend" onclick="rvReturn('${r.id}')">${done?'返却内容を 更新する':'返却して 完了にする'}</button>
+      </div>
+      <div class="g-hint" style="text-align:left">返却すると 会員の「エージェント」タブに コメントと ファイルが 表示され、メッセージでも お知らせします。</div>
+    </div>`);
+  document.getElementById('modal').classList.add('wide');
+}
+function linkify(t){return t.replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');}
+function rvShowOut(){const el=document.getElementById('rvOutList');if(el)el.innerHTML=_rvFiles.map((f,i)=>`<span class="tag tag-lv">📎 ${esc(f.name)} <a style="cursor:pointer" onclick="_rvFiles.splice(${i},1);rvShowOut()">✕</a></span>`).join('');}
+async function rvOpen(id,which,i){
+  const r=DB.requests.find(x=>x.id===id);if(!r)return;
+  const f=(which==='in'?r.attachments:r.resultFiles)[i];if(!f)return;
+  const {data,error}=await sb.storage.from('reviews').createSignedUrl(f.path,600);
+  if(error||!data){console.error(error);toast('ファイルを 開けませんでした（Storage の設定を ご確認ください）');return;}
+  window.open(data.signedUrl,'_blank','noopener');
+}
+async function rvSetStatus(id,status){
+  const r=DB.requests.find(x=>x.id===id);if(!r)return;
+  if(r.status!==status){
+    const {error}=await sb.from('agent_requests').update({status}).eq('id',id);
+    if(error){console.error(error);toast('更新できませんでした');return;}
+    r.status=status;
+  }
+  closeModal();renderAll();
+}
+async function rvReturn(id){
+  const r=DB.requests.find(x=>x.id===id);if(!r)return;
+  const note=document.getElementById('rvNote').value.trim();
+  if(!note&&!_rvFiles.length&&!(r.resultFiles||[]).length){toast('コメントか ファイルを 入れてください');return;}
+  const btn=document.getElementById('rvSend');btn.disabled=true;btn.textContent='送っています…';
+  const files=[...(r.resultFiles||[])];
+  for(const [i,f] of _rvFiles.entries()){
+    const safe=f.name.replace(/[^\w.\-]+/g,'_').slice(-80);
+    const path=`${r.uid}/returned/${Date.now()}_${i}_${safe}`;
+    const {error}=await sb.storage.from('reviews').upload(path,f,{contentType:f.type||undefined});
+    if(error){console.error(error);btn.disabled=false;btn.textContent='返却して 完了にする';toast('ファイルを 上げられませんでした');return;}
+    files.push({path,name:f.name,size:f.size});
+  }
+  const first=r.status!=='done';
+  const {error}=await sb.from('agent_requests').update({result_note:note||null,result_files:files,status:'done'}).eq('id',id);
+  if(error){console.error(error);btn.disabled=false;btn.textContent='返却して 完了にする';toast('保存できませんでした');return;}
+  Object.assign(r,{resultNote:note,resultFiles:files,status:'done'});
+  if(first){
+    const {error:mErr}=await sb.from('chat_messages').insert({user_id:r.uid,sender:'office',
+      body:`【添削が おわりました】${r.service}\nポータルの「エージェント」タブで、コメントと ファイルを 見られます。\n\nYour proofreading is ready — open the Agent tab to see the comments and files.`});
+    if(mErr)console.warn('chat:',mErr.message||mErr);
+  }
+  closeModal();renderAll();toast(first?'返却して 会員に お知らせしました':'返却内容を 更新しました');
 }
 
 /* ---------- helper ---------- */

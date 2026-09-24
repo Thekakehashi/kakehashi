@@ -829,6 +829,73 @@ footer .brand{justify-content:center;color:var(--washi);margin-bottom:12px}
 #portalApp .ag-bar-count{font-size:12px;color:var(--muted)}
 #portalApp .ag-bar-total{font-family:"Inter";font-weight:700;font-size:20px;color:var(--gold)}
 #portalApp .ag-bar .mini-btn{margin-left:auto}
+/* ===== エージェント：空き時間えらび／添削 ===== */
+#portalApp .modal.ag-wide{max-width:560px}
+#portalApp .agp-title{font-size:12px;color:var(--muted);margin:18px 0 8px;font-weight:600}
+#portalApp .agp-loading,#portalApp .agp-empty{font-size:13px;color:var(--muted);padding:18px 4px;text-align:center}
+#portalApp .agp-info{font-size:12px;color:var(--ink);background:rgba(74,159,184,.08);border-radius:10px;padding:9px 12px;margin-bottom:12px;line-height:1.6}
+#portalApp .agp-info span{display:block;color:var(--muted);font-size:11.5px}
+#portalApp .agp-bands{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+#portalApp .agp-band{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:7px 13px;font:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .15s}
+#portalApp .agp-band:hover:not(:disabled){border-color:var(--teal)}
+#portalApp .agp-band.on{background:var(--teal);border-color:var(--teal);color:#fff}
+#portalApp .agp-band:disabled{opacity:.4;cursor:not-allowed}
+#portalApp .agp-n{font-family:"Inter";font-size:11px;background:rgba(15,42,63,.08);border-radius:999px;padding:1px 7px}
+#portalApp .agp-band.on .agp-n{background:rgba(255,255,255,.25)}
+#portalApp .agp-hint{font-family:"Inter";font-size:10.5px;opacity:.65;font-weight:500}
+#portalApp .agp-days{display:flex;gap:6px;overflow-x:auto;padding:2px 2px 8px;margin:0 -2px 6px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+#portalApp .agp-day{flex:0 0 64px;scroll-snap-align:start;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:8px 4px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;position:relative;transition:all .15s}
+#portalApp .agp-day:hover:not(:disabled){border-color:var(--teal)}
+#portalApp .agp-day.on{border-color:var(--teal);background:rgba(74,159,184,.1);box-shadow:inset 0 0 0 1px var(--teal)}
+#portalApp .agp-day.has::after{content:"";position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--gold)}
+#portalApp .agp-day:disabled{opacity:.38;cursor:not-allowed;background:rgba(15,42,63,.03)}
+#portalApp .agp-wd{font-size:11px;color:var(--muted)}
+#portalApp .agp-day.sun .agp-wd{color:#c9503f}#portalApp .agp-day.sat .agp-wd{color:#3a78b5}
+#portalApp .agp-md{font-family:"Inter";font-weight:700;font-size:15px;color:var(--ink)}
+#portalApp .agp-sub{font-size:10.5px;color:var(--teal);font-weight:700}
+#portalApp .agp-day:disabled .agp-sub{color:var(--muted);font-weight:500}
+#portalApp .agp-timebox{border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:12px}
+#portalApp .agp-dayhead{font-size:13px;font-weight:700;margin-bottom:10px}
+#portalApp .agp-times{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:8px}
+#portalApp .agp-time{position:relative;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:9px 4px;font:inherit;font-family:"Inter";font-weight:700;font-size:14px;color:var(--ink);cursor:pointer;transition:all .15s;display:flex;flex-direction:column;align-items:center}
+#portalApp .agp-time .agp-to{font-size:10.5px;font-weight:500;color:var(--muted)}
+#portalApp .agp-time:hover:not(:disabled){border-color:var(--teal)}
+#portalApp .agp-time.on{background:var(--teal);border-color:var(--teal);color:#fff}
+#portalApp .agp-time.on .agp-to{color:rgba(255,255,255,.85)}
+#portalApp .agp-time:disabled,#portalApp .agp-any:disabled{opacity:.4;cursor:not-allowed}
+#portalApp .agp-any{position:relative;width:100%;border:1.5px dashed rgba(74,159,184,.6);background:rgba(74,159,184,.04);border-radius:10px;padding:9px;font:inherit;font-size:13px;font-weight:600;color:var(--teal);cursor:pointer}
+#portalApp .agp-any.on{background:var(--teal);color:#fff;border-style:solid}
+#portalApp .agp-rank{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--gold);color:var(--indigo);font-family:"Inter";font-size:11px;font-weight:800;flex:none}
+#portalApp .agp-time .agp-rank,#portalApp .agp-any .agp-rank{position:absolute;top:-7px;left:-7px}
+#portalApp .agp-picks{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+#portalApp .agp-pick{display:flex;align-items:center;gap:8px;font-size:13px;background:rgba(201,162,75,.08);border:1px solid rgba(201,162,75,.35);border-radius:10px;padding:8px 10px}
+#portalApp .agp-pick.empty{background:rgba(15,42,63,.03);border:1px dashed var(--line);color:var(--muted);justify-content:center}
+#portalApp .agp-pl{font-size:11px;color:var(--muted);flex:none}
+#portalApp .agp-pick b{flex:1;font-weight:700}
+#portalApp .agp-x{border:none;background:none;color:var(--muted);font-size:14px;cursor:pointer;padding:2px 6px}
+#portalApp .agp-done{display:flex;flex-direction:column;gap:6px;align-items:center;margin-top:10px;font-size:14px;font-weight:600}
+#portalApp .agp-done div{display:flex;gap:8px;align-items:center}
+#portalApp .rv-step{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;margin:16px 0 8px}
+#portalApp .rv-step:first-child{margin-top:0}
+#portalApp .rv-no{width:20px;height:20px;border-radius:50%;background:var(--ink);color:#fff;font-family:"Inter";font-size:11px;display:inline-flex;align-items:center;justify-content:center}
+#portalApp .rv-drop{display:flex;flex-direction:column;align-items:center;gap:3px;border:1.5px dashed var(--line);border-radius:12px;padding:14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--teal);text-align:center}
+#portalApp .rv-drop:hover{border-color:var(--teal);background:rgba(74,159,184,.04)}
+#portalApp .rv-drop input{display:none}
+#portalApp .rv-drop small{font-size:11px;color:var(--muted);font-weight:500}
+#portalApp .rv-files{display:flex;flex-direction:column;gap:5px;margin-top:8px}
+#portalApp .rv-file{display:flex;align-items:center;gap:8px;font-size:12.5px;background:rgba(15,42,63,.03);border-radius:9px;padding:7px 10px;color:var(--ink);text-decoration:none}
+#portalApp .rv-file span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#portalApp .rv-file small{color:var(--muted);font-family:"Inter"}
+#portalApp .rv-file.dl{margin-top:6px;font-weight:600;color:var(--teal)}
+#portalApp .rv-text{width:100%;min-height:78px;margin-top:8px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit;font-size:13px;resize:vertical;box-sizing:border-box}
+#portalApp .rv-text.small{min-height:56px;margin-top:0}
+#portalApp .rv-count{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+#portalApp .rv-count button{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:#fff;font-size:18px;cursor:pointer;color:var(--ink)}
+#portalApp .rv-count button:disabled{opacity:.35;cursor:not-allowed}
+#portalApp .rv-count b{font-family:"Inter";font-size:20px;min-width:18px;text-align:center}
+#portalApp .rv-count small{font-size:11.5px;color:var(--muted);flex-basis:100%}
+#portalApp .rv-result{background:rgba(74,159,184,.07);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8}
+@media(max-width:560px){#portalApp .agp-times{grid-template-columns:repeat(2,1fr)}#portalApp .agp-day{flex-basis:58px}}
 #portalApp .ag-slot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px}
 #portalApp .ag-slot{padding:10px;border:1px solid var(--line);border-radius:10px;text-align:center;cursor:pointer;font-size:13px;transition:all .15s;background:#fff}
 #portalApp .ag-slot:hover{border-color:var(--sky)}
@@ -2957,7 +3024,7 @@ async function loadMyBookings(){
   // 4) 自分のエージェント依頼（運営が更新したステータス・確定日時を反映）
   const {data:ar,error:arErr}=await window.sb
     .from('agent_requests')
-    .select('id,service,ic,candidates,confirmed,amount,status,note,created_at')
+    .select('*')
     .eq('user_id',uid).order('created_at',{ascending:false});
   if(arErr)noteNetError('my agent requests:',arErr);
   MY_AGENT_REQUESTS=ar||[];
@@ -2983,10 +3050,22 @@ function renderHomeAgent(rows){
   }
   sec.style.display='block';
 
-  const active=all.filter(r=>r.status!=='done');
-  const done=all.filter(r=>r.status==='done');
+  // 添削の 完了は 結果を 見られるよう 上の一覧に のこす
+  const active=all.filter(r=>r.status!=='done'||r.kind==='review');
+  const done=all.filter(r=>r.status==='done'&&r.kind!=='review');
 
   const statusLabel=(r)=>{
+    if(r.kind==='review'){
+      if(r.status==='done')return `<span class="tag tag-online">✓ ${TG('<ruby>添削<rt>てんさく</rt></ruby> <ruby>完了<rt>かんりょう</rt></ruby>','Reviewed')}</span>`;
+      if(r.status==='progress')return `<span class="tag tag-offline">✍️ ${TG('<ruby>添削<rt>てんさく</rt></ruby><ruby>中<rt>ちゅう</rt></ruby>','In review')}</span>`;
+      return `<span class="tag tag-lv">📨 ${TG('<ruby>受付<rt>うけつけ</rt></ruby><ruby>済<rt>ず</rt></ruby>','Received')}</span>`;
+    }
+    if(!(r.confirmed&&r.confirmed.date)&&r.proposals&&r.proposals.length)
+      return `<span class="tag tag-offline">🗓️ ${TG('<ruby>日程<rt>にってい</rt></ruby>の ご<ruby>相談<rt>そうだん</rt></ruby>','New dates proposed')}</span>`;
+    if(!(r.confirmed&&r.confirmed.date)&&r.candidate_slots&&r.candidate_slots.length){
+      const p=r.candidate_slots[0];const d=new Date(p.date+'T00:00');
+      return `<span class="tag tag-lv">📅 ${TG('<ruby>第<rt>だい</rt></ruby>1<ruby>希望<rt>きぼう</rt></ruby>','1st choice')} ${d.getMonth()+1}/${d.getDate()}${p.time?' '+p.time:''}</span>`;
+    }
     if(r.confirmed&&r.confirmed.date){
       const d=new Date(r.confirmed.date+'T00:00');
       const ds=`${d.getMonth()+1}/${d.getDate()}`;
@@ -3000,15 +3079,26 @@ function renderHomeAgent(rows){
       const d=new Date(r.confirmed.date+'T00:00');
       return `<div class="d">${d.getDate()}</div><div class="m">${MONS[d.getMonth()]}</div>`;
     }
-    return `<div class="d" style="font-size:15px">🤝</div>`;
+    return `<div class="d" style="font-size:15px">${r.kind==='review'?'📝':'🤝'}</div>`;
+  };
+  const actHtml=(r)=>{
+    if(r.kind==='review'){
+      if(r.status==='done'&&(r.result_note||(r.result_files||[]).length))
+        return `<button class="mini-btn gold" onclick="openReviewResult('${r.id}')">${TG('<ruby>添削<rt>てんさく</rt></ruby>を <ruby>見<rt>み</rt></ruby>る','View')}</button>`;
+      return `<span class="li-state">${TG('お<ruby>返<rt>かえ</rt></ruby>しまで お<ruby>待<rt>ま</rt></ruby>ちください','We\'ll send it back soon')}</span>`;
+    }
+    if(r.confirmed&&r.confirmed.date)return '';
+    if(r.proposals&&r.proposals.length)
+      return `<button class="mini-btn gold" onclick="openOfficeChat()">${TG('メッセージを <ruby>見<rt>み</rt></ruby>る','See message')}</button>`;
+    return `<span class="li-state">${TG('<ruby>確定<rt>かくてい</rt></ruby>を お<ruby>待<rt>ま</rt></ruby>ちください','Awaiting confirmation')}</span>`;
   };
   const rowHtml=(r)=>`<div class="li-row">
       <div class="li-when">${whenBox(r)}</div>
       <div class="li-main">
         <div class="li-title">${r.ic?r.ic+' ':''}${r.service||TG('エージェント<ruby>依頼<rt>いらい</rt></ruby>','Agent request')}</div>
-        <div class="li-sub"><span class="tag tag-lv">${TG('エージェント','Agent')}</span>${statusLabel(r)}</div>
+        <div class="li-sub"><span class="tag tag-lv">${r.kind==='review'?TG('<ruby>添削<rt>てんさく</rt></ruby>','Proofreading'):TG('エージェント','Agent')}</span>${statusLabel(r)}</div>
       </div>
-      <div class="li-act">${(r.confirmed&&r.confirmed.date)?'':`<span class="li-state">${TG('<ruby>連絡<rt>れんらく</rt></ruby>を お<ruby>待<rt>ま</rt></ruby>ち ください','We\'ll be in touch')}</span>`}</div>
+      <div class="li-act">${actHtml(r)}</div>
     </div>`;
 
   let html=active.map(rowHtml).join('');
@@ -3497,6 +3587,7 @@ PROOT.querySelectorAll('[data-filter="format"],[data-filter="level"],[data-filte
    MODAL — shared
    ========================================================== */
 function openModal(html){
+  PROOT.querySelector('#modalBox').classList.remove('ag-wide');
   PROOT.querySelector('#modalBox').innerHTML=html;
   PROOT.querySelector('#modalScrim').classList.add('open');
   document.body.style.overflow='hidden';
@@ -3740,6 +3831,7 @@ const AGENT_SERVICES=[
   {id:'a_phone',ic:'📱',title:'携帯・SIM',titleR:'<ruby>携帯<rt>けいたい</rt></ruby>・SIM',en:'Phone & SIM',desc:'携帯の契約・SIM の乗り換えに同行。',descEn:'We come along for phone contracts and SIM switching.',price:5000,was:8000},
   {id:'a_home',ic:'🏠',title:'住まい・ライフライン',titleR:'<ruby>住<rt>す</rt></ruby>まい・ライフライン',en:'Housing & utilities',desc:'物件の内見・契約、電気ガス水道の開通まで。',descEn:'Apartment viewings and contracts, through to turning on power, gas and water.',price:15000,was:25000},
   {id:'a_hosp',ic:'🏥',title:'病院 付き添い',titleR:'<ruby>病院<rt>びょういん</rt></ruby> <ruby>付<rt>つ</rt></ruby>き<ruby>添<rt>そ</rt></ruby>い',en:'Hospital visit',desc:'受診・問診の通訳サポートに同行。',descEn:'We come along and interpret for appointments and consultations.',price:8000,was:12000},
+  {id:'a_review',ic:'📝',title:'添削',titleR:'<ruby>添削<rt>てんさく</rt></ruby>',en:'Proofreading',desc:'履歴書・職務経歴書・書類・学校の課題を チェックして、コメントつきで お返しします。',descEn:'We check your résumé, work history, documents or homework and send it back with comments.',price:1000,was:1000,flat:true,per:'件'},
   {id:'a_other',ic:'✳️',title:'その他 相談',titleR:'その<ruby>他<rt>た</rt></ruby> <ruby>相談<rt>そうだん</rt></ruby>',en:'Other request',desc:'上のリストにない手続きも、まず相談。内容で見積り。',descEn:'Anything not listed above — just ask. We\'ll quote based on the details.',price:0,was:0},
 ];
 function AG_TITLE_R(s){return `<span class="ja-text">${s.titleR}</span><span class="en-inline">${s.en||s.title}</span>`;}
@@ -3752,7 +3844,11 @@ function renderAgent(){
   wrap.innerHTML=AGENT_SERVICES.map(s=>{
     const on=agSelected.has(s.id);
     const p=agentPrice(s);
-    const priceHtml=(s.price>0||s.was>0)
+    const priceHtml=s.flat
+      ? (isInvited()
+          ? `<div class="ag-price"><span class="was">${yen(s.price)}</span><span style="color:var(--teal)">${TG('<ruby>招待<rt>しょうたい</rt></ruby> <ruby>無料<rt>むりょう</rt></ruby>','Invited — free')}</span></div>`
+          : `<div class="ag-price">${yen(s.price)}<span style="font-size:12px;font-weight:600;color:var(--muted)"> / ${TG('1<ruby>件<rt>けん</rt></ruby>','each')}</span></div>`)
+      : (s.price>0||s.was>0)
       ? ( isInvited()
           ? `<div class="ag-price"><span class="was">${yen(s.was||s.price)}</span><span style="color:var(--teal)">${TG('<ruby>招待<rt>しょうたい</rt></ruby> <ruby>無料<rt>むりょう</rt></ruby>','Invited — free')}</span></div>`
           : isMember()
@@ -3771,7 +3867,12 @@ function renderAgent(){
 }
 
 function agToggle(id){
-  if(agSelected.has(id))agSelected.delete(id); else agSelected.add(id);
+  if(agSelected.has(id))agSelected.delete(id);
+  else{
+    // 添削は 同行とは べつに 申しこむ（日程えらびが ないため）
+    if(id==='a_review')agSelected.clear(); else agSelected.delete('a_review');
+    agSelected.add(id);
+  }
   renderAgent();
 }
 
@@ -3787,31 +3888,130 @@ function agUpdateBar(){
     : yen(total)+(hasQuote?TG(' +<ruby>見積<rt>みつも</rt></ruby>り',' + quote'):'');
 }
 
+/* ---------- 日時えらび：空いている時間だけを 見せる（agent-calendar の availability）---------- */
+const RB=(k,r)=>`<ruby>${k}<rt>${r}</rt></ruby>`;
+const AG_MAX_PICKS=3;
+const AG_BANDS={
+  all:{from:0,to:1440,ja:'すべて',en:'All'},
+  am:{from:0,to:720,ja:RB('午前','ごぜん'),en:'Morning',hint:'〜12:00'},
+  pm:{from:720,to:900,ja:RB('午後','ごご'),en:'Afternoon',hint:'12:00〜15:00'},
+  eve:{from:900,to:1440,ja:RB('夕方','ゆうがた'),en:'Evening',hint:'15:00〜'},
+};
+const AG_WD_J=['日','月','火','水','木','金','土'];
+const AG_WD_E=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+let AG_AV=null,AG_PICKS=[],AG_DAY=null,AG_BAND='all',AG_FALLBACK=false;
+const agMin=hm=>{const [h,m]=String(hm).split(':').map(Number);return h*60+(m||0);};
+const agHM=m=>`${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;
+const agDay=iso=>{const d=new Date(iso+'T00:00');return {md:`${d.getMonth()+1}/${d.getDate()}`,wj:AG_WD_J[d.getDay()],we:AG_WD_E[d.getDay()],wd:d.getDay()};};
+const agEnd=t=>agHM(agMin(t)+((AG_AV&&AG_AV.dur)||120));
+const agInBand=(t,b)=>{const m=agMin(t);return m>=AG_BANDS[b].from&&m<AG_BANDS[b].to;};
+const agPickLabel=p=>{const d=agDay(p.date);return p.time?`${d.md}（${TG(d.wj,d.we)}） ${p.time}〜${agEnd(p.time)}`:`${d.md}（${TG(d.wj,d.we)}） ${TG('いつでも OK','any time')}`;};
+
+async function agLoadAvail(serviceLabel){
+  AG_AV=null;AG_FALLBACK=false;
+  try{
+    const {data:sess}=await window.sb.auth.getSession();
+    const token=sess?.session?.access_token;
+    if(!token)throw new Error('not signed in');
+    const res=await fetch(`${window.SUPABASE_URL}/functions/v1/agent-calendar`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`,'apikey':window.SUPABASE_ANON_KEY},
+      body:JSON.stringify({action:'availability',service:serviceLabel}),
+    });
+    const out=await res.json();
+    if(!res.ok||!out.days)throw new Error(out.error||'availability failed');
+    AG_AV=out;
+  }catch(err){
+    // 読めないときは 以前と同じく「日にちだけ」えらべる形に もどす
+    noteNetError('agent availability:',err);
+    AG_FALLBACK=true;
+    const days=[];const base=new Date();
+    for(let i=3;days.length<10;i++){
+      const d=new Date(base);d.setDate(base.getDate()+i);
+      if(d.getDay()===0||d.getDay()===6)continue;
+      days.push({date:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`,times:[]});
+    }
+    AG_AV={dur:120,window:['09:00','17:00'],lastStart:'14:00',days};
+  }
+}
+function agBandCount(b){
+  return (AG_AV?AG_AV.days:[]).reduce((a,d)=>a+d.times.filter(t=>agInBand(t,b)).length,0);
+}
+function agRenderPicker(){
+  const box=PROOT.querySelector('#agPicker');if(!box||!AG_AV)return;
+  const days=AG_AV.days;
+  const dayOpen=d=>AG_FALLBACK?!d.closed:d.times.some(t=>agInBand(t,AG_BAND));
+  if(!AG_DAY||!days.some(d=>d.date===AG_DAY&&dayOpen(d))){const f=days.find(dayOpen);AG_DAY=f?f.date:null;}
+  const cur=days.find(d=>d.date===AG_DAY);
+  const pickIdx=(date,time)=>AG_PICKS.findIndex(p=>p.date===date&&(p.time||null)===(time||null));
+  const full=AG_PICKS.length>=AG_MAX_PICKS;
+  const mins=Math.round((AG_AV.dur||120)/30)*30;
+  const durJa=mins%60?`${Math.floor(mins/60)}${RB('時間','じかん')}${RB('半','はん')}`:`${mins/60}${RB('時間','じかん')}`;
+  const durEn=`${mins/60} h`;
+
+  // ① 時間帯フィルター
+  const bands=AG_FALLBACK?'':`<div class="agp-bands">${Object.keys(AG_BANDS).map(k=>{
+    const n=k==='all'?agBandCount('all'):agBandCount(k);
+    const off=k!=='all'&&!n;
+    return `<button type="button" class="agp-band ${AG_BAND===k?'on':''}" ${off?'disabled':''} onclick="agSetBand('${k}')">${TG(AG_BANDS[k].ja,AG_BANDS[k].en)}<span class="agp-n">${n}</span>${AG_BANDS[k].hint?`<span class="agp-hint">${AG_BANDS[k].hint}</span>`:''}</button>`;
+  }).join('')}</div>`;
+
+  // ② 日にち
+  const strip=`<div class="agp-days">${days.map(d=>{
+    const x=agDay(d.date);
+    const n=AG_FALLBACK?null:d.times.filter(t=>agInBand(t,AG_BAND)).length;
+    const open=dayOpen(d);
+    const has=AG_PICKS.some(p=>p.date===d.date);
+    const sub=d.closed?TG('お<ruby>休<rt>やす</rt></ruby>み','Closed'):AG_FALLBACK?'':(n?TG(`${n}<ruby>枠<rt>わく</rt></ruby>`,`${n} slots`):TG('<ruby>満席<rt>まんせき</rt></ruby>','Full'));
+    return `<button type="button" class="agp-day ${AG_DAY===d.date?'on':''} ${has?'has':''} ${x.wd===0?'sun':x.wd===6?'sat':''}" ${open?'':'disabled'} onclick="agSetDay('${d.date}')">
+      <span class="agp-wd">${TG(x.wj,x.we)}</span><span class="agp-md">${x.md}</span><span class="agp-sub">${sub}</span></button>`;
+  }).join('')}</div>`;
+
+  // ③ 時間
+  let times='';
+  if(!cur){
+    times=`<div class="agp-empty">${TG('この <ruby>時間帯<rt>じかんたい</rt></ruby>に <ruby>空<rt>あ</rt></ruby>きが ありません。<ruby>時間帯<rt>じかんたい</rt></ruby>を「すべて」に してみてください。','No openings in this time band — try “All”.')}</div>`;
+  }else{
+    const x=agDay(cur.date);
+    const any=pickIdx(cur.date,null);
+    const list=AG_FALLBACK?[]:cur.times.filter(t=>agInBand(t,AG_BAND));
+    times=`<div class="agp-dayhead">${x.md}（${TG(x.wj,x.we)}）${AG_FALLBACK?'':TG(' の <ruby>空<rt>あ</rt></ruby>いている <ruby>時間<rt>じかん</rt></ruby>',' — open times')}</div>
+      <div class="agp-times">${list.map(t=>{const i=pickIdx(cur.date,t);return `<button type="button" class="agp-time ${i>=0?'on':''}" ${(full&&i<0)?'disabled':''} onclick="agTogglePick('${cur.date}','${t}')">${i>=0?`<span class="agp-rank">${i+1}</span>`:''}${t}<span class="agp-to">〜${agEnd(t)}</span></button>`;}).join('')}</div>
+      <button type="button" class="agp-any ${any>=0?'on':''}" ${(full&&any<0)?'disabled':''} onclick="agTogglePick('${cur.date}','')">${any>=0?`<span class="agp-rank">${any+1}</span>`:''}${TG(`この <ruby>日<rt>ひ</rt></ruby>なら いつでも OK`,'Any time this day is fine')}</button>`;
+  }
+
+  // ④ えらんだ希望
+  const picks=AG_PICKS.length
+    ? AG_PICKS.map((p,i)=>`<div class="agp-pick"><span class="agp-rank">${i+1}</span><span class="agp-pl">${TG(`<ruby>第<rt>だい</rt></ruby>${i+1}<ruby>希望<rt>きぼう</rt></ruby>`,i===0?'1st':i===1?'2nd':'3rd')}</span><b>${agPickLabel(p)}</b><button type="button" class="agp-x" onclick="agTogglePick('${p.date}','${p.time||''}')" aria-label="remove">✕</button></div>`).join('')
+    : `<div class="agp-pick empty">${TG(`<ruby>上<rt>うえ</rt></ruby>から <ruby>日時<rt>にちじ</rt></ruby>を えらんでください（<ruby>第<rt>だい</rt></ruby>${AG_MAX_PICKS}<ruby>希望<rt>きぼう</rt></ruby>まで）`,`Choose up to ${AG_MAX_PICKS} options above`)}</div>`;
+
+  box.innerHTML=`
+    <div class="agp-info">🕒 ${TG(`<ruby>所要<rt>しょよう</rt></ruby> <ruby>約<rt>やく</rt></ruby>${durJa} ・ <ruby>最終<rt>さいしゅう</rt></ruby><ruby>受付<rt>うけつけ</rt></ruby> ${AG_AV.lastStart||'14:00'}`,`About ${durEn} · last start ${AG_AV.lastStart||'14:00'}`)}
+      <span>${AG_FALLBACK?TG('<ruby>空<rt>あ</rt></ruby>き<ruby>状況<rt>じょうきょう</rt></ruby>を <ruby>読<rt>よ</rt></ruby>みこめなかったので、<ruby>日<rt>ひ</rt></ruby>にちだけ えらべます','Couldn’t load availability — pick dates only'):TG('<ruby>空<rt>あ</rt></ruby>いている <ruby>時間<rt>じかん</rt></ruby>だけ <ruby>表示<rt>ひょうじ</rt></ruby>しています','Only open times are shown')}</span></div>
+    ${bands}${strip}<div class="agp-timebox">${times}</div>
+    <div class="agp-picks">${picks}</div>`;
+  const btn=PROOT.querySelector('#agPayBtn');if(btn)btn.disabled=!AG_PICKS.length;
+}
+function agSetBand(b){AG_BAND=b;agRenderPicker();}
+function agSetDay(d){AG_DAY=d;agRenderPicker();}
+function agTogglePick(date,time){
+  const t=time||null;
+  const i=AG_PICKS.findIndex(p=>p.date===date&&(p.time||null)===t);
+  if(i>=0)AG_PICKS.splice(i,1);
+  else if(AG_PICKS.length<AG_MAX_PICKS)AG_PICKS.push({date,time:t});
+  agRenderPicker();
+}
+
 function agNext(){
   if(!agSelected.size)return;
-  agSlot=null;
+  if(agSelected.has('a_review')){openReviewForm();return;}
+  AG_PICKS=[];AG_DAY=null;AG_BAND='all';
   const items=[...agSelected].map(id=>AGENT_SERVICES.find(x=>x.id===id));
   let total=0,hasQuote=false;
   items.forEach(s=>{total+=agentPrice(s);if(!(s.price>0||s.was>0))hasQuote=true;});
-  // 無料トライアルは「1回分」＝1件だけ選んでいて、その1件が有料のときに適用
   const useTrial = trialAvailable() && items.length===1 && (items[0].price>0||items[0].was>0);
   const memberTotal = items.reduce((a,s)=>a+(s.price||0),0);
-  // 招待アカウント：通常有料の手続きが1つでも含まれていれば「無料」表示にする
   const invitedFree = isInvited() && items.some(s=>(s.price>0||s.was>0));
-  // date options: next few weekdays
-  const slots=[];
-  const base=new Date();
-  for(let i=3;slots.length<6;i++){
-    const d=new Date(base);d.setDate(base.getDate()+i);
-    const wd=d.getDay();if(wd===0||wd===6)continue;
-    slots.push(d);
-  }
-  const wdJ=['日','月','火','水','木','金','土'];
-  const wdE=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  const slotHtml=slots.map((d,i)=>{
-    const iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    return `<div class="ag-slot" data-i="${i}" onclick="agPickSlot(${i},'${iso}')">${d.getMonth()+1}/${d.getDate()}<br><span style="font-size:11px;opacity:.7">${wdJ[d.getDay()]}·${wdE[d.getDay()]} AM</span></div>`;
-  }).join('');
   const listHtml=items.map(s=>{const p=agentPrice(s);return `<div class="pay-line"><span>${s.ic} ${TG(s.title,s.en||s.title)}</span><span>${(s.price>0||s.was>0)?yen(p):TG('<ruby>見積<rt>みつも</rt></ruby>り','Quote')}</span></div>`;}).join('');
   const totalHtml = invitedFree
     ? `<div class="trial-note" style="background:linear-gradient(160deg,rgba(74,159,184,.14),rgba(74,159,184,.03));border-color:rgba(74,159,184,.35);color:var(--teal)">🎟️ ${TG('<ruby>招待<rt>しょうたい</rt></ruby>アカウント：この <ruby>依頼<rt>いらい</rt></ruby>は <ruby>無料<rt>むりょう</rt></ruby>です','Invited account — this request is free')}</div>
@@ -3824,6 +4024,7 @@ function agNext(){
     : hasQuote
     ? `<div class="pay-line tot"><span>${TG('<ruby>合計<rt>ごうけい</rt></ruby>','Total')}</span><span class="v">${total>0?yen(total)+TG(' + <ruby>見積<rt>みつも</rt></ruby>り',' + quote'):TG('<ruby>見積<rt>みつも</rt></ruby>り','Quote')}</span></div>`
     : `<div class="pay-line tot"><span>${TG('<ruby>合計<rt>ごうけい</rt></ruby>','Total')}</span><span class="v">${yen(total)}</span></div>`;
+  const mode=invitedFree?'invited':(useTrial?'trial':(total>0?'pay':'quote'));
   openModal(`
     <div class="modal-head">
       <button class="modal-x" onclick="closeModal()">✕</button>
@@ -3834,37 +4035,33 @@ function agNext(){
       <div style="font-size:12px;color:var(--muted);margin-bottom:8px">${TG('<ruby>選<rt>えら</rt></ruby>んだ <ruby>手続<rt>てつづ</rt></ruby>き','Selected tasks')}</div>
       ${listHtml}
       ${totalHtml}
-      <div style="font-size:12px;color:var(--muted);margin:18px 0 8px">${TG('<ruby>希望<rt>きぼう</rt></ruby>の <ruby>日<rt>ひ</rt></ruby>にち','Preferred date')}</div>
-      <div class="ag-slot-grid">${slotHtml}</div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:10px">※ ${TG('<ruby>時間<rt>じかん</rt></ruby>は <ruby>予約<rt>よやく</rt></ruby><ruby>後<rt>ご</rt></ruby>に エージェントと <ruby>調整<rt>ちょうせい</rt></ruby>します','Exact time arranged with your agent after booking.')}</div>
+      <div class="agp-title">${TG('<ruby>希望<rt>きぼう</rt></ruby>の <ruby>日時<rt>にちじ</rt></ruby>','Preferred date & time')}</div>
+      <div id="agPicker"><div class="agp-loading">${TG('<ruby>空<rt>あ</rt></ruby>き<ruby>状況<rt>じょうきょう</rt></ruby>を <ruby>確認<rt>かくにん</rt></ruby>しています…','Checking availability…')}</div></div>
       ${(total>0&&!useTrial&&!invitedFree)?`<div class="m-secure" style="margin-bottom:4px">🔒 ${TG('<ruby>次<rt>つぎ</rt></ruby>の <ruby>画面<rt>がめん</rt></ruby>（Stripe）で カード<ruby>入力<rt>にゅうりょく</rt></ruby>・お<ruby>支払<rt>しはら</rt></ruby>い','Card entry & payment on the next secure page (Stripe)')}</div>`:''}
-      <button class="m-btn ${(useTrial||invitedFree||total<=0)?'teal':''}" id="agPayBtn" disabled onclick="agConfirm('${invitedFree?'invited':(useTrial?'trial':(total>0?'pay':'quote'))}')">${(useTrial||invitedFree)?TG('<ruby>無料<rt>むりょう</rt></ruby>で <ruby>依頼<rt>いらい</rt></ruby>する','Request free'):(total>0?TG(yen(total)+' を はらって 依頼する','Pay '+yen(total)+' & request'):TG('<ruby>見積<rt>みつも</rt></ruby>りを <ruby>依頼<rt>いらい</rt></ruby>する','Request quote'))}</button>
+      <button class="m-btn ${(useTrial||invitedFree||total<=0)?'teal':''}" id="agPayBtn" disabled onclick="agConfirm('${mode}')">${(useTrial||invitedFree)?TG('<ruby>無料<rt>むりょう</rt></ruby>で <ruby>依頼<rt>いらい</rt></ruby>する','Request free'):(total>0?TG(yen(total)+' を はらって 依頼する','Pay '+yen(total)+' & request'):TG('<ruby>見積<rt>みつも</rt></ruby>りを <ruby>依頼<rt>いらい</rt></ruby>する','Request quote'))}</button>
       <div class="m-secure">🔒 ${invitedFree?TG('<ruby>招待<rt>しょうたい</rt></ruby>アカウントで <ruby>無料<rt>むりょう</rt></ruby>','Free with your invited account'):useTrial?TG('<ruby>無料<rt>むりょう</rt></ruby>トライアルを <ruby>使<rt>つか</rt></ruby>います','Using your free trial'):(total>0?TG('Stripe で <ruby>安全<rt>あんぜん</rt></ruby>に <ruby>決済<rt>けっさい</rt></ruby>','Secured by Stripe'):TG('<ruby>見積<rt>みつも</rt></ruby>りは <ruby>無料<rt>むりょう</rt></ruby>。あとで <ruby>金額<rt>きんがく</rt></ruby>を お<ruby>知<rt>し</rt></ruby>らせします','Quotes are free — we\'ll send the amount later'))}</div>
       ${(!isFullAccess()&&total>0&&!useTrial)?`<div class="upsell"><div class="upsell-t">💡 ${TG('<ruby>月額<rt>げつがく</rt></ruby>プランなら メンバー<ruby>価格<rt>かかく</rt></ruby>','Members pay the lower member price')}</div><div class="upsell-d">${TG('<ruby>会員<rt>かいいん</rt></ruby>だと この <ruby>依頼<rt>いらい</rt></ruby>は '+yen(memberTotal)+'。レッスンも <ruby>受<rt>う</rt></ruby>けほうだい。','As a member this request is '+yen(memberTotal)+', plus unlimited lessons.')}</div><button class="mini-btn gold" onclick="openUpgrade()">${TG('<ruby>月額<rt>げつがく</rt></ruby>プランを <ruby>見<rt>み</rt></ruby>る','See the monthly plan')}</button></div>`:''}
     </div>`);
-}
-
-function agPickSlot(i,label){
-  agSlot=label;
-  PROOT.querySelectorAll('.ag-slot').forEach(s=>s.classList.toggle('on',+s.dataset.i===i));
-  const btn=PROOT.querySelector('#agPayBtn');if(btn)btn.disabled=false;
+  PROOT.querySelector('#modalBox').classList.add('ag-wide');
+  agLoadAvail(items.map(s=>s.title).join('、')).then(agRenderPicker);
 }
 
 async function agConfirm(mode){
-  if(!agSlot)return;
+  if(!AG_PICKS.length)return;
   const btn=PROOT.querySelector('#agPayBtn');
   if(btn){btn.disabled=true;btn.innerHTML=TG('<ruby>処理<rt>しょり</rt></ruby><ruby>中<rt>ちゅう</rt></ruby>…','Processing…');}
   const items=[...agSelected].map(id=>AGENT_SERVICES.find(x=>x.id===id));
-  // ▼ 本番: mode==='pay' のときは Stripe で total を決済してから依頼を確定する ▼
   const total=(mode==='trial'||mode==='invited')?0:items.reduce((a,s)=>a+agentPrice(s),0);
   const serviceLabel=items.map(s=>s.title).join('、');
+  const picks=AG_PICKS.map(p=>({date:p.date,time:p.time||null}));
+  const dates=[...new Set(picks.map(p=>p.date))];
+  agSlot=dates[0];
 
   const {data:u}=await window.sb.auth.getUser();
   if(!u||!u.user){
     if(btn){btn.disabled=false;btn.innerHTML=TG('ログインが <ruby>必要<rt>ひつよう</rt></ruby>です','Please log in');}
     return;
   }
-  // 有料（会員・招待・見積り・トライアルのいずれでもない）→ Stripe決済へ。成功後にwebhookが依頼を作る。
   if(mode==='pay' && total>0){
     try{
       const {data:sess}=await window.sb.auth.getSession();
@@ -3874,7 +4071,8 @@ async function agConfirm(mode){
       const res=await fetch(`${window.SUPABASE_URL}/functions/v1/create-payment`,{
         method:'POST',
         headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`,'apikey':window.SUPABASE_ANON_KEY},
-        body:JSON.stringify({kind:'agent',services:svc,slot:agSlot,amount:total}),
+        // slot＝第1希望の日（これまでの形）／slots＝時間つきの希望（新しい形）
+        body:JSON.stringify({kind:'agent',services:svc,slot:agSlot,slots:picks,amount:total}),
       });
       const out=await res.json();
       if(!res.ok||!out.url) throw new Error(out.error||'checkout failed');
@@ -3886,12 +4084,12 @@ async function agConfirm(mode){
     }
     return;
   }
-  // 無料・見積り（会員/招待/トライアル/quote）→ そのまま依頼を作成
   const {error}=await window.sb.from('agent_requests').insert({
     user_id:u.user.id,
     service:serviceLabel,
     ic:(items[0]&&items[0].ic)||'🤝',
-    candidates:[agSlot],
+    candidates:dates,
+    candidate_slots:picks,
     amount:total,
     status:'new',
   });
@@ -3901,7 +4099,7 @@ async function agConfirm(mode){
     return;
   }
   if(mode==='trial'){ await markTrialUsed(); }
-  await loadMyBookings(); // DBから読み直して「受付済」を実データで表示
+  await loadMyBookings();
   const namesJ=items.map(s=>s.title).join('、');
   const namesE=items.map(s=>s.en||s.title).join(', ');
   openModal(`
@@ -3909,11 +4107,159 @@ async function agConfirm(mode){
     <div class="modal-body"><div class="m-done">
       <div class="md-mark">✓</div>
       <h3>${TG('<ruby>依頼<rt>いらい</rt></ruby> <ruby>完了<rt>かんりょう</rt></ruby>！','Request complete!')}</h3>
-      <p>${TG(namesJ,namesE)}<br>${(()=>{const p=(agSlot||'').split('-');if(p.length===3){const dd=new Date(agSlot+'T00:00');const wj=['日','月','火','水','木','金','土'][dd.getDay()];return `${+p[1]}/${+p[2]}（${wj}）`;}return agSlot;})()}<br><br>
-      <span style="color:var(--teal)">📅 ${TG('「イベント<ruby>予定<rt>よてい</rt></ruby>」に <ruby>追加<rt>ついか</rt></ruby>しました。','Added to your event schedule.')}</span><br>
-      ${TG('エージェントから <ruby>日時<rt>にちじ</rt></ruby>の <ruby>連絡<rt>れんらく</rt></ruby>が <ruby>届<rt>とど</rt></ruby>きます。','Your agent will contact you about the date and time.')}</p>
+      <p>${TG(namesJ,namesE)}</p>
+      <div class="agp-done">${picks.map((p,i)=>`<div><span class="agp-rank">${i+1}</span>${agPickLabel(p)}</div>`).join('')}</div>
+      <p style="margin-top:12px">${TG('<ruby>空<rt>あ</rt></ruby>いている <ruby>時間<rt>じかん</rt></ruby>から えらんで いただいたので、<ruby>第<rt>だい</rt></ruby>1<ruby>希望<rt>きぼう</rt></ruby>から <ruby>順<rt>じゅん</rt></ruby>に <ruby>確定<rt>かくてい</rt></ruby>します。<ruby>確定<rt>かくてい</rt></ruby>したら メールと メッセージで お<ruby>知<rt>し</rt></ruby>らせします。','You picked from open times, so we\'ll confirm your top choice first. We\'ll let you know by email and message.')}</p>
       <button class="m-btn teal" onclick="closeModal();agReset();">${TG('<ruby>閉<rt>と</rt></ruby>じる','Close')}</button>
     </div></div>`);
+}
+
+/* ---------- 添削（履歴書・書類・課題）---------- */
+const REVIEW_TYPES=[
+  {id:'resume',ja:RB('履歴書','りれきしょ'),plain:'履歴書',en:'Résumé'},
+  {id:'cv',ja:RB('職務','しょくむ')+RB('経歴書','けいれきしょ'),plain:'職務経歴書',en:'Work history'},
+  {id:'doc',ja:RB('書類','しょるい')+'・'+RB('手紙','てがみ'),plain:'書類・手紙',en:'Documents & letters'},
+  {id:'hw',ja:RB('課題','かだい')+'・レポート',plain:'課題・レポート',en:'Homework & reports'},
+  {id:'other',ja:'その'+RB('他','た'),plain:'その他',en:'Other'},
+];
+const REVIEW_LANGS=[{id:'ja',ja:RB('日本語','にほんご'),en:'Japanese'},{id:'en',ja:RB('英語','えいご'),en:'English'}];
+const REVIEW_MAX_FILES=5, REVIEW_MAX_MB=10, REVIEW_TURNAROUND_DAYS=3;
+let RV={type:'resume',lang:'ja',count:1,files:[]};
+
+function reviewPrice(){
+  const s=AGENT_SERVICES.find(x=>x.id==='a_review');
+  if(isInvited())return 0;
+  return (s?agentPrice(s):1000)*RV.count;
+}
+function openReviewForm(){
+  RV={type:'resume',lang:'ja',count:1,files:[]};
+  openModal(`
+    <div class="modal-head">
+      <button class="modal-x" onclick="closeModal()">✕</button>
+      <h2>📝 <ruby>添削<rt>てんさく</rt></ruby>を <ruby>頼<rt>たの</rt></ruby>む</h2>
+      <div class="m-sub">Proofreading request</div>
+    </div>
+    <div class="modal-body" id="rvBody"></div>`);
+  PROOT.querySelector('#modalBox').classList.add('ag-wide');
+  renderReviewForm();
+}
+function renderReviewForm(){
+  const body=PROOT.querySelector('#rvBody');if(!body)return;
+  const keepText=(PROOT.querySelector('#rvText')||{}).value||'';
+  const keepPoint=(PROOT.querySelector('#rvPoint')||{}).value||'';
+  const price=reviewPrice();
+  const useTrial=trialAvailable()&&RV.count===1;
+  const unit=AGENT_SERVICES.find(x=>x.id==='a_review');
+  const chip=(on,act,label)=>`<button type="button" class="agp-band ${on?'on':''}" onclick="${act}">${label}</button>`;
+  body.innerHTML=`
+    <div class="rv-step"><span class="rv-no">1</span>${TG('なにを <ruby>見<rt>み</rt></ruby>てほしい？','What should we check?')}</div>
+    <div class="agp-bands">${REVIEW_TYPES.map(t=>chip(RV.type===t.id,`rvSet('type','${t.id}')`,TG(t.ja,t.en))).join('')}</div>
+    <div class="rv-step"><span class="rv-no">2</span>${TG('<ruby>書類<rt>しょるい</rt></ruby>の <ruby>言語<rt>げんご</rt></ruby>','Language of the document')}</div>
+    <div class="agp-bands">${REVIEW_LANGS.map(l=>chip(RV.lang===l.id,`rvSet('lang','${l.id}')`,TG(l.ja,l.en))).join('')}</div>
+    <div class="rv-step"><span class="rv-no">3</span>${TG('<ruby>書類<rt>しょるい</rt></ruby>を <ruby>送<rt>おく</rt></ruby>る','Send your document')}</div>
+    <label class="rv-drop">
+      <input type="file" id="rvFile" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt" onchange="rvAddFiles(this.files);this.value=''">
+      <span>📎 ${TG('ファイルを えらぶ（PDF・Word・<ruby>写真<rt>しゃしん</rt></ruby>）','Choose files (PDF, Word, photo)')}</span>
+      <small>${TG(`${REVIEW_MAX_FILES}つまで・1つ ${REVIEW_MAX_MB}MB まで`,`Up to ${REVIEW_MAX_FILES} files, ${REVIEW_MAX_MB} MB each`)}</small>
+    </label>
+    ${RV.files.length?`<div class="rv-files">${RV.files.map((f,i)=>`<div class="rv-file"><span>📄 ${f.name.replace(/</g,'&lt;')}</span><small>${(f.size/1048576).toFixed(1)}MB</small><button type="button" class="agp-x" onclick="rvRemoveFile(${i})">✕</button></div>`).join('')}</div>`:''}
+    <textarea id="rvText" class="rv-text" placeholder="${stripRuby('または、Googleドキュメントの リンクや 文章を ここに はりつけても OK')} / Or paste a Google Docs link or the text here">${keepText.replace(/</g,'&lt;')}</textarea>
+    <div class="rv-step"><span class="rv-no">4</span>${TG('とくに <ruby>見<rt>み</rt></ruby>てほしい ところ（<ruby>任意<rt>にんい</rt></ruby>）','Anything to focus on? (optional)')}</div>
+    <textarea id="rvPoint" class="rv-text small" placeholder="${stripRuby('れい：敬語が 正しいか／志望動機が 伝わるか')} / e.g. polite forms, is my motivation clear">${keepPoint.replace(/</g,'&lt;')}</textarea>
+    <div class="rv-step"><span class="rv-no">5</span>${TG('<ruby>件数<rt>けんすう</rt></ruby>','How many documents')}</div>
+    <div class="rv-count"><button type="button" onclick="rvCount(-1)" ${RV.count<=1?'disabled':''}>−</button><b>${RV.count}</b><span>${TG('<ruby>件<rt>けん</rt></ruby>','')}</span><button type="button" onclick="rvCount(1)" ${RV.count>=5?'disabled':''}>＋</button>
+      <small>${TG(`1<ruby>件<rt>けん</rt></ruby>＝<ruby>書類<rt>しょるい</rt></ruby> 1つ・${yen(unit?unit.price:1000)}`,`1 = one document · ${yen(unit?unit.price:1000)}`)}</small></div>
+    ${isInvited()?`<div class="trial-note">🎟️ ${TG('<ruby>招待<rt>しょうたい</rt></ruby>アカウント：<ruby>無料<rt>むりょう</rt></ruby>です','Invited account — free')}</div>`
+      :useTrial?`<div class="trial-note">🎁 ${TG('<ruby>無料<rt>むりょう</rt></ruby>トライアルが <ruby>使<rt>つか</rt></ruby>えます（1<ruby>件<rt>けん</rt></ruby>まで）','Your free trial covers 1 document')}</div>`:''}
+    <div class="pay-line tot"><span>${TG('お<ruby>支払<rt>しはら</rt></ruby>い','You pay')}</span><span class="v">${(isInvited()||useTrial)?TG('<ruby>無料<rt>むりょう</rt></ruby>','Free'):yen(price)}</span></div>
+    <div class="agp-info">⏱ ${TG(`ふつう ${REVIEW_TURNAROUND_DAYS}<ruby>日<rt>にち</rt></ruby><ruby>以内<rt>いない</rt></ruby>に、コメントつきで お<ruby>返<rt>かえ</rt></ruby>しします。<ruby>終<rt>お</rt></ruby>わったら メッセージで お<ruby>知<rt>し</rt></ruby>らせします。`,`Usually returned with comments within ${REVIEW_TURNAROUND_DAYS} days. We'll message you when it's ready.`)}</div>
+    <button class="m-btn ${(isInvited()||useTrial)?'teal':''}" id="rvBtn" onclick="rvSubmit('${isInvited()?'invited':(useTrial?'trial':'pay')}')">${(isInvited()||useTrial)?TG('<ruby>無料<rt>むりょう</rt></ruby>で <ruby>送<rt>おく</rt></ruby>る','Send for free'):TG(yen(price)+' を はらって <ruby>送<rt>おく</rt></ruby>る','Pay '+yen(price)+' & send')}</button>
+    <div class="m-secure">🔒 ${TG('ファイルは <ruby>運営<rt>うんえい</rt></ruby>だけが <ruby>見<rt>み</rt></ruby>られます','Only our team can see your files')}</div>`;
+}
+function rvSet(k,v){RV[k]=v;renderReviewForm();}
+function rvCount(d){RV.count=Math.max(1,Math.min(5,RV.count+d));renderReviewForm();}
+function rvRemoveFile(i){RV.files.splice(i,1);renderReviewForm();}
+function rvAddFiles(list){
+  for(const f of list){
+    if(RV.files.length>=REVIEW_MAX_FILES)break;
+    if(f.size>REVIEW_MAX_MB*1048576){alert(stripRuby(`「${f.name}」は ${REVIEW_MAX_MB}MB を こえています`)+` / "${f.name}" is over ${REVIEW_MAX_MB} MB`);continue;}
+    RV.files.push(f);
+  }
+  renderReviewForm();
+}
+async function rvSubmit(mode){
+  const text=(PROOT.querySelector('#rvText')||{}).value.trim();
+  const point=(PROOT.querySelector('#rvPoint')||{}).value.trim();
+  if(!RV.files.length&&!text){alert(stripRuby('ファイルを えらぶか、リンク・文章を 入れてください')+' / Please add a file, link or text.');return;}
+  const btn=PROOT.querySelector('#rvBtn');
+  btn.disabled=true;btn.innerHTML=TG('<ruby>送信<rt>そうしん</rt></ruby><ruby>中<rt>ちゅう</rt></ruby>…','Sending…');
+  const fail=(msg,err)=>{noteNetError('review:',err||msg);btn.disabled=false;btn.innerHTML=TG('もう <ruby>一度<rt>いちど</rt></ruby>','Try again');};
+  const {data:u}=await window.sb.auth.getUser();
+  if(!u||!u.user)return fail('not signed in');
+  // 1) ファイルを 非公開バケット reviews/<自分のid>/ に 上げる
+  const attachments=[];
+  for(const [i,f] of RV.files.entries()){
+    const safe=f.name.replace(/[^\w.\-]+/g,'_').slice(-80);
+    const path=`${u.user.id}/${Date.now()}_${i}_${safe}`;
+    const {error}=await window.sb.storage.from('reviews').upload(path,f,{contentType:f.type||undefined,upsert:false});
+    if(error)return fail('upload',error);
+    attachments.push({path,name:f.name,size:f.size});
+  }
+  const t=REVIEW_TYPES.find(x=>x.id===RV.type);
+  const service=`添削（${t.plain}）`+(RV.count>1?` ×${RV.count}`:'');
+  const meta={type:RV.type,lang:RV.lang,count:RV.count,text,point};
+  const total=(mode==='trial'||mode==='invited')?0:reviewPrice();
+  // 2) 有料 → Stripe（ファイルと内容は review として渡す）
+  if(mode==='pay'&&total>0){
+    try{
+      const {data:sess}=await window.sb.auth.getSession();
+      const token=sess?.session?.access_token;
+      const res=await fetch(`${window.SUPABASE_URL}/functions/v1/create-payment`,{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`,'apikey':window.SUPABASE_ANON_KEY},
+        body:JSON.stringify({kind:'agent',services:[{id:'a_review',ic:'📝',title:service}],amount:total,review:{meta,attachments}}),
+      });
+      const out=await res.json();
+      if(!res.ok||!out.url)throw new Error(out.error||'checkout failed');
+      window.location.href=out.url;
+    }catch(err){fail('payment',err);alert(TG('<ruby>決済<rt>けっさい</rt></ruby>ページを <ruby>開<rt>ひら</rt></ruby>けませんでした。','Could not open the payment page.'));}
+    return;
+  }
+  // 3) 無料（招待・トライアル）→ そのまま 依頼を 作る
+  const {error}=await window.sb.from('agent_requests').insert({
+    user_id:u.user.id,service,ic:'📝',kind:'review',candidates:[],
+    review_meta:meta,attachments,amount:total,status:'new',note:[point,text].filter(Boolean).join('\n\n')||null,
+  });
+  if(error)return fail('insert',error);
+  if(mode==='trial'){await markTrialUsed();}
+  await loadMyBookings();
+  openModal(`
+    <div class="modal-head"><button class="modal-x" onclick="closeModal();agReset();">✕</button></div>
+    <div class="modal-body"><div class="m-done">
+      <div class="md-mark">✓</div>
+      <h3>${TG('<ruby>受<rt>う</rt></ruby>け<ruby>付<rt>つ</rt></ruby>けました！','Received!')}</h3>
+      <p>📝 ${service}<br><br>${TG(`ふつう ${REVIEW_TURNAROUND_DAYS}<ruby>日<rt>にち</rt></ruby><ruby>以内<rt>いない</rt></ruby>に お<ruby>返<rt>かえ</rt></ruby>しします。<ruby>終<rt>お</rt></ruby>わったら「エージェント」タブで <ruby>見<rt>み</rt></ruby>られます。`,`Usually within ${REVIEW_TURNAROUND_DAYS} days. You'll find it in the Agent tab.`)}</p>
+      <button class="m-btn teal" onclick="closeModal();agReset();">${TG('<ruby>閉<rt>と</rt></ruby>じる','Close')}</button>
+    </div></div>`);
+}
+async function openReviewResult(id){
+  const r=(MY_AGENT_REQUESTS||[]).find(x=>x.id===id);if(!r)return;
+  const files=r.result_files||[];
+  openModal(`
+    <div class="modal-head"><button class="modal-x" onclick="closeModal()">✕</button>
+      <h2>📝 <ruby>添削<rt>てんさく</rt></ruby>の <ruby>結果<rt>けっか</rt></ruby></h2><div class="m-sub">${(r.service||'').replace(/</g,'&lt;')}</div></div>
+    <div class="modal-body">
+      ${r.result_note?`<div class="rv-result">${r.result_note.replace(/</g,'&lt;').replace(/\n/g,'<br>')}</div>`:''}
+      <div id="rvResFiles">${files.length?TG('<ruby>読<rt>よ</rt></ruby>みこみ<ruby>中<rt>ちゅう</rt></ruby>…','Loading…'):''}</div>
+      <button class="m-btn teal" style="margin-top:14px" onclick="closeModal()">${TG('<ruby>閉<rt>と</rt></ruby>じる','Close')}</button>
+    </div>`);
+  if(!files.length)return;
+  const links=[];
+  for(const f of files){
+    const {data}=await window.sb.storage.from('reviews').createSignedUrl(f.path,3600,{download:f.name});
+    if(data&&data.signedUrl)links.push(`<a class="rv-file dl" href="${data.signedUrl}" target="_blank" rel="noopener">⬇️ ${String(f.name).replace(/</g,'&lt;')}</a>`);
+  }
+  const box=PROOT.querySelector('#rvResFiles');if(box)box.innerHTML=links.join('')||TG('ファイルを <ruby>開<rt>ひら</rt></ruby>けませんでした','Could not open the files');
 }
 
 function agReset(){agSelected.clear();agSlot=null;renderAgent();}
