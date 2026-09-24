@@ -2840,7 +2840,7 @@ function stampLabel(iso){const p=jstParts(iso);return p?`${fmtDate(p.ymd).full} 
 function gcalRowHTML(c){
   c=c||{id:'',kind:'other',hideTitle:false};
   return `<div class="gc-row">
-    <input class="gc-id" value="${esc(c.id)}" placeholder="れい：yourname@gmail.com" autocomplete="off">
+    <input class="gc-id" value="${esc(c.id)}" placeholder="れい：info@thekakehashi.com" autocomplete="off">
     <select class="gc-kind">${Object.keys(BLOCK_KIND).map(k=>`<option value="${k}" ${c.kind===k?'selected':''}>${BLOCK_KIND[k]}</option>`).join('')}</select>
     <label class="mini-chk"><input type="checkbox" class="gc-hide" ${c.hideTitle?'checked':''}> 題名を保存しない</label>
     <button class="btn btn-ghost btn-sm" onclick="this.closest('.gc-row').remove()" aria-label="このカレンダーを外す">外す</button>
@@ -2871,13 +2871,13 @@ function gcalHTML(){
       <button class="btn btn-teal btn-sm" id="gcSyncBtn" onclick="syncCalendar(false)" ${DB.schedReady&&GCAL.calendars.length&&!_gcSyncing?'':'disabled'}>${_gcSyncing?'同期中…':'今すぐ 同期'}</button>
     </div>
     <details class="gc-help"><summary>はじめての 設定手順</summary>
+      <p><b>info@thekakehashi.com のカレンダーに 予定を 入れている場合</b>は、上の欄に <b>info@thekakehashi.com</b> と入れて 保存するだけです（共有の設定は いりません）。Kakehashi の レッスン自身（Meet の予定など）は、レッスンと 同じ開始時刻の予定として 自動で 除外します。</p>
+      <p>べつの Googleアカウント（Gmail など）の カレンダーも 取り込みたいときは：</p>
       <ol>
-        <li>パソコンの Googleカレンダーで、取り込みたい カレンダーの「設定と共有」を開く</li>
-        <li>「特定のユーザーまたはグループと共有する」に <b>info@thekakehashi.com</b> を追加し、権限を「予定の表示（すべての予定の詳細）」にする。題名を見せたくない場合は「予定の表示（時間枠のみ、詳細は非表示）」でも取り込めます</li>
-        <li>同じ画面の「カレンダーの統合」にある <b>カレンダーID</b>（メインのカレンダーなら Gmail アドレス）を、上の欄に入れて 保存する</li>
-        <li>「今すぐ 同期」を押す。以後は admin を開いたときに 30分ごと、自動生成の前にも 同期します</li>
+        <li>そのカレンダーの「設定と共有」→「特定のユーザーまたはグループと共有する」に <b>info@thekakehashi.com</b> を追加（権限は「予定の表示（すべての予定の詳細）」。題名を見せたくなければ「時間枠のみ」でも可）</li>
+        <li>「カレンダーの統合」にある カレンダーID を 欄に追加して 保存</li>
       </ol>
-      <p>予定を Googleカレンダーで「予定なし（空き時間）」にすると 取り込まれません。題名に「バイト・シフト・Taproom」があれば バイト、「授業・ゼミ・試験」などがあれば 学校として 色分けします。</p>
+      <p>同期は「今すぐ 同期」のほか、admin を開いたとき（30分ごと）と 自動生成の前にも 行います。「予定なし（空き時間）」にした予定は 取り込まれません。題名に「バイト・シフト・Taproom」があれば バイト、「授業・ゼミ・試験」などがあれば 学校として 色分けします。</p>
     </details>`;
 }
 async function saveGcal(){
