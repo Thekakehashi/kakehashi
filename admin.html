@@ -527,6 +527,69 @@ body{
   .row-act .btn{flex:0 0 auto}
 }
 
+/* ===== ダッシュボード：三つの柱 ===== */
+.pl-panel .month-nav b{font-size:16px;min-width:96px}
+.pl-summary{display:grid;grid-template-columns:230px 1fr;gap:24px;align-items:center;margin-bottom:22px}
+.pl-total span{font-size:12px;color:var(--muted)}
+.pl-total b{display:block;font-family:"Inter";font-size:32px;font-weight:800;line-height:1.15;margin:2px 0 4px}
+.pl-total small{font-size:11.5px;color:var(--muted);margin-left:4px}
+.pl-bar{display:flex;height:22px;border-radius:999px;overflow:hidden;background:var(--washi-2)}
+.pl-bar div{height:100%;transition:width .4s}
+.pl-bar div+div{box-shadow:-2px 0 0 #fff}
+.pl-bar.empty{align-items:center;justify-content:center;font-size:12px;color:var(--muted)}
+.pl-legend{display:flex;gap:6px 18px;flex-wrap:wrap;margin-top:10px;font-size:13px}
+.pl-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
+.pl-legend b{font-family:"Inter";margin-left:4px}
+.pl-delta{font-size:12px;font-weight:700;white-space:nowrap}
+.pl-delta.up{color:#2f8a5b}.pl-delta.down{color:var(--danger)}.pl-delta.flat{color:var(--muted)}
+.pl-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px}
+.pl-card{border:1px solid var(--line);border-top:4px solid var(--pc);border-radius:14px;padding:16px 16px 12px;background:#fff;display:flex;flex-direction:column}
+.pl-top{display:flex;justify-content:space-between;align-items:baseline}
+.pl-name{font-weight:800;font-size:15px}
+.pl-name small{display:block;font-weight:500;font-size:11px;color:var(--muted);font-family:"Cormorant",serif;font-style:italic}
+.pl-share{font-family:"Inter";font-weight:800;font-size:15px;color:var(--pc)}
+.pl-rev{font-family:"Inter";font-size:24px;font-weight:800;margin:6px 0 2px}
+.pl-sub{font-size:11.5px;color:var(--muted);display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.pl-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;margin:14px 0 10px;flex:1}
+.pl-stats div{display:flex;flex-direction:column;min-width:0}
+.pl-stats span{font-size:11px;color:var(--muted)}
+.pl-stats b{font-family:"Inter";font-size:18px;font-weight:800;line-height:1.3}
+.pl-stats b em{font-style:normal;font-size:12px;font-weight:600;color:var(--muted);margin-left:2px}
+.pl-stats small{font-size:11px;color:var(--muted);line-height:1.4}
+.pl-foot{font-size:11.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
+.pl-bottom{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.pl-h{font-size:13px;font-weight:800;margin-bottom:10px}
+.pl-h small{font-weight:500;color:var(--muted);font-size:11px;margin-left:6px}
+.pi-row{display:grid;grid-template-columns:118px 1fr 92px;gap:10px;align-items:center;padding:6px 0;font-size:13px}
+.pi-track{position:relative;height:14px;background:var(--washi-2);border-radius:999px}
+.pi-mid{position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--muted);opacity:.5}
+.pi-bar{position:absolute;top:0;bottom:0;border-radius:999px}
+.pi-bar.neg{opacity:.55}
+.pi-val{font-family:"Inter";font-weight:700;text-align:right;white-space:nowrap}
+.pi-val.up{color:#2f8a5b}.pi-val.down{color:var(--danger)}
+.pl-note{font-size:12.5px;margin-top:10px;line-height:1.7;background:var(--washi-2);border-radius:10px;padding:9px 12px}
+.pl-chart{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;height:170px;align-items:end}
+.pc-col{height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;cursor:pointer;border-radius:8px;padding:0 2px}
+.pc-col:hover{background:var(--washi-2)}
+.pc-total{font-family:"Inter";font-size:10.5px;color:var(--muted);margin-bottom:3px;white-space:nowrap}
+.pc-stack{width:70%;max-width:44px;min-height:2px;display:flex;flex-direction:column-reverse;border-radius:6px 6px 0 0;overflow:hidden;background:var(--washi-2)}
+.pc-stack div{min-height:2px}
+.pc-m{font-size:11.5px;color:var(--muted);margin-top:5px}
+.pc-col.on .pc-m{color:var(--ink);font-weight:800}
+.pc-col.on .pc-total{color:var(--ink);font-weight:700}
+.pl-src{font-size:11px;color:var(--muted);margin-top:16px;line-height:1.6}
+@media(max-width:1100px){.pl-cards{grid-template-columns:1fr 1fr}.pl-cards .pl-card:last-child{grid-column:1/-1}}
+@media(max-width:760px){
+  .pl-summary{grid-template-columns:1fr;gap:12px}
+  .pl-total b{font-size:28px}
+  .pl-cards{grid-template-columns:1fr}
+  .pl-cards .pl-card:last-child{grid-column:auto}
+  .pl-bottom{grid-template-columns:1fr}
+  .pi-row{grid-template-columns:96px 1fr 80px;gap:8px;font-size:12px}
+  .pl-chart{gap:4px;height:150px}
+  .pc-total{font-size:9px}
+}
+
 /* mobile */
 .side-toggle{display:none}
 @media(max-width:820px){
@@ -640,6 +703,7 @@ body{
         <div class="kpi"><div class="k-label">今後のイベント / Events</div><div class="k-num" id="kEvents">–</div><div class="k-sub">公開中</div></div>
       </div>
       <div id="homeAuto"></div>
+      <div id="homePillars"></div>
       <div class="kpi-grid">
         <div class="kpi link" onclick="go('ledger')"><div class="k-label">今月の入金</div><div class="k-num" id="kIncome">–</div><div class="k-sub" id="kIncomeSub"></div></div>
         <div class="kpi link" onclick="go('ledger')"><div class="k-label">今月 実施したレッスン</div><div class="k-num" id="kDone">–</div><div class="k-sub">出席を記録した数</div></div>
@@ -1261,6 +1325,7 @@ function renderHome(){
   document.getElementById('kUnpaid').textContent=un;
   document.getElementById('kUnpaidSub').textContent=`単発 ${lg.unpaidDone.length} ／ 月額 ${lg.memUnpaid.length}`;
   document.getElementById('kUnpaidBox').classList.toggle('warn',un>0);
+  renderPillars();
   const ac=upcomingCandidateCount();
   const cf=DB.schedReady?conflictingLessons():[];
   const cfHTML=cf.length?`<div class="panel cf-nudge"><div><b>⚠ 予定と 重なっている レッスンが ${cf.length}件 あります</b><div class="sub" style="font-size:12.5px;color:var(--muted)">学校・バイト・Googleカレンダーの 予定と 時間が かぶっています</div></div><button class="btn btn-danger btn-sm" onclick="showConflictList(conflictingLessons(),'予定と 重なっている レッスン')">確認する</button></div>`:'';
@@ -3389,6 +3454,156 @@ async function rvReturn(id){
     if(mErr)console.warn('chat:',mErr.message||mErr);
   }
   closeModal();renderAll();toast(first?'返却して 会員に お知らせしました':'返却内容を 更新しました');
+}
+
+/* ============================================================
+   ダッシュボード：三つの柱（レッスン／エージェント／イベント）
+   売上の 構成と、件数・単価・先月からの 変化を 1か所で 見る
+   売上 ＝ 入金記録（payments）＋ Stripe などで 払われた 依頼・申込の 金額
+          （入金記録に ひもづいていない 分だけ 足すので 二重には なりません）
+   ============================================================ */
+const PILLARS=[
+  {k:'lesson',ic:'📚',ja:'レッスン',en:'Lessons',color:'#4a9fb8'},
+  {k:'agent',ic:'🤝',ja:'エージェント',en:'Agent',color:'#c9a24b'},
+  {k:'event',ic:'🎏',ja:'イベント',en:'Events',color:'#8a6fb0'},
+];
+let DASH_MONTH=null;
+function dashMonth(n){DASH_MONTH=n===0?curMonth():addMonths(DASH_MONTH||curMonth(),n);renderPillars();}
+
+function pillarData(m){
+  const inM=d=>(d||'').startsWith(m);
+  const paid=DB.payments.filter(p=>p.status==='paid'&&inM(p.paidOn));
+  const sum=(arr,f)=>arr.reduce((a,x)=>a+(Number(f(x))||0),0);
+  const refPaid=new Set(DB.payments.filter(p=>p.status==='paid'&&p.refId).map(p=>p.refId));
+
+  // レッスン：月額＋単発
+  const mem=sum(paid.filter(p=>p.kind==='membership'),p=>p.amount);
+  const single=sum(paid.filter(p=>p.kind==='lesson'),p=>p.amount);
+  const lessons=DB.lessons.filter(l=>inM(l.date));
+  const lessonIds=new Set(lessons.map(l=>l.id));
+  const bks=DB.bookings.filter(b=>lessonIds.has(b.lessonId)&&isLive(b));
+  const attended=bks.filter(b=>b.attendance==='attended').length;
+  const seats=sum(lessons,l=>l.max);
+  const booked=bks.length;
+
+  // エージェント：入金記録＋（記録のない）依頼の金額
+  const reqs=DB.requests.filter(r=>inM(r.created));
+  const live=reqs.filter(r=>r.status!=='cancelled');
+  const agPay=sum(paid.filter(p=>p.kind==='agent'),p=>p.amount);
+  const agReq=sum(live.filter(r=>!refPaid.has(r.id)),r=>r.amount);
+  const reviews=live.filter(r=>r.kind==='review').length;
+
+  // イベント：入金記録＋（記録のない）申込 × 参加費
+  const events=DB.events.filter(e=>inM(e.date));
+  const evIds=new Set(events.map(e=>e.id));
+  const sus=DB.signups.filter(s=>evIds.has(s.eventId)&&isLive(s));
+  const evPay=sum(paid.filter(p=>p.kind==='event'),p=>p.amount);
+  const evSign=sum(sus.filter(s=>!refPaid.has(s.id)),s=>{const e=eventById(s.eventId);return e?e.price:0;});
+  const joined=sus.length;
+
+  const other=sum(paid.filter(p=>p.kind==='other'),p=>p.amount);
+  const rev={lesson:mem+single,agent:agPay+agReq,event:evPay+evSign};
+  return {
+    m,rev,other,total:rev.lesson+rev.agent+rev.event+other,
+    lesson:{mem,single,count:lessons.length,held:lessons.filter(l=>l.date<todayISO()).length,attended,booked,seats,
+      occ:seats?booked/seats:null,perAttend:attended?(mem+single)/attended:null},
+    agent:{count:live.length,visits:live.length-reviews,reviews,cancelled:reqs.length-live.length,
+      byStatus:{new:live.filter(r=>r.status==='new').length,progress:live.filter(r=>r.status==='progress').length,done:live.filter(r=>r.status==='done').length},
+      recorded:agPay,fromReq:agReq,avg:live.length?(agPay+agReq)/live.length:null},
+    event:{count:events.length,joined,perEvent:events.length?joined/events.length:null,recorded:evPay,fromSign:evSign,
+      perHead:joined?(evPay+evSign)/joined:null},
+  };
+}
+const pctTxt=v=>v==null?'—':`${Math.round(v*100)}%`;
+function deltaHTML(cur,prev,money=true){
+  const d=cur-prev;
+  if(!prev&&!cur)return '<span class="pl-delta flat">±0</span>';
+  if(!prev)return `<span class="pl-delta up">新規</span>`;
+  const r=d/prev;
+  const cls=d>0?'up':d<0?'down':'flat';
+  return `<span class="pl-delta ${cls}">${d>0?'▲':d<0?'▼':'±'} ${money?yen(Math.abs(d)):Math.abs(d)}${d?`（${Math.round(Math.abs(r)*100)}%）`:''}</span>`;
+}
+
+function renderPillars(){
+  const host=document.getElementById('homePillars');if(!host)return;
+  const m=DASH_MONTH||(DASH_MONTH=curMonth());
+  const cur=pillarData(m),prev=pillarData(addMonths(m,-1));
+  const months=[-5,-4,-3,-2,-1,0].map(n=>addMonths(m,n));
+  const trend=months.map(x=>({m:x,d:x===m?cur:pillarData(x)}));
+  const maxT=Math.max(1,...trend.map(t=>t.d.total));
+  const share=k=>cur.total?cur.rev[k]/cur.total:0;
+  const diff=cur.total-prev.total;
+
+  // ① 売上の 構成（横の 積み上げ）
+  const bar=cur.total?`<div class="pl-bar">${PILLARS.map(p=>cur.rev[p.k]?`<div style="width:${share(p.k)*100}%;background:${p.color}" title="${p.ja} ${yen(cur.rev[p.k])}"></div>`:'').join('')}${cur.other?`<div style="width:${cur.other/cur.total*100}%;background:#b8c2c9" title="その他 ${yen(cur.other)}"></div>`:''}</div>`
+    :'<div class="pl-bar empty"><span>この月の 売上は まだ ありません</span></div>';
+  const legend=`<div class="pl-legend">${PILLARS.map(p=>`<span><i style="background:${p.color}"></i>${p.ic} ${p.ja} <b>${pctTxt(share(p.k))}</b></span>`).join('')}${cur.other?`<span><i style="background:#b8c2c9"></i>その他 <b>${pctTxt(cur.other/cur.total)}</b></span>`:''}</div>`;
+
+  // ② 柱ごとの カード
+  const L=cur.lesson,A=cur.agent,E=cur.event;
+  const card=(p,body,foot)=>`<div class="pl-card" style="--pc:${p.color}">
+    <div class="pl-top"><span class="pl-name">${p.ic} ${p.ja}<small>${p.en}</small></span><span class="pl-share">${pctTxt(share(p.k))}</span></div>
+    <div class="pl-rev">${yen(cur.rev[p.k])}</div>
+    <div class="pl-sub">先月 ${yen(prev.rev[p.k])} ${deltaHTML(cur.rev[p.k],prev.rev[p.k])}</div>
+    <div class="pl-stats">${body}</div>
+    ${foot?`<div class="pl-foot">${foot}</div>`:''}
+  </div>`;
+  const st=(label,val,sub)=>`<div><span>${label}</span><b>${val}</b>${sub?`<small>${sub}</small>`:''}</div>`;
+  const cards=[
+    card(PILLARS[0],
+      st('レッスン数',`${L.count}<em>本</em>`,`おわった ${L.held}本`)+
+      st('受講（出席）',`${L.attended}<em>回</em>`,`予約 ${L.booked}／席 ${L.seats}`)+
+      st('予約の 埋まり',pctTxt(L.occ),'予約÷定員')+
+      st('1受講あたり',L.perAttend==null?'—':yen(Math.round(L.perAttend)),'売上÷出席'),
+      `内訳：月額 ${yen(L.mem)} ・ 単発 ${yen(L.single)}`),
+    card(PILLARS[1],
+      st('依頼件数',`${A.count}<em>件</em>`,`先月 ${prev.agent.count}件 ${deltaHTML(A.count,prev.agent.count,false)}`)+
+      st('同行／添削',`${A.visits}<em>／</em>${A.reviews}`,A.cancelled?`キャンセル ${A.cancelled}`:'')+
+      st('状況',`${A.byStatus.done}<em>完了</em>`,`未対応 ${A.byStatus.new}・対応中 ${A.byStatus.progress}`)+
+      st('1件あたり',A.avg==null?'—':yen(Math.round(A.avg)),'売上÷件数'),
+      `内訳：入金記録 ${yen(A.recorded)} ・ 依頼の金額 ${yen(A.fromReq)}`),
+    card(PILLARS[2],
+      st('イベント数',`${E.count}<em>回</em>`,`先月 ${prev.event.count}回`)+
+      st('参加者',`${E.joined}<em>人</em>`,`先月 ${prev.event.joined}人 ${deltaHTML(E.joined,prev.event.joined,false)}`)+
+      st('1回あたり 参加',E.perEvent==null?'—':`${E.perEvent.toFixed(1)}<em>人</em>`,'')+
+      st('1人あたり',E.perHead==null?'—':yen(Math.round(E.perHead)),'売上÷参加者'),
+      `内訳：入金記録 ${yen(E.recorded)} ・ 申込×参加費 ${yen(E.fromSign)}`),
+  ].join('');
+
+  // ③ 先月からの 増減は どの柱の 影響か
+  const maxAbs=Math.max(1,...PILLARS.map(p=>Math.abs(cur.rev[p.k]-prev.rev[p.k])));
+  const impact=`<div class="pl-impact">${PILLARS.map(p=>{
+    const d=cur.rev[p.k]-prev.rev[p.k];const w=Math.abs(d)/maxAbs*50;
+    return `<div class="pi-row"><span class="pi-name">${p.ic} ${p.ja}</span>
+      <div class="pi-track"><div class="pi-mid"></div><div class="pi-bar ${d<0?'neg':''}" style="width:${w}%;${d<0?`right:50%`:`left:50%`};background:${p.color}"></div></div>
+      <span class="pi-val ${d>0?'up':d<0?'down':''}">${d>0?'+':d<0?'−':'±'}${yen(Math.abs(d))}</span></div>`;}).join('')}</div>`;
+  const lead=PILLARS.map(p=>({p,d:cur.rev[p.k]-prev.rev[p.k]})).sort((a,b)=>Math.abs(b.d)-Math.abs(a.d))[0];
+  const impactNote=diff===0&&!lead.d?'先月と 同じです。'
+    :`先月から <b>${diff>=0?'+':'−'}${yen(Math.abs(diff))}</b>。いちばん 大きく 動いたのは <b>${lead.p.ic} ${lead.p.ja}（${lead.d>=0?'+':'−'}${yen(Math.abs(lead.d))}）</b>です。`;
+
+  // ④ 6か月の 推移（柱ごとの 積み上げ）
+  const chart=`<div class="pl-chart">${trend.map(t=>`<div class="pc-col ${t.m===m?'on':''}" onclick="DASH_MONTH='${t.m}';renderPillars()" title="${ymLabel(t.m)} ${yen(t.d.total)}">
+      <span class="pc-total">${t.d.total?yen(t.d.total).replace('¥','¥'):''}</span>
+      <div class="pc-stack" style="height:${t.d.total/maxT*100}%">${PILLARS.map(p=>t.d.rev[p.k]?`<div style="flex:${t.d.rev[p.k]};background:${p.color}"></div>`:'').join('')}${t.d.other?`<div style="flex:${t.d.other};background:#b8c2c9"></div>`:''}</div>
+      <span class="pc-m">${Number(t.m.slice(5))}月</span></div>`).join('')}</div>`;
+
+  host.innerHTML=`
+    <div class="panel pl-panel">
+      <div class="panel-h">
+        <h2>三つの柱 <span class="en">Revenue by service</span></h2>
+        <div class="month-nav"><button class="btn btn-ghost btn-sm" onclick="dashMonth(-1)">‹</button><b>${ymLabel(m)}</b><button class="btn btn-ghost btn-sm" onclick="dashMonth(1)" ${m>=curMonth()?'disabled':''}>›</button>${m!==curMonth()?'<button class="btn btn-ghost btn-sm" onclick="dashMonth(0)">今月</button>':''}</div>
+      </div>
+      <div class="pl-summary">
+        <div class="pl-total"><span>${m===curMonth()?"今月の":ymLabel(m)+"の"} 売上</span><b>${yen(cur.total)}</b><div>${deltaHTML(cur.total,prev.total)} <small>先月 ${yen(prev.total)}</small></div></div>
+        <div class="pl-mix">${bar}${legend}</div>
+      </div>
+      <div class="pl-cards">${cards}</div>
+      <div class="pl-bottom">
+        <div><div class="pl-h">先月からの 増減は どの柱か</div>${impact}<div class="pl-note">${impactNote}</div></div>
+        <div><div class="pl-h">6か月の 推移 <small>棒を 押すと その月へ</small></div>${chart}</div>
+      </div>
+      <div class="pl-src">売上 ＝ 入金記録 ＋ Stripe などで 払われた 依頼・申込の 金額（入金記録と ひもづいた 分は 二重に 数えません）。依頼は 受付日、イベントは 開催日、入金は 入金日の 月で 集計しています。</div>
+    </div>`;
 }
 
 /* ---------- helper ---------- */
