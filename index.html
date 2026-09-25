@@ -834,7 +834,7 @@ footer .brand{justify-content:center;color:var(--washi);margin-bottom:12px}
 #portalApp .agp-title{font-size:12px;color:var(--muted);margin:18px 0 8px;font-weight:600}
 #portalApp .agp-loading,#portalApp .agp-empty{font-size:13px;color:var(--muted);padding:18px 4px;text-align:center}
 #portalApp .agp-info{font-size:12px;color:var(--ink);background:rgba(74,159,184,.08);border-radius:10px;padding:9px 12px;margin-bottom:12px;line-height:1.6}
-#portalApp .agp-info span{display:block;color:var(--muted);font-size:11.5px}
+#portalApp .agp-info .agp-note{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
 #portalApp .agp-bands{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
 #portalApp .agp-band{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:7px 13px;font:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .15s}
 #portalApp .agp-band:hover:not(:disabled){border-color:var(--teal)}
@@ -904,7 +904,7 @@ footer .brand{justify-content:center;color:var(--washi);margin-bottom:12px}
 #portalApp .agc-wd{font-size:11px;color:var(--muted);text-align:center;padding:2px 0 4px}
 #portalApp .agc-wd.sun,#portalApp .agc-cell.sun b{color:#c9503f}
 #portalApp .agc-wd.sat,#portalApp .agc-cell.sat b{color:#3a78b5}
-#portalApp .agc-cell{aspect-ratio:1/1.05;min-height:42px;border:1.5px solid transparent;border-radius:10px;background:none;font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;position:relative;padding:0;color:var(--ink)}
+#portalApp .agc-cell{height:46px;border:1.5px solid transparent;border-radius:10px;background:none;font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;position:relative;padding:0;color:var(--ink)}
 #portalApp .agc-cell b{font-family:"Inter";font-size:14px;font-weight:700;line-height:1.1}
 #portalApp .agc-cell small{font-size:9.5px;color:var(--muted);line-height:1.1;font-weight:600}
 #portalApp button.agc-cell{cursor:pointer;background:rgba(15,42,63,.025)}
@@ -917,7 +917,7 @@ footer .brand{justify-content:center;color:var(--washi);margin-bottom:12px}
 #portalApp .agc-cell.out{opacity:.22}
 #portalApp .agc-cell.has::after{content:"";position:absolute;top:4px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--gold)}
 #portalApp .agc-legend{font-size:10.5px;color:var(--muted);text-align:center;margin-top:6px}
-@media(max-width:560px){#portalApp .modal.ag-wide{max-width:100%}#portalApp .agc{padding:8px 6px}#portalApp .agc-grid{gap:3px}#portalApp .agc-cell{min-height:38px;border-radius:8px}#portalApp .agp-band{padding:6px 10px;font-size:12px}#portalApp .agp-hint{display:none}}
+@media(max-width:560px){#portalApp .modal.ag-wide{max-width:100%}#portalApp .agc{padding:8px 6px}#portalApp .agc-grid{gap:3px}#portalApp .agc-cell{height:42px;border-radius:8px}#portalApp .agp-band{padding:6px 10px;font-size:12px}#portalApp .agp-hint{display:none}}
 #portalApp .rv-result{background:rgba(74,159,184,.07);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8}
 @media(max-width:560px){#portalApp .agp-times{grid-template-columns:repeat(2,1fr)}#portalApp .agp-day{flex-basis:58px}}
 #portalApp .ag-slot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px}
@@ -4038,7 +4038,7 @@ function agRenderPicker(){
 
   box.innerHTML=`
     <div class="agp-info">🕒 ${TG(`<ruby>所要<rt>しょよう</rt></ruby> <ruby>約<rt>やく</rt></ruby>${durJa} ・ <ruby>最終<rt>さいしゅう</rt></ruby><ruby>受付<rt>うけつけ</rt></ruby> ${AG_AV.lastStart||'14:00'}`,`About ${durEn} · last start ${AG_AV.lastStart||'14:00'}`)}
-      <span>${AG_FALLBACK?TG('<ruby>空<rt>あ</rt></ruby>き<ruby>状況<rt>じょうきょう</rt></ruby>を <ruby>読<rt>よ</rt></ruby>みこめなかったので、<ruby>日<rt>ひ</rt></ruby>にちだけ えらべます','Couldn’t load availability — pick dates only'):TG('<ruby>空<rt>あ</rt></ruby>いている <ruby>時間<rt>じかん</rt></ruby>だけ <ruby>表示<rt>ひょうじ</rt></ruby>しています','Only open times are shown')}</span></div>
+      <span class="agp-note">${AG_FALLBACK?TG('<ruby>空<rt>あ</rt></ruby>き<ruby>状況<rt>じょうきょう</rt></ruby>を <ruby>読<rt>よ</rt></ruby>みこめなかったので、<ruby>日<rt>ひ</rt></ruby>にちだけ えらべます','Couldn’t load availability — pick dates only'):TG('<ruby>空<rt>あ</rt></ruby>いている <ruby>時間<rt>じかん</rt></ruby>だけ <ruby>表示<rt>ひょうじ</rt></ruby>しています','Only open times are shown')}</span></div>
     ${bands}${strip}<div class="agp-timebox">${times}</div>
     <div class="agp-picks">${picks}</div>`;
   const btn=PROOT.querySelector('#agPayBtn');if(btn)btn.disabled=!AG_PICKS.length;

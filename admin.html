@@ -498,6 +498,35 @@ body{
   .modal-body .form-foot .btn{flex:1 1 auto}
 }
 
+/* ===== チェックボックス・ファイル欄の 表示くずれ修正 =====
+   .field input{width:100%;padding…} が チェックボックスにも 効いていたため */
+.field input[type=checkbox],.field input[type=radio],
+.mini-chk input,.chk input,.rule-day input,.ag-slot input{
+  width:16px;height:16px;min-width:16px;padding:0;margin:0;border:none;border-radius:4px;background:none;
+  flex:none;accent-color:var(--teal);cursor:pointer;box-shadow:none}
+.chk input{margin-top:3px}
+.field label.mini-chk,.field label.chk{display:flex;align-items:flex-start;gap:8px;margin-bottom:0;font-size:13.5px;font-weight:600;line-height:1.5}
+.field label.mini-chk input,.ag-set .mini-chk input{margin-top:3px}
+.ag-tpls .mini-chk,.ag-set .mini-chk{white-space:normal;align-items:flex-start;line-height:1.5}
+.ag-tpls .mini-chk{padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.ag-tpls .mini-chk input{margin-top:3px}
+.field input[type=file]{padding:10px 12px;background:#fff;font-size:13px;cursor:pointer}
+
+/* ===== 表示くずれ修正（2） ===== */
+.wk-day.today b{display:table;margin:0 auto 2px}
+.wk-ev{min-width:0}
+.row-act{flex-wrap:wrap;justify-content:flex-end}
+@media(max-width:760px){
+  .seg{flex-wrap:wrap}
+  .seg .seg-btn{flex:1 1 calc(33.33% - 6px);min-width:0;writing-mode:horizontal-tb;white-space:nowrap;padding-left:6px;padding-right:6px}
+  #bfWd .seg-btn{flex:1 1 calc(14.28% - 6px)}
+  .ag-slot{flex-wrap:wrap;row-gap:2px}
+  .ag-slot .t{width:auto;flex:none}
+  .ag-slot>span:not(.t):not(.tag){flex:1 1 60%;min-width:0}
+  .row-act{width:100%;justify-content:flex-start}
+  .row-act .btn{flex:0 0 auto}
+}
+
 /* mobile */
 .side-toggle{display:none}
 @media(max-width:820px){
@@ -2515,6 +2544,8 @@ function busyOn(date){
     ...blocksOn(date).map(b=>[toMin(b.start),toMin(b.end)]),
     ...lessonsOn(date).map(l=>{const s=toMin(l.time);return [s,s+durMin(l.dur)];}),
     ...DB.requests.filter(r=>reqActive(r)&&r.confirmed&&r.confirmed.date===date&&r.confirmed.time).map(r=>{const s=toMin(r.confirmed.time);return [s,s+(r.durationMin||120)];}),
+    // まだ確定していない 依頼の 希望時間にも レッスンを 入れない
+    ...DB.requests.filter(r=>reqActive(r)&&!(r.confirmed&&r.confirmed.date)&&r.kind!=='review').flatMap(r=>(r.slots||[]).filter(o=>o.date===date).map(o=>{const s=toMin(o.time);return [s,s+(r.durationMin||120)];})),
   ];
 }
 const liveBookingCount=lessonId=>DB.bookings.filter(b=>b.lessonId===lessonId&&isLive(b)).length;
@@ -2587,10 +2618,27 @@ function renderSchedule(){
     let inner='';
     const win=AUTOGEN.windows[dow(d)];
     if(win){const p=pos(toMin(win[0]),toMin(win[1]));if(p)inner+=`<div class="wk-win" style="${p}"></div>`;}
-    blocksOn(d).forEach(b=>{const p=pos(toMin(b.start),toMin(b.end));if(p)inner+=`<div class="wk-ev k-${b.kind}${b.source==='gcal'?' g':''}" style="${p}" onclick="event.stopPropagation();openBlockDetail('${b.id}','${d}')" title="${esc(b.title)}"><b>${esc(b.title)}</b>${b.start}–${b.end}${b.repeat==='weekly'?' ↻':''}</div>`;});
-    lessonsOn(d).forEach(l=>{const s=toMin(l.time);const p=pos(s,s+durMin(l.dur));if(p)inner+=`<div class="wk-ev wk-les ${l.format==='offline'?'off':''}" style="${p}" onclick="event.stopPropagation();openLessonForm('${l.id}')" title="${esc(l.title)}"><b>${esc(l.title)}</b>${String(l.time).slice(0,5)} ・ ${l.cap||0}/${l.max}${l.auto?' ⚡':''}</div>`;});
-    agentGridItems(d).filter(x=>x.kind!=='chip').forEach(x=>{const s=toMin(x.time);const p=pos(s,s+x.dur);if(p)inner+=`<div class="wk-ev ${x.kind==='confirmed'?'wk-agent':'wk-req'}" style="${p}" onclick="event.stopPropagation();openRequest('${x.r.id}')" title="${esc(x.label)}"><b>${esc(x.label)}</b>${x.time}${x.kind==='confirmed'?' 確定':x.kind==='slot'?' 候補':' 提案中'}</div>`;});
-    cands.filter(c=>c.date===d).forEach((c,i)=>{const s=toMin(c.time);const p=pos(s,s+durMin(c.tpl.dur));if(p)inner+=`<div class="wk-ev wk-cand" style="${p}" onclick="event.stopPropagation();openCandidate('${c.date}','${c.time}','${c.tpl.id}')" title="この時間に レッスンを作る"><b>＋ ${esc(c.tpl.title)}</b>${c.time} 空き</div>`;});
+    // 予定を あつめてから、重なるものは 横に ならべる（レーン分け）
+    const ev=[];
+    blocksOn(d).forEach(b=>ev.push({s:toMin(b.start),e:toMin(b.end),cls:`k-${b.kind}${b.source==='gcal'?' g':''}`,click:`openBlockDetail('${b.id}','${d}')`,title:b.title,body:`<b>${esc(b.title)}</b>${b.start}–${b.end}${b.repeat==='weekly'?' ↻':''}`}));
+    lessonsOn(d).forEach(l=>{const s0=toMin(l.time);ev.push({s:s0,e:s0+durMin(l.dur),cls:`wk-les ${l.format==='offline'?'off':''}`,click:`openLessonForm('${l.id}')`,title:l.title,body:`<b>${esc(l.title)}</b>${String(l.time).slice(0,5)} ・ ${l.cap||0}/${l.max}${l.auto?' ⚡':''}`});});
+    agentGridItems(d).filter(x=>x.kind!=='chip').forEach(x=>{const s0=toMin(x.time);ev.push({s:s0,e:s0+x.dur,cls:x.kind==='confirmed'?'wk-agent':'wk-req',click:`openRequest('${x.r.id}')`,title:x.label,body:`<b>${esc(x.label)}</b>${x.time}${x.kind==='confirmed'?' 確定':x.kind==='slot'?' 希望':' 提案中'}`});});
+    cands.filter(c=>c.date===d).forEach(c=>{const s0=toMin(c.time);ev.push({s:s0,e:s0+durMin(c.tpl.dur),cls:'wk-cand',click:`openCandidate('${c.date}','${c.time}','${c.tpl.id}')`,title:'この時間に レッスンを作る',body:`<b>＋ ${esc(c.tpl.title)}</b>${c.time} 空き`});});
+    ev.sort((a,b)=>a.s-b.s||b.e-a.e);
+    let cluster=[],clusterEnd=-1;
+    const flush=()=>{const n=Math.max(...cluster.map(x=>x.lane))+1;cluster.forEach(x=>x.n=n);cluster=[];};
+    ev.forEach(x=>{
+      if(cluster.length&&x.s>=clusterEnd){flush();clusterEnd=-1;}
+      const used=new Set(cluster.filter(y=>y.e>x.s).map(y=>y.lane));
+      let lane=0;while(used.has(lane))lane++;
+      x.lane=lane;cluster.push(x);clusterEnd=Math.max(clusterEnd,x.e);
+    });
+    if(cluster.length)flush();
+    ev.forEach(x=>{
+      const p=pos(x.s,x.e);if(!p)return;
+      const w=100/x.n;
+      inner+=`<div class="wk-ev ${x.cls}" style="${p};left:calc(${x.lane*w}% + 3px);width:calc(${w}% - 6px);right:auto" onclick="event.stopPropagation();${x.click}" title="${esc(x.title)}">${x.body}</div>`;
+    });
     return `<div class="wk-col ${d<today?'past':''}" onclick="wkClick(event,'${d}')">${inner}</div>`;
   }).join('');
   const grid=document.getElementById('wkGrid');
@@ -2972,7 +3020,7 @@ function gcalHTML(){
     <button class="btn btn-ghost btn-sm" style="margin:4px 0 16px" onclick="document.getElementById('gcRows').insertAdjacentHTML('beforeend',gcalRowHTML())">＋ カレンダーを追加</button>
     <div class="field-row" style="align-items:end">
       <div class="field"><label>取り込む期間</label><select id="gcDays">${[30,60,90].map(d=>`<option value="${d}" ${Number(GCAL.days)===d?'selected':''}>これから ${d}日</option>`).join('')}</select></div>
-      <div class="field"><label class="mini-chk" style="font-size:13px;padding-bottom:12px"><input type="checkbox" id="gcAllDay" ${GCAL.blockAllDay?'checked':''}> 終日の予定も ふさぐ（旅行など）</label></div>
+      <div class="field"><label class="mini-chk" style="padding-bottom:12px"><input type="checkbox" id="gcAllDay" ${GCAL.blockAllDay?'checked':''}> 終日の予定も ふさぐ（旅行など）</label></div>
     </div>
     <div class="p-actions">
       <button class="btn btn-ghost btn-sm" onclick="saveGcal()" ${DB.schedReady?'':'disabled'}>設定を保存</button>
