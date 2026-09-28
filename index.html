@@ -2317,7 +2317,14 @@ var PROOT=document.getElementById('portalApp');
 /* ---------- state ---------- */
 /* plan: 'FREE'（無料登録・都度払い） / 'PREMIUM'（月額会員・受け放題） / 'INVITED'（招待・全機能無料）
    trialUsed: 無料トライアル（全機能の中から合計1回）を使い切ったか */
-const S={email:'',last:'',first:'',age:'',gender:'',country:'',lang:'',reason:'',plan:'FREE',trialUsed:false};
+const S={email:'',last:'',first:'',age:'',gender:'',country:'',lang:'',reason:'',plan:'FREE',trialUsed:false,trialStatus:'available',trialRef:null};
+/* 無料回が 予約中のときの ひとこと（例：10/1 19:00 レッスン） */
+function trialRefLabel(){
+  const r=S.trialRef;if(!r)return '';
+  const d=r.date?new Date(String(r.date).slice(0,10)+'T00:00'):null;
+  const k={lesson:'レッスン',event:'イベント',agent:'エージェント'}[r.kind]||'';
+  return `${d?`${d.getMonth()+1}/${d.getDate()} `:''}${r.time?String(r.time).slice(0,5)+' ':''}${r.title||k}`;
+}
 
 /* ---------- 認証まわりの設定（本番で要変更） ----------
    1) TURNSTILE_SITE_KEY:
@@ -2391,13 +2398,33 @@ function agentPrice(svc){ if(isInvited()) return 0; return isMember() ? (svc.pri
 
 /* 無料トライアルを「使った」ことにして profiles に保存（成功時にDBへ反映） */
 async function markTrialUsed(){
-  S.trialUsed=true;
+  // 記録は DB の trial_book() が 予約と 同時に 行う（ここでは 画面の 状態だけ 更新）
+  S.trialUsed=true;S.trialStatus='reserved';
   try{
     const {data:u}=await window.sb.auth.getUser();
-    if(u&&u.user){ await window.sb.from('profiles').update({trial_used:true}).eq('id',u.user.id); }
-  }catch(e){ noteNetError('trial mark:',e); }
+    if(u&&u.user){const {data}=await window.sb.from('profiles').select('trial_status,trial_ref').eq('id',u.user.id).maybeSingle();
+      if(data){S.trialStatus=data.trial_status||'reserved';S.trialRef=data.trial_ref||null;}}
+  }catch(e){ noteNetError('trial state:',e); }
   if(typeof refreshPlanUI==='function') refreshPlanUI();
 }
+/* 無料回で 申し込む（予約・申込・依頼の 作成と「予約中」の 記録を DB で 同時に 行う） */
+async function trialBook(kind,item,data){
+  const {data:id,error}=await window.sb.rpc('trial_book',{p_kind:kind,p_item:item||null,p_data:data||{}});
+  if(error&&/trial_not_available/.test(error.message||'')){
+    S.trialUsed=true;if(typeof refreshPlanUI==='function')refreshPlanUI();
+    openModal(`
+      <div class="modal-head"><button class="modal-x" onclick="closeModal()">✕</button></div>
+      <div class="modal-body"><div class="m-done">
+        <div class="md-mark" style="background:radial-gradient(circle,#e0a94a,#c9a24b)">!</div>
+        <h3>${TG('<ruby>無料回<rt>むりょうかい</rt></ruby>は もう <ruby>使<rt>つか</rt></ruby>われています','Your free session is already in use')}</h3>
+        <p>${TG('<ruby>無料<rt>むりょう</rt></ruby>おためしは ぜんぶの <ruby>中<rt>なか</rt></ruby>から 1<ruby>回<rt>かい</rt></ruby>だけです。ほかの お<ruby>申<rt>もう</rt></ruby>し<ruby>込<rt>こ</rt></ruby>みは <ruby>有料<rt>ゆうりょう</rt></ruby>に なります。','The free trial covers one booking in total. Other bookings are paid.')}</p>
+        <button class="m-btn teal" onclick="closeModal()">${TG('<ruby>閉<rt>と</rt></ruby>じる','Close')}</button>
+      </div></div>`);
+    return {error:{handled:true}};
+  }
+  return {id,error};
+}
+Object.assign(window,{trialBook});
 
 /* ---------- screen router ---------- */
 function go(name){
@@ -2519,7 +2546,7 @@ async function loadMyProfile(){
     S.first=data.first_name||'';S.last=data.last_name||'';
     S.age=data.age||'';S.gender=data.gender||'';
     S.country=data.country||'';S.lang=data.lang||'';
-    S.reason=data.reason||'';S.plan=data.plan||'FREE';S.trialUsed=!!data.trial_used;
+    S.reason=data.reason||'';S.plan=data.plan||'FREE';S.trialUsed=!!data.trial_used;S.trialStatus=data.trial_status||(data.trial_used?'used':'available');S.trialRef=data.trial_ref||null;
   }
 }
 
@@ -2711,6 +2738,8 @@ function refreshPlanUI(){
       ? `<span class="ja-text">プレミアムプラン</span><span class="en-inline">Premium</span>`
       : ( trialAvailable()
           ? `<span class="ja-text">フリープラン・<ruby>無料<rt>むりょう</rt></ruby>おためし <ruby>可<rt>か</rt></ruby></span><span class="en-inline">Free plan · trial available</span>`
+          : S.trialStatus==='reserved'
+          ? `<span class="ja-text">🎁 <ruby>無料回<rt>むりょうかい</rt></ruby>：${trialRefLabel()||'<ruby>予約中<rt>よやくちゅう</rt></ruby>'}（ほかは <ruby>有料<rt>ゆうりょう</rt></ruby>）</span><span class="en-inline">🎁 Free session: ${trialRefLabel()||'booked'} (others are paid)</span>`
           : `<span class="ja-text">フリープラン（<ruby>都度<rt>つど</rt></ruby><ruby>払<rt>ばら</rt></ruby>い）</span><span class="en-inline">Free plan · pay per use</span>` );
   }
   // 招待・会員には課金アップセルを出さない
@@ -2726,6 +2755,8 @@ function refreshPlanUI(){
       ? `<span class="ja-text">プレミアムプラン</span><span class="en-inline">Premium</span>`
       : ( trialAvailable()
           ? `🎁 <span class="ja-text"><ruby>無料<rt>むりょう</rt></ruby>おためし <ruby>可<rt>か</rt></ruby></span><span class="en-inline">Free trial</span>`
+          : S.trialStatus==='reserved'
+          ? `🎁 <span class="ja-text"><ruby>無料回<rt>むりょうかい</rt></ruby> <ruby>予約中<rt>よやくちゅう</rt></ruby></span><span class="en-inline">Free session booked</span>`
           : `<span class="ja-text">フリープラン</span><span class="en-inline">Free plan</span>` );
   }
 }
@@ -3520,9 +3551,10 @@ async function confirmBook(i,mode){
     return;
   }
   // 無料（会員・招待・トライアル）→ そのまま予約を作成（lesson_id + user_id のユニーク制約で二重予約はDBが弾く）
-  const {error}=await window.sb.from('lesson_bookings').insert({
-    user_id:u.user.id, lesson_id:s._id, status:'confirmed'
-  });
+  const {error}=(mode==='trial')
+    ? await trialBook('lesson',s._id)
+    : await window.sb.from('lesson_bookings').insert({user_id:u.user.id, lesson_id:s._id, status:'confirmed'});
+  if(error&&error.handled){ if(btn){btn.disabled=false;} return; }
   if(error){
     const dup=(error.code==='23505'); // unique_violation
     openModal(`
@@ -3779,9 +3811,10 @@ async function payEvent(id,mode){
     }
     return;
   }
-  const {error}=await window.sb.from('event_signups').insert({
-    user_id:u.user.id, event_id:e.id, status:'confirmed'
-  });
+  const {error}=(mode==='trial')
+    ? await trialBook('event',e.id)
+    : await window.sb.from('event_signups').insert({user_id:u.user.id, event_id:e.id, status:'confirmed'});
+  if(error&&error.handled){ if(btn){btn.disabled=false;} return; }
   if(error){
     const dup=(error.code==='23505');
     openModal(`
@@ -4153,15 +4186,12 @@ async function agConfirm(mode){
     }
     return;
   }
-  const {error}=await window.sb.from('agent_requests').insert({
-    user_id:u.user.id,
-    service:serviceLabel,
-    ic:(items[0]&&items[0].ic)||'🤝',
-    candidates:dates,
-    candidate_slots:picks,
-    amount:total,
-    status:'new',
-  });
+  const {error}=(mode==='trial')
+    ? await trialBook('agent',null,{service:serviceLabel,ic:(items[0]&&items[0].ic)||'🤝',candidates:dates,candidate_slots:picks})
+    : await window.sb.from('agent_requests').insert({
+        user_id:u.user.id,service:serviceLabel,ic:(items[0]&&items[0].ic)||'🤝',
+        candidates:dates,candidate_slots:picks,amount:total,status:'new'});
+  if(error&&error.handled){if(btn){btn.disabled=false;btn.innerHTML=TG('<ruby>閉<rt>と</rt></ruby>じる','Close');}return;}
   if(error){
     noteNetError('agent request:',error);
     if(btn){btn.disabled=false;btn.innerHTML=TG('もう <ruby>一度<rt>いちど</rt></ruby>','Try again');}
@@ -4299,10 +4329,13 @@ async function rvSubmit(mode){
     return;
   }
   // 3) 無料（招待・トライアル）→ そのまま 依頼を 作る
-  const {error}=await window.sb.from('agent_requests').insert({
-    user_id:u.user.id,service,ic:'📝',kind:'review',candidates:[],
-    review_meta:meta,attachments,amount:total,status:'new',note:[point,text].filter(Boolean).join('\n\n')||null,
-  });
+  const note=[point,text].filter(Boolean).join('\n\n')||null;
+  const {error}=(mode==='trial')
+    ? await trialBook('agent',null,{service,ic:'📝',kind:'review',candidates:[],review_meta:meta,attachments,note})
+    : await window.sb.from('agent_requests').insert({
+        user_id:u.user.id,service,ic:'📝',kind:'review',candidates:[],
+        review_meta:meta,attachments,amount:total,status:'new',note});
+  if(error&&error.handled)return;
   if(error)return fail('insert',error);
   if(mode==='trial'){await markTrialUsed();}
   await loadMyBookings();
