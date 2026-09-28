@@ -3600,7 +3600,7 @@ function pillarData(m){
   const agReq=sum(reqs.filter(r=>!refPaid.has(r.id)),reqNet);
   // この月に 記録した 返金（依頼＋入金記録）
   const refunds=sum(DB.requests.filter(r=>r.refundedAt&&inM(jstParts(r.refundedAt).ymd)),r=>r.refunded)
-    +sum(DB.payments.filter(p=>p.status==='refunded'&&inM(p.paidOn)),p=>p.amount);
+    +sum(DB.payments.filter(p=>p.status==='refunded'&&inM(p.paidOn)&&!DB.requests.some(r=>r.id===p.refId&&r.refundedAt)),p=>p.amount);
   const reviews=live.filter(r=>r.kind==='review').length;
 
   // イベント：入金記録＋（記録のない）申込 × 参加費

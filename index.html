@@ -4134,6 +4134,9 @@ async function agConfirm(mode){
       const token=sess?.session?.access_token;
       if(!token) throw new Error('not signed in');
       const svc=items.map(s=>({id:s.id,ic:s.ic,title:s.title}));
+      // 希望の日時を 下書きに 保存（決済が 終わると Webhook が 依頼に 入れる）
+      const {error:dErr}=await window.sb.from('checkout_drafts').insert({user_id:u.user.id,kind:'agent',amount:total,data:{candidates:dates,candidate_slots:picks}});
+      if(dErr)noteNetError('checkout draft:',dErr);
       const res=await fetch(`${window.SUPABASE_URL}/functions/v1/create-payment`,{
         method:'POST',
         headers:{'Content-Type':'application/json','Authorization':`Bearer ${token}`,'apikey':window.SUPABASE_ANON_KEY},
@@ -4278,6 +4281,10 @@ async function rvSubmit(mode){
   // 2) 有料 → Stripe（ファイルと内容は review として渡す）
   if(mode==='pay'&&total>0){
     try{
+      // 添削の 内容と ファイルを 下書きに 保存（決済が 終わると Webhook が 依頼に 入れる）
+      const {error:dErr}=await window.sb.from('checkout_drafts').insert({user_id:u.user.id,kind:'agent',amount:total,
+        data:{kind:'review',review_meta:meta,attachments,note:[point,text].filter(Boolean).join('\n\n')||null}});
+      if(dErr)noteNetError('checkout draft:',dErr);
       const {data:sess}=await window.sb.auth.getSession();
       const token=sess?.session?.access_token;
       const res=await fetch(`${window.SUPABASE_URL}/functions/v1/create-payment`,{
