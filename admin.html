@@ -532,6 +532,7 @@ body{
 .pl-summary{display:grid;grid-template-columns:230px 1fr;gap:24px;align-items:center;margin-bottom:22px}
 .pl-total span{font-size:12px;color:var(--muted)}
 .pl-total b{display:block;font-family:"Inter";font-size:32px;font-weight:800;line-height:1.15;margin:2px 0 4px}
+.pl-refund{font-size:11.5px;color:#c9503f;margin-top:4px;font-weight:600}
 .pl-total small{font-size:11.5px;color:var(--muted);margin-left:4px}
 .pl-bar{display:flex;height:22px;border-radius:999px;overflow:hidden;background:var(--washi-2)}
 .pl-bar div{height:100%;transition:width .4s}
@@ -972,7 +973,7 @@ let DB={lessons:[],announcements:[],events:[],users:[],requests:[],bookings:[],s
 const mapLessonIn =r=>({id:r.id,date:r.date,time:r.time,dur:r.dur,title:r.title,titleEn:r.title_en||'',format:r.format,size:r.size,level:r.level,gender:r.gender,cap:r.cap,max:r.max,desc:r.descr||'',meetUrl:r.meet_url||'',place:r.place||'',mapUrl:r.map_url||'',auto:!!r.auto});
 const mapEventIn  =r=>({id:r.id,type:r.type,emoji:r.emoji,date:r.date,time:r.time,title:r.title,titleEn:r.title_en||'',place:r.place,placeEn:r.place_en||'',host:r.host,hostEn:r.host_en||'',price:r.price,cap:r.cap,seats:r.seats,desc:r.descr||'',descEn:r.descr_en||'',format:r.format||'offline',mapUrl:r.map_url||'',meetUrl:r.meet_url||''});
 const mapNewsIn   =r=>({id:r.id,kind:r.kind,emoji:r.emoji,title:r.title,titleEn:r.title_en||'',body:r.body||'',bodyEn:r.body_en||'',date:r.date,link:r.link||''});
-const mapReqIn    =r=>({id:r.id,uid:r.user_id||r.uid||'',proposals:r.proposals||null,slots:(r.candidate_slots||[]).filter(x=>x&&x.date&&x.time),kind:r.kind||'visit',reviewMeta:r.review_meta||null,attachments:r.attachments||[],resultNote:r.result_note||'',resultFiles:r.result_files||[],durationMin:r.duration_min||null,user:(r.profiles?((r.profiles.first_name||'')+' '+(r.profiles.last_name||'')).trim():'')||'—',service:r.service,ic:r.ic,candidates:r.candidates||[],confirmed:r.confirmed||null,amount:r.amount,status:r.status,note:r.note||'',created:r.created_at?r.created_at.slice(0,10):todayISO()});
+const mapReqIn    =r=>({id:r.id,uid:r.user_id||r.uid||'',proposals:r.proposals||null,slots:(r.candidate_slots||[]).filter(x=>x&&x.date&&x.time),kind:r.kind||'visit',reviewMeta:r.review_meta||null,attachments:r.attachments||[],resultNote:r.result_note||'',resultFiles:r.result_files||[],refunded:Number(r.refunded_amount)||0,refundedAt:r.refunded_at||'',refundNote:r.refund_note||'',durationMin:r.duration_min||null,user:(r.profiles?((r.profiles.first_name||'')+' '+(r.profiles.last_name||'')).trim():'')||'—',service:r.service,ic:r.ic,candidates:r.candidates||[],confirmed:r.confirmed||null,amount:r.amount,status:r.status,note:r.note||'',created:r.created_at?r.created_at.slice(0,10):todayISO()});
 const mapUserIn   =r=>({id:r.id,name:((r.first_name||'')+' '+(r.last_name||'')).trim()||'—',email:r.email||'',plan:r.plan,joined:r.created_at?r.created_at.slice(0,10):'',lessons:0,country:r.country||'',createdAt:r.created_at||'',mstatus:r.membership_status||'active',cancelOn:r.cancel_effective_on||'',cancelReason:r.cancel_reason||''});
 
 /* ---- 画面オブジェクト → row（書き込み用） ---- */
@@ -1410,7 +1411,8 @@ function reqDisplayDate(r){
 }
 function agentRowHTML(r){
   const dt=fmtDate(reqDisplayDate(r));
-  const amt=r.amount>0?`<span class="tag tag-paid">${yen(r.amount)}</span>`:'<span class="tag tag-quote">見積り</span>';
+  const amt=r.refundedAt?`<span class="tag tag-lv" style="color:#c9503f">↩ 返金 ${yen(r.refunded)}${r.refunded<r.amount?` ／ ${yen(r.amount)}`:''}</span>`
+    :r.amount>0?`<span class="tag tag-paid">${yen(r.amount)}</span>`:'<span class="tag tag-quote">見積り</span>';
   const sched=reqPlanTag(r);
   return `<div class="row ${r.status==='new'?'fresh':''}" style="${r.status==='cancelled'?'opacity:.5':''}">
     <div class="row-when"><div class="d">${dt.d}</div><div class="m">${dt.m}</div>${r.confirmed&&r.confirmed.time?`<div class="t">${r.confirmed.time}</div>`:''}</div>
@@ -1468,6 +1470,7 @@ function openRequest(id){
 
       <div class="form-foot">
         <button class="btn btn-ghost" onclick="cancelRequest('${r.id}')" style="flex:0 0 auto;color:#c9503f;border-color:rgba(201,80,63,.4)">キャンセル扱い</button>
+        ${r.amount>0&&!r.refundedAt?`<button class="btn btn-ghost" onclick="openRefund('${r.id}')" style="flex:0 0 auto">↩ 返金を記録</button>`:''}
         <button class="btn btn-gold" onclick="saveRequest('${r.id}')">保存する</button>
       </div>
       <div style="font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.6">「キャンセル扱い」＝記録は残して依頼を取り消し。「削除」＝完全に消す。<br>
@@ -3465,6 +3468,7 @@ function openReviewAdmin(r){
         <input type="file" id="rvOut" multiple onchange="_rvFiles=[..._rvFiles,...this.files];this.value='';rvShowOut()"><div id="rvOutList" class="rv-list"></div></div>
       <div class="form-foot">
         <button class="btn btn-ghost" onclick="startNewThread('${r.uid}')">💬 チャット</button>
+        ${r.amount>0&&!r.refundedAt?`<button class="btn btn-ghost" onclick="openRefund('${r.id}')">↩ 返金を記録</button>`:''}
         ${done?'':`<button class="btn btn-ghost" onclick="rvSetStatus('${r.id}','progress')">${r.status==='progress'?'対応中のまま 閉じる':'対応中にする'}</button>`}
         <button class="btn btn-gold" id="rvSend" onclick="rvReturn('${r.id}')">${done?'返却内容を 更新する':'返却して 完了にする'}</button>
       </div>
@@ -3515,6 +3519,50 @@ async function rvReturn(id){
   closeModal();renderAll();toast(first?'返却して 会員に お知らせしました':'返却内容を 更新しました');
 }
 
+
+/* ---- 返金の記録（Stripe で返金したあと、ここで 記録 → 売上から 差し引く）---- */
+function openRefund(id){
+  const r=DB.requests.find(x=>x.id===id);if(!r)return;
+  openModal(`
+    <div class="modal-head"><button class="modal-x" onclick="closeModal()">✕</button>
+      <h2>↩ 返金を 記録</h2><div class="m-sub">${esc(r.service)} ／ ${esc(r.user)} ／ 支払い ${yen(r.amount)}</div></div>
+    <div class="modal-body">
+      <div class="notice" style="margin-bottom:16px">お金の 返金は <b>Stripe ダッシュボード</b>（支払い → 対象の支払い →「返金」）で 行ってください。ここでは その結果を 記録して、ダッシュボードの 売上から 差し引きます。</div>
+      <div class="field"><label>返金した 金額</label>
+        <div class="seg" id="rfSeg"><button class="seg-btn on" data-v="full" onclick="rfPick('full',${r.amount})">全額 ${yen(r.amount)}</button><button class="seg-btn" data-v="part" onclick="rfPick('part',${r.amount})">一部</button></div>
+        <input type="number" id="rfAmt" value="${r.amount}" min="1" max="${r.amount}" step="1" style="margin-top:8px;display:none"></div>
+      <div class="field"><label>理由・メモ <span class="hint">任意</span></label><input id="rfNote" placeholder="れい：テスト決済 ／ お客様都合の キャンセル"></div>
+      <label class="chk"><input type="checkbox" id="rfCancel" checked> <span>依頼も キャンセル扱いに する（カレンダーの 予定も 消えます）</span></label>
+      <div class="form-foot"><button class="btn btn-ghost" onclick="closeModal()">やめる</button><button class="btn btn-danger" id="rfSave" onclick="saveRefund('${r.id}')">返金を 記録する</button></div>
+    </div>`);
+}
+function rfPick(v,full){
+  document.querySelectorAll('#rfSeg .seg-btn').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  const a=document.getElementById('rfAmt');a.style.display=v==='part'?'block':'none';if(v==='full')a.value=full;else a.focus();
+  document.getElementById('rfCancel').checked=v==='full';
+}
+async function saveRefund(id){
+  const r=DB.requests.find(x=>x.id===id);if(!r)return;
+  const amount=Math.min(r.amount,Math.max(1,parseInt(document.getElementById('rfAmt').value,10)||0));
+  const note=document.getElementById('rfNote').value.trim();
+  const cancel=document.getElementById('rfCancel').checked;
+  const btn=document.getElementById('rfSave');btn.disabled=true;btn.textContent='記録中…';
+  const patch={refunded_amount:amount,refunded_at:new Date().toISOString(),refund_note:note||null};
+  if(cancel)patch.status='cancelled';
+  const {error}=await sb.from('agent_requests').update(patch).eq('id',id);
+  if(error){console.error('refund:',error.message||error);btn.disabled=false;btn.textContent='返金を 記録する';toast('記録できませんでした（kakehashi_refund.sql の 実行を ご確認ください）');return;}
+  Object.assign(r,{refunded:amount,refundedAt:patch.refunded_at,refundNote:note});if(cancel)r.status='cancelled';
+  if(r.uid)await addLog(r.uid,'payment_refunded',{amount,kind:'agent'},note||r.service);
+  closeModal();renderAll();toast(`${yen(amount)} の 返金を 記録しました`);
+  if(cancel)agentAfterManual(id,false);
+}
+// 依頼1件の 売上（返金を 差し引く。返金なしの キャンセルは 0）
+function reqNet(r){
+  if(r.refundedAt)return Math.max(0,(Number(r.amount)||0)-(r.refunded||0));
+  if(r.status==='cancelled')return 0;
+  return Number(r.amount)||0;
+}
+
 /* ============================================================
    ダッシュボード：三つの柱（レッスン／エージェント／イベント）
    売上の 構成と、件数・単価・先月からの 変化を 1か所で 見る
@@ -3549,7 +3597,10 @@ function pillarData(m){
   const reqs=DB.requests.filter(r=>inM(r.created));
   const live=reqs.filter(r=>r.status!=='cancelled');
   const agPay=sum(paid.filter(p=>p.kind==='agent'),p=>p.amount);
-  const agReq=sum(live.filter(r=>!refPaid.has(r.id)),r=>r.amount);
+  const agReq=sum(reqs.filter(r=>!refPaid.has(r.id)),reqNet);
+  // この月に 記録した 返金（依頼＋入金記録）
+  const refunds=sum(DB.requests.filter(r=>r.refundedAt&&inM(jstParts(r.refundedAt).ymd)),r=>r.refunded)
+    +sum(DB.payments.filter(p=>p.status==='refunded'&&inM(p.paidOn)),p=>p.amount);
   const reviews=live.filter(r=>r.kind==='review').length;
 
   // イベント：入金記録＋（記録のない）申込 × 参加費
@@ -3563,7 +3614,7 @@ function pillarData(m){
   const other=sum(paid.filter(p=>p.kind==='other'),p=>p.amount);
   const rev={lesson:mem+single,agent:agPay+agReq,event:evPay+evSign};
   return {
-    m,rev,other,total:rev.lesson+rev.agent+rev.event+other,
+    m,rev,other,refunds,total:rev.lesson+rev.agent+rev.event+other,
     lesson:{mem,single,count:lessons.length,held:lessons.filter(l=>l.date<todayISO()).length,attended,booked,seats,
       occ:seats?booked/seats:null,perAttend:attended?(mem+single)/attended:null},
     agent:{count:live.length,visits:live.length-reviews,reviews,cancelled:reqs.length-live.length,
@@ -3653,7 +3704,7 @@ function renderPillars(){
         <div class="month-nav"><button class="btn btn-ghost btn-sm" onclick="dashMonth(-1)">‹</button><b>${ymLabel(m)}</b><button class="btn btn-ghost btn-sm" onclick="dashMonth(1)" ${m>=curMonth()?'disabled':''}>›</button>${m!==curMonth()?'<button class="btn btn-ghost btn-sm" onclick="dashMonth(0)">今月</button>':''}</div>
       </div>
       <div class="pl-summary">
-        <div class="pl-total"><span>${m===curMonth()?"今月の":ymLabel(m)+"の"} 売上</span><b>${yen(cur.total)}</b><div>${deltaHTML(cur.total,prev.total)} <small>先月 ${yen(prev.total)}</small></div></div>
+        <div class="pl-total"><span>${m===curMonth()?"今月の":ymLabel(m)+"の"} 売上</span><b>${yen(cur.total)}</b><div>${deltaHTML(cur.total,prev.total)} <small>先月 ${yen(prev.total)}</small></div>${cur.refunds?`<div class="pl-refund">↩ 返金 ${yen(cur.refunds)} は 差し引き済み</div>`:''}</div>
         <div class="pl-mix">${bar}${legend}</div>
       </div>
       <div class="pl-cards">${cards}</div>
