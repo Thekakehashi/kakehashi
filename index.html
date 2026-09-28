@@ -877,6 +877,7 @@ footer .brand{justify-content:center;color:var(--washi);margin-bottom:12px}
 #portalApp .agp-done div{display:flex;gap:8px;align-items:center}
 #portalApp .rv-step{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;margin:16px 0 8px}
 #portalApp .rv-step:first-child{margin-top:0}
+#portalApp .rv-later{font-size:11px;font-weight:500;color:var(--muted);margin-left:auto}
 #portalApp .rv-no{width:20px;height:20px;border-radius:50%;background:var(--ink);color:#fff;font-family:"Inter";font-size:11px;display:inline-flex;align-items:center;justify-content:center}
 #portalApp .rv-drop{display:flex;flex-direction:column;align-items:center;gap:3px;border:1.5px dashed var(--line);border-radius:12px;padding:14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--teal);text-align:center}
 #portalApp .rv-drop:hover{border-color:var(--teal);background:rgba(74,159,184,.04)}
@@ -918,6 +919,19 @@ footer .brand{justify-content:center;color:var(--washi);margin-bottom:12px}
 #portalApp .agc-cell.has::after{content:"";position:absolute;top:4px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--gold)}
 #portalApp .agc-legend{font-size:10.5px;color:var(--muted);text-align:center;margin-top:6px}
 @media(max-width:560px){#portalApp .modal.ag-wide{max-width:100%}#portalApp .agc{padding:8px 6px}#portalApp .agc-grid{gap:3px}#portalApp .agc-cell{height:42px;border-radius:8px}#portalApp .agp-band{padding:6px 10px;font-size:12px}#portalApp .agp-hint{display:none}}
+
+#portalApp .cw-attach{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;transition:all .15s}
+#portalApp .cw-attach:hover{border-color:var(--teal)}
+#portalApp .cw-attach input{display:none}
+#portalApp .cw-attach.busy{opacity:.45;pointer-events:none;animation:cwp 1s ease-in-out infinite alternate}
+@keyframes cwp{from{opacity:.3}to{opacity:.7}}
+#portalApp .msg-files{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+#portalApp .msg-files:first-child{margin-top:0}
+#portalApp .msg-img{display:block;border-radius:10px;overflow:hidden;background:rgba(15,42,63,.06);min-height:60px;max-width:240px}
+#portalApp .msg-img img{display:block;width:100%;max-height:260px;object-fit:cover}
+#portalApp .msg-file{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:13px;color:var(--ink);text-decoration:none;max-width:240px}
+#portalApp .msg-file span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#portalApp .msg-files .broken{opacity:.5;pointer-events:none}
 #portalApp .rv-result{background:rgba(74,159,184,.07);border-radius:12px;padding:14px;font-size:13.5px;line-height:1.8}
 @media(max-width:560px){#portalApp .agp-times{grid-template-columns:repeat(2,1fr)}#portalApp .agp-day{flex-basis:58px}}
 #portalApp .ag-slot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px}
@@ -3109,7 +3123,7 @@ function renderHomeAgent(rows){
     if(r.kind==='review'){
       if(r.status==='done'&&(r.result_note||(r.result_files||[]).length))
         return `<button class="mini-btn gold" onclick="openReviewResult('${r.id}')">${TG('<ruby>添削<rt>てんさく</rt></ruby>を <ruby>見<rt>み</rt></ruby>る','View')}</button>`;
-      return `<span class="li-state">${TG('お<ruby>返<rt>かえ</rt></ruby>しまで お<ruby>待<rt>ま</rt></ruby>ちください','We\'ll send it back soon')}</span>`;
+      return `<button class="mini-btn" onclick="openOfficeChat()">💬 ${TG('チャットで <ruby>送<rt>おく</rt></ruby>る','Send in chat')}</button>`;
     }
     if(r.confirmed&&r.confirmed.date)return '';
     if(r.proposals&&r.proposals.length)
@@ -4208,7 +4222,7 @@ function renderReviewForm(){
     <div class="agp-bands">${REVIEW_TYPES.map(t=>chip(RV.type===t.id,`rvSet('type','${t.id}')`,TG(t.ja,t.en))).join('')}</div>
     <div class="rv-step"><span class="rv-no">2</span>${TG('<ruby>書類<rt>しょるい</rt></ruby>の <ruby>言語<rt>げんご</rt></ruby>','Language of the document')}</div>
     <div class="agp-bands">${REVIEW_LANGS.map(l=>chip(RV.lang===l.id,`rvSet('lang','${l.id}')`,TG(l.ja,l.en))).join('')}</div>
-    <div class="rv-step"><span class="rv-no">3</span>${TG('<ruby>書類<rt>しょるい</rt></ruby>を <ruby>送<rt>おく</rt></ruby>る','Send your document')}</div>
+    <div class="rv-step"><span class="rv-no">3</span>${TG('<ruby>書類<rt>しょるい</rt></ruby>を <ruby>送<rt>おく</rt></ruby>る','Send your document')}<span class="rv-later">${TG('あとで チャットから <ruby>送<rt>おく</rt></ruby>っても OK','or send it later in the chat')}</span></div>
     <label class="rv-drop">
       <input type="file" id="rvFile" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt" onchange="rvAddFiles(this.files);this.value=''">
       <span>📎 ${TG('ファイルを えらぶ（PDF・Word・<ruby>写真<rt>しゃしん</rt></ruby>）','Choose files (PDF, Word, photo)')}</span>
@@ -4242,7 +4256,7 @@ function rvAddFiles(list){
 async function rvSubmit(mode){
   const text=(PROOT.querySelector('#rvText')||{}).value.trim();
   const point=(PROOT.querySelector('#rvPoint')||{}).value.trim();
-  if(!RV.files.length&&!text){alert(stripRuby('ファイルを えらぶか、リンク・文章を 入れてください')+' / Please add a file, link or text.');return;}
+  if(!RV.files.length&&!text&&!confirm(stripRuby('ファイルは あとで チャットから 送りますか？')+'\nSend the file later in the chat?'))return;
   const btn=PROOT.querySelector('#rvBtn');
   btn.disabled=true;btn.innerHTML=TG('<ruby>送信<rt>そうしん</rt></ruby><ruby>中<rt>ちゅう</rt></ruby>…','Sending…');
   const fail=(msg,err)=>{noteNetError('review:',err||msg);btn.disabled=false;btn.innerHTML=TG('もう <ruby>一度<rt>いちど</rt></ruby>','Try again');};
@@ -4291,7 +4305,8 @@ async function rvSubmit(mode){
       <div class="md-mark">✓</div>
       <h3>${TG('<ruby>受<rt>う</rt></ruby>け<ruby>付<rt>つ</rt></ruby>けました！','Received!')}</h3>
       <p>📝 ${service}<br><br>${TG(`ふつう ${REVIEW_TURNAROUND_DAYS}<ruby>日<rt>にち</rt></ruby><ruby>以内<rt>いない</rt></ruby>に お<ruby>返<rt>かえ</rt></ruby>しします。<ruby>終<rt>お</rt></ruby>わったら「エージェント」タブで <ruby>見<rt>み</rt></ruby>られます。`,`Usually within ${REVIEW_TURNAROUND_DAYS} days. You'll find it in the Agent tab.`)}</p>
-      <button class="m-btn teal" onclick="closeModal();agReset();">${TG('<ruby>閉<rt>と</rt></ruby>じる','Close')}</button>
+      <button class="m-btn teal" onclick="closeModal();agReset();openOfficeChat();">💬 ${TG('チャットで ファイルを <ruby>送<rt>おく</rt></ruby>る','Send files in the chat')}</button>
+      <button class="m-btn" style="margin-top:8px;background:none;color:var(--ink);border:1px solid var(--line)" onclick="closeModal();agReset();">${TG('<ruby>閉<rt>と</rt></ruby>じる','Close')}</button>
     </div></div>`);
 }
 async function openReviewResult(id){
@@ -4317,6 +4332,65 @@ async function openReviewResult(id){
 /* インラインの onclick から呼べるように 公開（ポータルのスクリプトは スコープの中にあるため） */
 Object.assign(window,{agNext,agConfirm,agSetBand,agSetDay,agMonth,agTogglePick,
   openReviewForm,rvSet,rvCount,rvRemoveFile,rvAddFiles,rvSubmit,openReviewResult});
+
+/* ============================================================
+   運営チャットで ファイル・写真を 送る（非公開バケット chat/<会員id>/…）
+   ============================================================ */
+const CHAT_MAX_FILES=5, CHAT_MAX_MB=10, CHAT_FILE_ONLY='📎 ファイル';
+const CHAT_URLS={};
+function chatIsImg(f){return /^image\/(jpe?g|png|gif|webp)$/i.test(f.type||'')||/\.(jpe?g|png|gif|webp)$/i.test(f.name||'');}
+function chatAttHtml(list){
+  if(!list||!list.length)return '';
+  return `<div class="msg-files">${list.map(f=>{
+    const nm=escapeHtml(f.name||'file');
+    return chatIsImg(f)
+      ? `<a class="msg-img" data-path="${escapeHtml(f.path)}" target="_blank" rel="noopener"><img alt="${nm}"></a>`
+      : `<a class="msg-file" data-path="${escapeHtml(f.path)}" target="_blank" rel="noopener">📄 <span>${nm}</span></a>`;
+  }).join('')}</div>`;
+}
+async function hydrateChatFiles(){
+  const els=[...PROOT.querySelectorAll('#cwBody [data-path]:not([data-ok])')];
+  for(const el of els){
+    el.setAttribute('data-ok','1');
+    const path=el.dataset.path;
+    let url=CHAT_URLS[path];
+    if(!url){
+      try{const {data}=await window.sb.storage.from('chat').createSignedUrl(path,3600);url=data&&data.signedUrl;}catch(e){}
+      if(url)CHAT_URLS[path]=url;
+    }
+    if(!url){el.classList.add('broken');continue;}
+    el.href=url;
+    const img=el.querySelector('img');
+    if(img){img.onload=()=>{const b=PROOT.querySelector('#cwBody');if(b&&b.scrollHeight-b.scrollTop-b.clientHeight<400)b.scrollTop=b.scrollHeight;};img.src=url;}
+  }
+}
+async function sendOfficeFiles(files){
+  const list=[...(files||[])];
+  if(!list.length)return;
+  if(list.length>CHAT_MAX_FILES){chatNotice(`${CHAT_MAX_FILES}つまで / Up to ${CHAT_MAX_FILES} files`);return;}
+  const big=list.find(f=>f.size>CHAT_MAX_MB*1048576);
+  if(big){chatNotice(`「${big.name}」は ${CHAT_MAX_MB}MB を こえています / over ${CHAT_MAX_MB} MB`);return;}
+  const {data:u}=await window.sb.auth.getUser();
+  if(!u||!u.user){chatNotice('ログインが ひつようです / Please log in');return;}
+  const inp=PROOT.querySelector('#cwInput');
+  const txt=(inp&&inp.value.trim())||'';
+  const btn=PROOT.querySelector('.cw-attach');if(btn)btn.classList.add('busy');
+  const att=[];
+  for(const [i,f] of list.entries()){
+    const safe=f.name.replace(/[^\w.\-]+/g,'_').slice(-80);
+    const path=`${u.user.id}/${Date.now()}_${i}_${safe}`;
+    const {error}=await window.sb.storage.from('chat').upload(path,f,{contentType:f.type||undefined,upsert:false});
+    if(error){noteNetError('chat upload:',error);if(btn)btn.classList.remove('busy');chatNotice('アップロードに しっぱいしました / Upload failed');return;}
+    att.push({path,name:f.name,size:f.size,type:f.type||''});
+  }
+  const {data,error}=await window.sb.from('chat_messages')
+    .insert({user_id:u.user.id,sender:'customer',body:txt||CHAT_FILE_ONLY,attachments:att}).select('*').single();
+  if(btn)btn.classList.remove('busy');
+  if(error){noteNetError('chat send:',error);chatNotice('そうしんに しっぱいしました / Send failed');return;}
+  if(inp)inp.value='';
+  appendOfficeMsg(rowToMsg(data));
+}
+Object.assign(window,{sendOfficeFiles});
 
 function agReset(){agSelected.clear();agSlot=null;renderAgent();}
 
@@ -4575,12 +4649,14 @@ function renderChatWindow(wrap,c){
     </div>
     <div class="cw-body" id="cwBody">${c.messages.map(msgHtml).join('')}</div>
     <div class="cw-input">
+      ${c.official?`<label class="cw-attach" title="ファイル・写真を 送る / Send a file or photo"><input type="file" multiple accept="image/*,.pdf,.doc,.docx,.txt" onchange="sendOfficeFiles(this.files);this.value=''">📎</label>`:''}
       <input id="cwInput" placeholder="メッセージを かく… / Message…" onkeydown="if(event.key==='Enter')sendMsg('${c.id}')">
       <button class="cw-send" onclick="sendMsg('${c.id}')">➤</button>
     </div>
   </div>`;
   const body=PROOT.querySelector('#cwBody');body.scrollTop=body.scrollHeight;
   const inp=PROOT.querySelector('#cwInput');if(inp)inp.focus();
+  hydrateChatFiles();
 }
 
 function msgHtml(m){
@@ -4612,7 +4688,9 @@ function chatTimeLabel(iso){
 }
 // DBの1行を CHATS office の messages 形式へ
 function rowToMsg(r){
-  return {from:(r.sender==='office'?'them':'me'), text:escapeHtml(r.body), time:chatTimeLabel(r.created_at), _id:r.id};
+  const att=r.attachments||[];
+  const txt=(att.length&&r.body==='📎 ファイル')?'':escapeHtml(r.body);
+  return {from:(r.sender==='office'?'them':'me'), text:txt+chatAttHtml(att), time:chatTimeLabel(r.created_at), _id:r.id};
 }
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 
@@ -4622,7 +4700,7 @@ async function loadOfficeChat(){
   if(!u||!u.user){ return office; }
   const {data,error}=await window.sb
     .from('chat_messages')
-    .select('id,sender,body,created_at')
+    .select('*')
     .eq('user_id',u.user.id)
     .order('created_at',{ascending:true});
   if(error){ noteNetError('chat load:',error); return office; }
@@ -4667,7 +4745,7 @@ function appendOfficeMsg(m){
   if(m._id && office.messages.some(x=>x._id===m._id))return; // 重複防止
   office.messages.push(m);
   const body=PROOT.querySelector('#cwBody');
-  if(body){ body.insertAdjacentHTML('beforeend',msgHtml(m)); body.scrollTop=body.scrollHeight; }
+  if(body){ body.insertAdjacentHTML('beforeend',msgHtml(m)); body.scrollTop=body.scrollHeight; hydrateChatFiles(); }
 }
 
 async function subscribeOfficeChat(){

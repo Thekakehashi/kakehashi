@@ -590,6 +590,19 @@ body{
   .pc-total{font-size:9px}
 }
 
+/* ===== メッセージ：ファイル・写真 ===== */
+.mp-attach{flex:none;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer}
+.mp-attach:hover{border-color:var(--teal)}
+.mp-attach input{display:none}
+.mp-attach.busy{opacity:.4;pointer-events:none}
+.mp-files{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.mp-files:first-child{margin-top:0}
+.mp-img{display:block;border-radius:10px;overflow:hidden;background:rgba(15,42,63,.06);min-height:60px;max-width:260px}
+.mp-img img{display:block;width:100%;max-height:280px;object-fit:cover}
+.mp-file{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.85);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:13px;color:var(--ink);text-decoration:none;max-width:260px}
+.mp-file span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mp-files .broken{opacity:.5;pointer-events:none}
+
 /* mobile */
 .side-toggle{display:none}
 @media(max-width:820px){
@@ -1149,7 +1162,7 @@ async function openThread(uid){
   const pane=document.getElementById('msgPane');
   pane.innerHTML='<div class="msg-empty">よみこみ中…</div>';
   const {data,error}=await sb.from('chat_messages')
-    .select('id,sender,body,created_at')
+    .select('*')
     .eq('user_id',uid).order('created_at',{ascending:true});
   if(error){console.error('thread load:',error.message||error.hint||error);pane.innerHTML='<div class="msg-empty">よみこみに 失敗しました</div>';return;}
   const name=nameForUser(uid);
@@ -1157,17 +1170,61 @@ async function openThread(uid){
     <div class="mp-head">${esc(name)}<div class="mph-sub">会員との メッセージ</div></div>
     <div class="mp-body" id="mpBody">${(data||[]).map(mpMsgHtml).join('')}</div>
     <div class="mp-input">
+      <label class="mp-attach" title="ファイル・写真を 送る"><input type="file" multiple onchange="sendReplyFiles(this.files);this.value=''">📎</label>
       <input id="mpInput" placeholder="返信を かく…" onkeydown="if(event.key==='Enter')sendReply()">
       <button class="mp-send" onclick="sendReply()">➤</button>
     </div>`;
   const body=document.getElementById('mpBody');body.scrollTop=body.scrollHeight;
   const inp=document.getElementById('mpInput');if(inp)inp.focus();
+  hydrateMpFiles();
   // 既読化（表示上）
   const th=MSG_THREADS.find(t=>t.user_id===uid);if(th){th.unread=false;renderThreads();updateBadges();}
 }
 
+const MP_FILE_ONLY='📎 ファイル';
+function mpBodyHtml(m){
+  const att=m.attachments||[];
+  const txt=(att.length&&m.body===MP_FILE_ONLY)?'':esc(m.body);
+  const files=att.length?`<div class="mp-files">${att.map(f=>/^image\/(jpe?g|png|gif|webp)$/i.test(f.type||'')||/\.(jpe?g|png|gif|webp)$/i.test(f.name||'')
+    ?`<a class="mp-img" data-path="${esc(f.path)}" target="_blank" rel="noopener"><img alt="${esc(f.name)}"></a>`
+    :`<a class="mp-file" data-path="${esc(f.path)}" target="_blank" rel="noopener">📄 <span>${esc(f.name)}</span></a>`).join('')}</div>`:'';
+  return txt+files;
+}
 function mpMsgHtml(m){
-  return `<div class="mp-msg ${m.sender==='office'?'office':'customer'}">${esc(m.body)}<div class="mpm-time">${msgTime(m.created_at)}</div></div>`;
+  return `<div class="mp-msg ${m.sender==='office'?'office':'customer'}" data-mid="${m.id||''}">${mpBodyHtml(m)}<div class="mpm-time">${msgTime(m.created_at)}</div></div>`;
+}
+const MP_URLS={};
+async function hydrateMpFiles(){
+  for(const el of [...document.querySelectorAll('#mpBody [data-path]:not([data-ok])')]){
+    el.setAttribute('data-ok','1');
+    let url=MP_URLS[el.dataset.path];
+    if(!url){try{const {data}=await sb.storage.from('chat').createSignedUrl(el.dataset.path,3600);url=data&&data.signedUrl;}catch(e){}if(url)MP_URLS[el.dataset.path]=url;}
+    if(!url){el.classList.add('broken');continue;}
+    el.href=url;const img=el.querySelector('img');if(img)img.src=url;
+  }
+}
+async function sendReplyFiles(files){
+  if(!msgCurrentUser)return;
+  const list=[...(files||[])];if(!list.length)return;
+  if(list.length>5){toast('ファイルは 5つまで です');return;}
+  const big=list.find(f=>f.size>10*1048576);if(big){toast(`「${big.name}」は 10MB を こえています`);return;}
+  const inp=document.getElementById('mpInput');const txt=(inp&&inp.value.trim())||'';
+  const btn=document.querySelector('.mp-attach');if(btn)btn.classList.add('busy');
+  const att=[];
+  for(const [i,f] of list.entries()){
+    const safe=f.name.replace(/[^\w.\-]+/g,'_').slice(-80);
+    const path=`${msgCurrentUser}/office/${Date.now()}_${i}_${safe}`;
+    const {error}=await sb.storage.from('chat').upload(path,f,{contentType:f.type||undefined});
+    if(error){console.error('chat upload:',error);if(btn)btn.classList.remove('busy');toast('アップロードに 失敗しました（chat バケットの 設定を ご確認ください）');return;}
+    att.push({path,name:f.name,size:f.size,type:f.type||''});
+  }
+  const {data,error}=await sb.from('chat_messages').insert({user_id:msgCurrentUser,sender:'office',body:txt||MP_FILE_ONLY,attachments:att}).select('*').single();
+  if(btn)btn.classList.remove('busy');
+  if(error){console.error('reply send:',error);toast('送信に 失敗しました');return;}
+  if(inp)inp.value='';
+  appendMp(data);
+  const th=MSG_THREADS.find(t=>t.user_id===msgCurrentUser);
+  if(th){th.last=data.body;th.lastAt=data.created_at;th.unread=false;renderThreads();}
 }
 
 async function sendReply(){
@@ -1177,7 +1234,7 @@ async function sendReply(){
   if(!txt)return;
   if(inp)inp.value='';
   const {data,error}=await sb.from('chat_messages')
-    .insert({user_id:msgCurrentUser, sender:'office', body:txt}).select('id,sender,body,created_at').single();
+    .insert({user_id:msgCurrentUser, sender:'office', body:txt}).select('*').single();
   if(error){console.error('reply send:',error.message||error.hint||error);toast('送信に 失敗しました');if(inp)inp.value=txt;return;}
   appendMp(data);
   // スレッド一覧のプレビュー更新
@@ -1191,8 +1248,9 @@ function appendMp(m){
   const div=document.createElement('div');
   div.className='mp-msg '+(m.sender==='office'?'office':'customer');
   div.setAttribute('data-mid',m.id||'');
-  div.innerHTML=esc(m.body)+`<div class="mpm-time">${msgTime(m.created_at)}</div>`;
+  div.innerHTML=mpBodyHtml(m)+`<div class="mpm-time">${msgTime(m.created_at)}</div>`;
   body.appendChild(div);body.scrollTop=body.scrollHeight;
+  hydrateMpFiles();
 }
 
 /* ---- 運営から新規メッセージ（会員を選んで第一声を送る） ---- */
@@ -3399,13 +3457,14 @@ function openReviewAdmin(r){
       </div>
       ${m.point?`<div class="field"><label>見てほしいところ</label><div class="rv-box">${esc(m.point).replace(/\n/g,'<br>')}</div></div>`:''}
       ${m.text?`<div class="field"><label>はりつけ・リンク</label><div class="rv-box">${linkify(esc(m.text)).replace(/\n/g,'<br>')}</div></div>`:''}
-      <div class="field"><label>届いたファイル</label>${(r.attachments||[]).length?`<div class="rv-list">${r.attachments.map((f,i)=>`<button class="btn btn-ghost btn-sm" onclick="rvOpen('${r.id}','in',${i})">📄 ${esc(f.name)}</button>`).join('')}</div>`:'<div class="g-hint" style="text-align:left;margin:0">ファイルは ありません</div>'}</div>
+      <div class="field"><label>届いたファイル <span class="hint">チャットで 届いた ファイルは メッセージ画面で 見られます</span></label>${(r.attachments||[]).length?`<div class="rv-list">${r.attachments.map((f,i)=>`<button class="btn btn-ghost btn-sm" onclick="rvOpen('${r.id}','in',${i})">📄 ${esc(f.name)}</button>`).join('')}</div>`:'<div class="g-hint" style="text-align:left;margin:0">ファイルは ありません</div>'}</div>
       <div class="panel-h" style="margin-top:20px"><h2 style="font-size:16px">${done?'返却した内容':'返却する'}</h2></div>
       ${done&&(r.resultFiles||[]).length?`<div class="rv-list" style="margin-bottom:10px">${r.resultFiles.map((f,i)=>`<button class="btn btn-ghost btn-sm" onclick="rvOpen('${r.id}','out',${i})">⬇️ ${esc(f.name)}</button>`).join('')}</div>`:''}
       <div class="field"><label>コメント <span class="hint">会員に そのまま 表示されます</span></label><textarea id="rvNote" style="min-height:120px" placeholder="れい：全体的に よく書けています。志望動機の 2文目は「〜したく、」に すると 自然です。">${esc(r.resultNote||'')}</textarea></div>
       <div class="field"><label>添削済みファイル <span class="hint">任意・複数可</span></label>
         <input type="file" id="rvOut" multiple onchange="_rvFiles=[..._rvFiles,...this.files];this.value='';rvShowOut()"><div id="rvOutList" class="rv-list"></div></div>
       <div class="form-foot">
+        <button class="btn btn-ghost" onclick="startNewThread('${r.uid}')">💬 チャット</button>
         ${done?'':`<button class="btn btn-ghost" onclick="rvSetStatus('${r.id}','progress')">${r.status==='progress'?'対応中のまま 閉じる':'対応中にする'}</button>`}
         <button class="btn btn-gold" id="rvSend" onclick="rvReturn('${r.id}')">${done?'返却内容を 更新する':'返却して 完了にする'}</button>
       </div>
