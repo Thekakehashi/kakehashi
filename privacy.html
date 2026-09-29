@@ -32,7 +32,7 @@ a{color:var(--teal)}
 <div class="wrap">
 <h1>プライバシーポリシー</h1>
 <div class="sub">Privacy Policy</div>
-<div class="updated">最終更新日 / Last updated: 2026-09-04</div>
+<div class="updated">最終更新日 / Last updated: 2026-09-29</div>
 
 <div class="notice">
 当サービスは、利用者の個人情報を適切に取り扱います。本ポリシーは、取得する情報とその利用目的を説明します。<br>
@@ -42,10 +42,18 @@ Kakehashi handles your personal information with care. This policy explains what
 <h2>1. 取得する情報<span class="en">Information we collect</span></h2>
 <ul>
 <li>メールアドレス、氏名、居住国、言語、利用理由など、登録・オンボーディング時に入力された情報</li>
-<li>予約・申込・依頼・メッセージなど、サービス利用に伴い発生する情報</li>
+<li>予約・申込・依頼・メッセージなど、サービス利用に伴い発生する情報（依頼の希望日時、レッスンの出欠 など）</li>
+<li>添削や チャットで 送っていただいた ファイル・写真（履歴書、書類、課題 など）</li>
+<li>通院同行など、ご本人が 依頼のために 伝えた 健康に関する情報（下記「要配慮個人情報」を ご覧ください）</li>
 <li>お支払い情報（カード情報は当サービスでは保持せず、決済代行会社 Stripe が処理します）</li>
 </ul>
-<p class="en2">We collect: registration/onboarding details (email, name, country of residence, language, reason for use); activity data (bookings, applications, requests, messages); and payment information (card details are never stored by us — they are handled by our payment provider, Stripe).</p>
+<p class="en2">We collect: registration/onboarding details (email, name, country of residence, language, reason for use); activity data (bookings, applications, requests and preferred times, messages, lesson attendance); files and photos you send for proofreading or in the chat (résumés, documents, assignments, etc.); health-related information you share for hospital-visit requests (see "Sensitive information" below); and payment information (card details are never stored by us — they are handled by our payment provider, Stripe).</p>
+<p class="ja">在留カード番号・マイナンバー・パスポート番号などは、依頼に 必要な場合を除き 送らないでください。写真を送るときは、必要のない部分を 隠していただけると 安心です。</p>
+<p class="en2">Please do not send residence card numbers, My Number, passport numbers, etc. unless they are needed for your request. When sending photos, it is safest to cover any parts that are not needed.</p>
+
+<h2>1-2. 要配慮個人情報<span class="en">Sensitive information</span></h2>
+<p class="ja">通院同行などで 病歴・症状など 健康に関する情報（要配慮個人情報）を お預かりする場合は、ご本人が 依頼の際に 自ら伝えることをもって 取得に同意いただいたものとし、その依頼の 通訳・同行のためだけに 使います。</p>
+<p class="en2">When we receive health-related information (sensitive personal information) such as medical history or symptoms for hospital-visit requests, we treat your providing it with your request as consent to its collection, and use it only for interpreting and accompanying you for that request.</p>
 
 <h2>2. 利用目的<span class="en">How we use it</span></h2>
 <ul>
@@ -59,16 +67,24 @@ Kakehashi handles your personal information with care. This policy explains what
 <h2>3. 第三者への提供・委託<span class="en">Sharing and processors</span></h2>
 <p class="ja">当サービスは、法令に基づく場合を除き、ご本人の同意なく個人情報を第三者に提供しません。ただし、サービス提供に必要な範囲で、以下の外部サービスに処理を委託します。</p>
 <ul>
-<li>Supabase（認証・データベース基盤）</li>
+<li>Supabase（認証・データベース・ファイル保管）</li>
 <li>Stripe（決済処理）</li>
+<li>Google（Google Workspace：メール送信・カレンダー・Google Meet によるオンラインレッスン）</li>
 <li>Resend（メール送信）</li>
+<li>Vercel（ウェブサイトの配信）</li>
 <li>Cloudflare（bot対策・セキュリティ）</li>
 </ul>
-<p class="en2">We do not share your personal information with third parties without your consent, except as required by law. We use the following processors as needed to run the Service: Supabase (auth & database), Stripe (payments), Resend (email), Cloudflare (bot protection & security).</p>
+<p class="en2">We do not share your personal information with third parties without your consent, except as required by law. We use the following processors as needed to run the Service: Supabase (auth, database & file storage), Stripe (payments), Google (Google Workspace: email, calendar, and Google Meet for online lessons), Resend (email), Vercel (website hosting), Cloudflare (bot protection & security).</p>
+
+<h2>3-2. 外国にある事業者への委託<span class="en">Processing outside Japan</span></h2>
+<p class="ja">上記の委託先には、アメリカ合衆国など 日本国外に サーバーや 拠点を持つ事業者が 含まれ、個人情報が 国外で 保管・処理される場合があります。各事業者は、個人情報の保護に関する 措置を講じています。各国の個人情報保護制度については、個人情報保護委員会の 情報を ご参照ください。</p>
+<p class="en2">Some of the processors above are located or operate servers outside Japan (e.g. in the United States), so your information may be stored or processed abroad. Each provider takes measures to protect personal information. For information on data protection systems in other countries, please refer to Japan's Personal Information Protection Commission.</p>
 
 <h2>4. 情報の管理<span class="en">Security</span></h2>
 <p class="ja">当サービスは、個人情報への不正アクセス・漏えい等を防ぐため、適切な安全管理措置を講じます。</p>
 <p class="en2">We take appropriate measures to protect personal information against unauthorized access and leakage.</p>
+<p class="ja">送っていただいた ファイル・写真は、ご本人と 運営だけが 見られる 非公開の場所に 保管します。サービスの提供に 必要な期間が過ぎた後、または 削除のご依頼があった場合は、削除します。ログイン状態の保持のため、ブラウザの保存領域（ローカルストレージ等）を 使用します。</p>
+<p class="en2">Files and photos you send are stored in a private location accessible only to you and our staff, and are deleted once no longer needed to provide the Service or upon your request. We use your browser's storage (e.g. local storage) to keep you signed in.</p>
 
 <h2>5. 開示・訂正・削除の請求<span class="en">Access, correction, deletion</span></h2>
 <p class="ja">ご自身の個人情報の開示・訂正・削除をご希望の場合は、下記までご連絡ください。本人確認のうえ、遅滞なく対応します。</p>

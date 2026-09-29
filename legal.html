@@ -20,6 +20,11 @@ th,td{text-align:left;vertical-align:top;padding:14px 12px;border-bottom:1px sol
 th{width:38%;color:var(--muted);font-weight:600}
 th .en{display:block;font-size:11px;font-weight:400;margin-top:2px}
 td .en2{display:block;font-size:12px;color:var(--muted);margin-top:4px}
+table.price{margin-top:8px;background:#fff;border-radius:10px;border:1px solid var(--line)}
+table.price td{padding:9px 12px;font-size:13.5px}
+table.price td:last-child{white-space:nowrap;text-align:right;font-weight:600}
+table.price tr:last-child td{border-bottom:none}
+@media(max-width:560px){th,td{display:block;width:100%!important}th{border-bottom:none;padding-bottom:0}table.price td{display:table-cell;width:auto!important}}
 .back{display:inline-block;margin-top:40px;color:var(--teal);text-decoration:none;font-weight:600;font-size:14px}
 .foot{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
 a{color:var(--teal)}
@@ -30,11 +35,11 @@ a{color:var(--teal)}
 <div class="wrap">
 <h1>特定商取引法に基づく表記</h1>
 <div class="sub">Legal Notice (Act on Specified Commercial Transactions)</div>
-<div class="updated">最終更新日 / Last updated: 2026-09-04</div>
+<div class="updated">最終更新日 / Last updated: 2026-09-29</div>
 
 <table>
 <tr><th>販売事業者<span class="en">Business operator</span></th>
-    <td>栗本 琉碧<span class="en2">Rui Kurimoto (sole proprietor)</span></td></tr>
+    <td>栗本 琉碧（屋号：架け橋 Kakehashi）<span class="en2">Rui Kurimoto (sole proprietor), trading as Kakehashi</span></td></tr>
 <tr><th>運営責任者<span class="en">Responsible manager</span></th>
     <td>栗本 琉碧<span class="en2">Rui Kurimoto</span></td></tr>
 <tr><th>所在地<span class="en">Address</span></th>
@@ -44,7 +49,22 @@ a{color:var(--teal)}
 <tr><th>連絡先（メール）<span class="en">Contact (email)</span></th>
     <td><a href="mailto:info@thekakehashi.com">info@thekakehashi.com</a><span class="en2">We respond primarily by email.</span></td></tr>
 <tr><th>販売価格<span class="en">Prices</span></th>
-    <td>各サービスの申込画面に表示します。月額プラン（プレミアム）は 月額 18,000円（税込）。<span class="en2">Shown on each service's checkout screen. Monthly Premium plan: ¥18,000/month (tax included).</span></td></tr>
+    <td>すべて税込です。最新の価格は 各サービスの申込画面にも 表示します。<span class="en2">All prices include tax and are also shown on each checkout screen.</span>
+      <table class="price">
+        <tr><td>月額プラン（プレミアム）<span class="en2">Monthly Premium plan (unlimited lessons)</span></td><td>18,000円／月</td></tr>
+        <tr><td>日本語レッスン（非会員・1回）<span class="en2">Lesson, non-members (per session)</span></td><td>プライベート 3,000円<br>グループ 2,000円</td></tr>
+        <tr><td>イベント<span class="en2">Events</span></td><td>各イベントの<br>申込画面に表示</td></tr>
+        <tr><td colspan="2" style="color:var(--muted);font-size:12.5px;padding-bottom:4px;text-align:left;font-weight:400;white-space:normal">エージェント（1回・会員価格／通常価格）<span class="en2">Agent support (per request, member / regular)</span></td></tr>
+        <tr><td>役所 同行<span class="en2">City hall support</span></td><td>10,000円／15,000円</td></tr>
+        <tr><td>銀行 口座<span class="en2">Bank account</span></td><td>5,000円／8,000円</td></tr>
+        <tr><td>携帯・SIM<span class="en2">Phone &amp; SIM</span></td><td>5,000円／8,000円</td></tr>
+        <tr><td>住まい・ライフライン<span class="en2">Housing &amp; utilities</span></td><td>15,000円／25,000円</td></tr>
+        <tr><td>病院 付き添い<span class="en2">Hospital visit</span></td><td>8,000円／12,000円</td></tr>
+        <tr><td>添削（1件）<span class="en2">Proofreading (per document)</span></td><td>1,000円</td></tr>
+        <tr><td>その他 相談<span class="en2">Other requests</span></td><td>お見積り<span class="en2">Quoted</span></td></tr>
+      </table></td></tr>
+<tr><th>初回無料（おためし）<span class="en">Free first use</span></th>
+    <td>はじめての方は、レッスン・イベント・エージェント・添削のうち どれか1回を 無料で ご利用いただけます（お一人さま1回限り）。無料で申し込んだ回が 実施されるまでの間、ほかのお申し込みは 有料となります。実施前に 当方都合で 中止した場合は、無料回は 未使用に 戻ります。<span class="en2">First-time members may use one lesson, event, Agent request, or proofreading for free (once per person). Until that free booking takes place, other bookings are paid. If we cancel it before it takes place, your free use is restored.</span></td></tr>
 <tr><th>商品代金以外の必要料金<span class="en">Additional fees</span></th>
     <td>本サービスの利用に必要なインターネット通信料等は利用者のご負担となります。<span class="en2">Internet and communication costs required to use the Service are borne by the user.</span></td></tr>
 <tr><th>お支払い方法<span class="en">Payment methods</span></th>
@@ -52,11 +72,19 @@ a{color:var(--teal)}
 <tr><th>お支払い時期<span class="en">Payment timing</span></th>
     <td>都度払いは申込時。月額プランは初回申込時および以後毎月同日に自動課金されます。<span class="en2">One-off services: at the time of application. Monthly plan: charged at signup and automatically on the same day each month thereafter.</span></td></tr>
 <tr><th>サービスの提供時期<span class="en">Service delivery</span></th>
-    <td>レッスン・イベント・エージェント支援は、予約・申込・調整された日時に提供します。月額プランの機能は決済完了後ただちにご利用いただけます。<span class="en2">Lessons, events, and Agent support are provided on the scheduled date/time. Monthly plan features become available immediately after payment.</span></td></tr>
+    <td>レッスン・イベント・エージェント支援は、予約・申込・調整された日時に提供します。添削は、書類の受領後 通常3日以内に お返しします。月額プランの機能は決済完了後ただちにご利用いただけます。<span class="en2">Lessons, events, and Agent support are provided on the scheduled date/time. Proofreading is usually returned within 3 days of receiving your document. Monthly plan features become available immediately after payment.</span></td></tr>
 <tr><th>解約・キャンセル<span class="en">Cancellation</span></th>
-    <td>月額プランはいつでも解約でき、解約後は次回以降の課金を停止します。既に経過した期間分の返金は原則行いません。個別サービスの変更・キャンセルは運営を通じて承ります。<span class="en2">The monthly plan can be cancelled anytime; future billing stops upon cancellation. Fees for elapsed periods are generally non-refundable. Changes/cancellations of individual services are handled through our support.</span></td></tr>
+    <td>月額プランはいつでも解約でき、解約後は次回以降の課金を停止します（お支払い済みの期間の末日まで ご利用いただけます）。既に経過した期間分の返金は原則行いません。<br>個別サービスの変更・キャンセルは、ポータルのメッセージ または メールで 運営までご連絡ください。<span class="en2">The monthly plan can be cancelled anytime; future billing stops and you can keep using it until the end of the paid period. Fees for elapsed periods are generally non-refundable. To change or cancel an individual booking, contact us via the portal chat or email.</span></td></tr>
 <tr><th>返品・返金<span class="en">Refunds</span></th>
-    <td>サービスの性質上、提供済みのサービスについては返金いたしかねます。未提供分については、実施状況に応じて運営が判断します。<span class="en2">Due to the nature of the services, provided services are non-refundable. For undelivered services, refunds are determined by us based on circumstances.</span></td></tr>
+    <td>サービスの性質上、提供済みのサービスについては返金いたしかねます。未提供のサービスは 次のとおりです。
+      <ul style="margin:6px 0;padding-left:18px">
+        <li>実施日の前日までに ご連絡いただいた キャンセル：全額返金</li>
+        <li>当日のキャンセル・連絡のない欠席：返金なし</li>
+        <li>当方都合による中止・変更：全額返金（または ご希望の日時に振替）</li>
+        <li>添削：作業に着手する前の キャンセルは 全額返金</li>
+      </ul>
+      返金は Stripe を通じて お支払いに使われたカードへ 行います。カード会社により 反映まで数日〜数週間かかる場合があります。
+      <span class="en2">Delivered services are non-refundable. For services not yet delivered: cancellation notified by the day before → full refund; same-day cancellation or no-show → no refund; cancellation or change on our side → full refund (or rescheduling); proofreading cancelled before we start → full refund. Refunds are issued via Stripe to the original card and may take several days to weeks to appear, depending on your card issuer.</span></td></tr>
 </table>
 
 <a class="back" href="/">← 架け橋にもどる / Back to Kakehashi</a>
