@@ -28,7 +28,7 @@
 
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Zen+Kaku+Gothic+New:wght@400;500;700;900&amp;family=Zen+Old+Mincho:wght@900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=Zen+Kaku+Gothic+New:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
 <style>
 :root{
   --indigo:#0F2A3F;
@@ -1103,11 +1103,12 @@ body.lang-en #portalApp .modal-head .m-sub{font-family:var(--f-display);font-siz
 body{font-family:var(--f-body)}
 .sec-title,.final-cta h2,.contact h2,.wbridge-text{font-weight:700;letter-spacing:-.005em;line-height:1.35}
 body.lang-en .sec-title .en-sub{letter-spacing:-.025em}
-/* 明朝は「ブランドの顔」として ヒーローの 日本語見出しと 最後の CTA だけに（ほかは すべて ゴシック）*/
-.hero h1{font-family:"Zen Old Mincho",serif;font-weight:900;letter-spacing:.03em;line-height:1.5}
-.final-cta h2{font-family:"Zen Old Mincho",serif;font-weight:900;letter-spacing:.03em;line-height:1.5}
-body.lang-en .hero h1{font-family:var(--f-display);font-weight:700;letter-spacing:-.02em;line-height:1.18}
-body.lang-en .final-cta h2{font-family:var(--f-display);font-weight:700;letter-spacing:-.01em;line-height:1.3}
+/* ヒーロー：ほかの セクションと 同じ 書体で、大きさと 太さを 抑えて 落ち着いた 見出しに */
+.hero h1{font-family:var(--f-display);font-weight:700;font-size:clamp(44px,7.6vw,92px);letter-spacing:.02em;line-height:1.42}
+.final-cta h2{font-family:var(--f-display);font-weight:700;letter-spacing:.01em;line-height:1.45}
+body.lang-en .hero h1{font-weight:600;letter-spacing:-.03em;line-height:1.12}
+@media(max-width:560px){body:not(.lang-en) .hero h1{font-size:clamp(30px,9.4vw,44px);letter-spacing:.01em}}
+body.lang-en .final-cta h2{font-weight:600;letter-spacing:-.02em;line-height:1.25}
 .en-sub{font-weight:500;letter-spacing:0;font-size:clamp(14px,1.35vw,16.5px)}
 .en-inline,.li-en{font-weight:400;letter-spacing:0}
 .sup-col .li-en,.plan li .li-en,.mc-list .li-en,.sc-list .li-en{font-size:12.5px}
@@ -1251,7 +1252,7 @@ body.lang-en .evk h3 .evk-en{font-size:inherit;font-weight:800;color:#fff}
 <div class="hero-body">
 <div>
 <div class="hero-eyebrow"><span class="ja-ui"><ruby>無料<rt>むりょう</rt></ruby><ruby>相談<rt>そうだん</rt></ruby><ruby>窓口<rt>まどぐち</rt></ruby> · いつでも どうぞ</span><span class="en-ui">Free consultation · anytime</span></div>
-<h1><span class="ja-ui"><ruby>日本<rt>にほん</rt></ruby>での<ruby>生活<rt>せいかつ</rt></ruby>を、<br/>もっと<span class="accent"><ruby>豊<rt>ゆた</rt></ruby>か</span>に。</span><span class="en-ui">Make life in Japan<br/><span class="accent">easier and richer</span>.</span></h1>
+<h1><span class="ja-ui"><ruby>日本<rt>にほん</rt></ruby>での<ruby>生活<rt>せいかつ</rt></ruby>を、<br/>もっと<span class="accent"><ruby>豊<rt>ゆた</rt></ruby>か</span>に。</span><span class="en-ui">Your bridge to<br/><span class="accent">life in Japan</span>.</span></h1>
 <p class="hero-sub"><span class="ja-text"><ruby>話<rt>はな</rt></ruby>し、<ruby>生活<rt>せいかつ</rt></ruby>を <ruby>支<rt>ささ</rt></ruby>え、<ruby>仲間<rt>なかま</rt></ruby>と つながる。ここは、<ruby>日本<rt>にほん</rt></ruby>での <ruby>毎日<rt>まいにち</rt></ruby>を <ruby>豊<rt>ゆた</rt></ruby>かにする コミュニティです。</span><span class="en-sub">Speak Japanese, get support with daily life, and connect with others. A community that makes your everyday life in Japan richer.</span></p>
 <div class="hero-cta">
 <button class="btn btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})"><span class="ja-ui"><ruby>今<rt>いま</rt></ruby>すぐ <ruby>無料<rt>むりょう</rt></ruby><ruby>相談<rt>そうだん</rt></ruby>　</span>Free consultation</button>
@@ -1690,7 +1691,7 @@ body.lang-en .evk h3 .evk-en{font-size:inherit;font-weight:800;color:#fff}
 <div class="brand-mark"></div>
 <div class="brand-name">架け橋<small>KAKEHASHI PORTAL</small></div>
 </div>
-<h1 style="margin-top:18px"><span class="ja-text"><ruby>日本<rt>にほん</rt></ruby>での<ruby>生活<rt>せいかつ</rt></ruby>を、<br/>もっと <ruby>豊<rt>ゆた</rt></ruby>かに。</span><span class="en-inline">Make life in Japan richer.</span></h1>
+<h1 style="margin-top:18px"><span class="ja-text"><ruby>日本<rt>にほん</rt></ruby>での<ruby>生活<rt>せいかつ</rt></ruby>を、<br/>もっと <ruby>豊<rt>ゆた</rt></ruby>かに。</span><span class="en-inline">Your bridge to life in Japan.</span></h1>
 <p class="lead"><span class="ja-lead">メンバー ポータルへ ようこそ。</span><span class="en">Welcome to your member portal.</span></p>
 <div class="landing-choices">
 <button class="btn btn-primary" onclick="go('signup')"><span class="ja-text"><ruby>新規<rt>しんき</rt></ruby><ruby>登録<rt>とうろく</rt></ruby>する</span><span class="en-inline">Create account</span></button>
