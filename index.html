@@ -1146,6 +1146,15 @@ body.lang-en .final-cta h2{font-weight:600;letter-spacing:-.02em;line-height:1.2
 .svc-price b{font-family:var(--f-latin);font-size:22px;font-weight:800;color:var(--indigo);letter-spacing:-.01em}
 .svc-reg{font-size:11.5px;color:var(--muted);margin-top:3px;white-space:nowrap}
 .svc-reg .en-inline{display:none}
+.svc-foot:has(.svc-tiers){flex-direction:column;align-items:stretch;gap:8px}
+.svc-tiers{display:flex;flex-direction:column;gap:6px}
+.svc-tier{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;column-gap:10px;align-items:baseline;background:var(--washi);border-radius:12px;padding:8px 12px}
+.svc-tier-k{font-size:13px;font-weight:700;color:var(--ink)}
+.svc-tier-k .en-ui{display:none}
+body.lang-en .svc-tier-k .en-ui{display:inline}
+body.lang-en .svc-tier-k .ja-text{display:none}
+.svc-tier b{font-family:var(--f-latin);font-size:20px;font-weight:800;color:var(--indigo);text-align:right}
+.svc-tier .svc-reg{grid-column:1/-1;text-align:right;margin-top:0}
 body.lang-en .svc-reg .en-inline{display:inline}
 .svc-review{background:var(--indigo);border-color:var(--indigo);color:var(--washi)}
 .svc-review .svc-ic{background:rgba(232,238,240,.1)}
@@ -1367,36 +1376,36 @@ body.lang-en .evk h3 .evk-en{font-size:inherit;font-weight:800;color:#fff}
 <div><h4><span class="ja-ui"><ruby>役所<rt>やくしょ</rt></ruby> <ruby>同行<rt>どうこう</rt></ruby></span><span class="svc-en">City hall</span></h4>
 <p class="svc-when"><span class="ja-text"><ruby>引<rt>ひ</rt></ruby>っ<ruby>越<rt>こ</rt></ruby>し・<ruby>健康<rt>けんこう</rt></ruby><ruby>保険<rt>ほけん</rt></ruby>・<ruby>年金<rt>ねんきん</rt></ruby>・マイナンバーの <ruby>手続<rt>てつづ</rt></ruby>きに</span><span class="en-inline">Moving in, health insurance, pension, My Number</span></p></div></div>
 <ul class="svc-do"><li><span class="ja-text"><ruby>窓口<rt>まどぐち</rt></ruby>での やりとりを その<ruby>場<rt>ば</rt></ruby>で <ruby>通訳<rt>つうやく</rt></ruby></span><span class="li-en">We interpret at the counter</span></li><li><span class="ja-text"><ruby>隣<rt>となり</rt></ruby>で <ruby>一緒<rt>いっしょ</rt></ruby>に <ruby>記入<rt>きにゅう</rt></ruby>。<ruby>漢字<rt>かんじ</rt></ruby>など <ruby>書<rt>か</rt></ruby>きにくい ところは <ruby>代<rt>か</rt></ruby>わりに <ruby>書<rt>か</rt></ruby>きます</span><span class="li-en">We fill in forms with you — and write the tricky kanji for you</span></li><li><span class="ja-text"><ruby>次<rt>つぎ</rt></ruby>に <ruby>必要<rt>ひつよう</rt></ruby>な <ruby>手続<rt>てつづ</rt></ruby>きを メモで お<ruby>渡<rt>わた</rt></ruby>し</span><span class="li-en">A note of what to do next</span></li></ul>
-<div class="svc-foot"><span class="svc-time"><span class="ja-text"><ruby>約<rt>やく</rt></ruby>2〜3<ruby>時間<rt>じかん</rt></ruby>（<ruby>混<rt>こ</rt></ruby>み<ruby>具合<rt>ぐあい</rt></ruby>による）</span><span class="en-inline">About 2–3 h, depending on crowds</span></span>
-<span class="svc-price"><b>¥15,000</b><span class="svc-reg"><span class="ja-text">メンバー</span><span class="en-inline">Members</span> ¥10,000</span></span></div>
+<div class="svc-foot"><span class="svc-time"><span class="ja-text"><ruby>約<rt>やく</rt></ruby>1〜3<ruby>時間<rt>じかん</rt></ruby>（<ruby>手続<rt>てつづ</rt></ruby>きの <ruby>数<rt>かず</rt></ruby>と <ruby>混<rt>こ</rt></ruby>み<ruby>具合<rt>ぐあい</rt></ruby>による）</span><span class="en-inline">About 1–3 h, depending on the number of procedures and crowds</span></span>
+<div class="svc-tiers"><div class="svc-tier"><span class="svc-tier-k"><span class="ja-text"><ruby>手続<rt>てつづ</rt></ruby>き1つ</span><span class="en-ui">1 procedure</span></span><b>¥6,000</b><span class="svc-reg"><span class="ja-text">メンバー</span><span class="en-inline">Members</span> ¥4,000</span></div><div class="svc-tier"><span class="svc-tier-k"><span class="ja-text">2〜3つ まとめて</span><span class="en-ui">2–3 procedures</span></span><b>¥8,000</b><span class="svc-reg"><span class="ja-text">メンバー</span><span class="en-inline">Members</span> ¥5,500</span></div></div></div>
 </article><article class="svc">
 <div class="svc-top"><span class="svc-ic" aria-hidden="true">🏦</span>
 <div><h4><span class="ja-ui"><ruby>銀行<rt>ぎんこう</rt></ruby> <ruby>口座<rt>こうざ</rt></ruby></span><span class="svc-en">Bank account</span></h4>
 <p class="svc-when"><span class="ja-text"><ruby>給料<rt>きゅうりょう</rt></ruby>の <ruby>振込先<rt>ふりこみさき</rt></ruby>が <ruby>必要<rt>ひつよう</rt></ruby>な ときに</span><span class="en-inline">When you need an account for your salary</span></p></div></div>
 <ul class="svc-do"><li><span class="ja-text"><ruby>開<rt>ひら</rt></ruby>きやすい <ruby>銀行<rt>ぎんこう</rt></ruby><ruby>選<rt>えら</rt></ruby>びと <ruby>持<rt>も</rt></ruby>ち<ruby>物<rt>もの</rt></ruby>の <ruby>確認<rt>かくにん</rt></ruby></span><span class="li-en">Picking a bank and checking what to bring</span></li><li><span class="ja-text"><ruby>窓口<rt>まどぐち</rt></ruby>で <ruby>通訳<rt>つうやく</rt></ruby>・<ruby>隣<rt>となり</rt></ruby>で <ruby>一緒<rt>いっしょ</rt></ruby>に <ruby>申込書<rt>もうしこみしょ</rt></ruby>を <ruby>記入<rt>きにゅう</rt></ruby></span><span class="li-en">Interpreting, and filling in the application with you</span></li><li><span class="ja-text">キャッシュカード・アプリの <ruby>設定<rt>せってい</rt></ruby>まで</span><span class="li-en">Setting up your card and banking app</span></li></ul>
 <div class="svc-foot"><span class="svc-time"><span class="ja-text"><ruby>約<rt>やく</rt></ruby>1.5<ruby>時間<rt>じかん</rt></ruby></span><span class="en-inline">About 1.5 h</span></span>
-<span class="svc-price"><b>¥8,000</b><span class="svc-reg"><span class="ja-text">メンバー</span><span class="en-inline">Members</span> ¥5,000</span></span></div>
+<span class="svc-price"><b>¥6,000</b><span class="svc-reg"><span class="ja-text">メンバー</span><span class="en-inline">Members</span> ¥4,000</span></span></div>
 </article><article class="svc">
 <div class="svc-top"><span class="svc-ic" aria-hidden="true">📱</span>
 <div><h4><span class="ja-ui"><ruby>携帯<rt>けいたい</rt></ruby>・SIM</span><span class="svc-en">Phone & SIM</span></h4>
 <p class="svc-when"><span class="ja-text"><ruby>日本<rt>にほん</rt></ruby>の <ruby>電話<rt>でんわ</rt></ruby><ruby>番号<rt>ばんごう</rt></ruby>が <ruby>必要<rt>ひつよう</rt></ruby>な ときに</span><span class="en-inline">When you need a Japanese phone number</span></p></div></div>
 <ul class="svc-do"><li><span class="ja-text"><ruby>使<rt>つか</rt></ruby>い<ruby>方<rt>かた</rt></ruby>に <ruby>合<rt>あ</rt></ruby>う プランを <ruby>一緒<rt>いっしょ</rt></ruby>に <ruby>比<rt>くら</rt></ruby>べる</span><span class="li-en">Comparing plans that fit how you use it</span></li><li><span class="ja-text">お<ruby>店<rt>みせ</rt></ruby>で <ruby>契約<rt>けいやく</rt></ruby>の <ruby>説明<rt>せつめい</rt></ruby>を <ruby>通訳<rt>つうやく</rt></ruby></span><span class="li-en">Interpreting the contract in store</span></li><li><span class="ja-text"><ruby>乗<rt>の</rt></ruby>り<ruby>換<rt>か</rt></ruby>え・<ruby>初期<rt>しょき</rt></ruby><ruby>設定<rt>せってい</rt></ruby>まで</span><span class="li-en">Number transfer and setup</span></li></ul>
 <div class="svc-foot"><span class="svc-time"><span class="ja-text"><ruby>約<rt>やく</rt></ruby>1.5<ruby>時間<rt>じかん</rt></ruby></span><span class="en-inline">About 1.5 h</span></span>
-<span class="svc-price"><b>¥8,000</b><span class="svc-reg"><span class="ja-text">メンバー</span><span class="en-inline">Members</span> ¥5,000</span></span></div>
+<span class="svc-price"><b>¥6,000</b><span class="svc-reg"><span class="ja-text">メンバー</span><span class="en-inline">Members</span> ¥4,000</span></span></div>
 </article><article class="svc">
 <div class="svc-top"><span class="svc-ic" aria-hidden="true">🏠</span>
 <div><h4><span class="ja-ui"><ruby>住<rt>す</rt></ruby>まい・ライフライン</span><span class="svc-en">Housing & utilities</span></h4>
 <p class="svc-when"><span class="ja-text"><ruby>部屋<rt>へや</rt></ruby><ruby>探<rt>さが</rt></ruby>し・<ruby>引<rt>ひ</rt></ruby>っ<ruby>越<rt>こ</rt></ruby>しの ときに</span><span class="en-inline">When you rent or move</span></p></div></div>
-<ul class="svc-do"><li><span class="ja-text"><ruby>内見<rt>ないけん</rt></ruby>・<ruby>契約<rt>けいやく</rt></ruby>に <ruby>同行<rt>どうこう</rt></ruby>して <ruby>通訳<rt>つうやく</rt></ruby></span><span class="li-en">Interpreting at viewings and signing</span></li><li><span class="ja-text"><ruby>契約書<rt>けいやくしょ</rt></ruby>の <ruby>大事<rt>だいじ</rt></ruby>な ところを やさしく <ruby>説明<rt>せつめい</rt></ruby></span><span class="li-en">Explaining the key points of the lease</span></li><li><span class="ja-text"><ruby>電気<rt>でんき</rt></ruby>・ガス・<ruby>水道<rt>すいどう</rt></ruby>・ネットの <ruby>申込<rt>もうしこ</rt></ruby>み</span><span class="li-en">Setting up power, gas, water and internet</span></li></ul>
+<ul class="svc-do"><li><span class="ja-text"><ruby>内見<rt>ないけん</rt></ruby> または <ruby>契約<rt>けいやく</rt></ruby>に <ruby>同行<rt>どうこう</rt></ruby>して <ruby>通訳<rt>つうやく</rt></ruby>（1<ruby>回<rt>かい</rt></ruby>）</span><span class="li-en">Interpreting at a viewing or signing (one visit)</span></li><li><span class="ja-text"><ruby>契約書<rt>けいやくしょ</rt></ruby>の <ruby>大事<rt>だいじ</rt></ruby>な ところを やさしく <ruby>説明<rt>せつめい</rt></ruby></span><span class="li-en">Explaining the key points of the lease</span></li><li><span class="ja-text"><ruby>電気<rt>でんき</rt></ruby>・ガス・<ruby>水道<rt>すいどう</rt></ruby>・ネットの <ruby>申込<rt>もうしこ</rt></ruby>み</span><span class="li-en">Setting up power, gas, water and internet</span></li></ul>
 <div class="svc-foot"><span class="svc-time"><span class="ja-text"><ruby>約<rt>やく</rt></ruby>2<ruby>時間<rt>じかん</rt></ruby>〜<ruby>半日<rt>はんにち</rt></ruby></span><span class="en-inline">2 h to half a day</span></span>
-<span class="svc-price"><b>¥25,000</b><span class="svc-reg"><span class="ja-text">メンバー</span><span class="en-inline">Members</span> ¥15,000</span></span></div>
+<span class="svc-price"><b>¥15,000</b><span class="svc-reg"><span class="ja-text">メンバー</span><span class="en-inline">Members</span> ¥10,000</span></span></div>
 </article><article class="svc">
 <div class="svc-top"><span class="svc-ic" aria-hidden="true">🏥</span>
 <div><h4><span class="ja-ui"><ruby>病院<rt>びょういん</rt></ruby> <ruby>付<rt>つ</rt></ruby>き<ruby>添<rt>そ</rt></ruby>い</span><span class="svc-en">Hospital visit</span></h4>
 <p class="svc-when"><span class="ja-text"><ruby>体調<rt>たいちょう</rt></ruby>が <ruby>悪<rt>わる</rt></ruby>いとき・<ruby>健診<rt>けんしん</rt></ruby>の ときに</span><span class="en-inline">When you’re unwell or need a check-up</span></p></div></div>
-<ul class="svc-do"><li><span class="ja-text"><ruby>受付<rt>うけつけ</rt></ruby>と <ruby>問診票<rt>もんしんひょう</rt></ruby>の <ruby>記入<rt>きにゅう</rt></ruby>を <ruby>手伝<rt>てつだ</rt></ruby>う</span><span class="li-en">Help at reception and with the questionnaire</span></li><li><span class="ja-text"><ruby>診察<rt>しんさつ</rt></ruby>で <ruby>医師<rt>いし</rt></ruby>との <ruby>会話<rt>かいわ</rt></ruby>を <ruby>通訳<rt>つうやく</rt></ruby></span><span class="li-en">Interpreting with the doctor</span></li><li><span class="ja-text"><ruby>薬局<rt>やっきょく</rt></ruby>での <ruby>説明<rt>せつめい</rt></ruby>も <ruby>通訳<rt>つうやく</rt></ruby></span><span class="li-en">Interpreting at the pharmacy</span></li></ul>
-<div class="svc-foot"><span class="svc-time"><span class="ja-text"><ruby>約<rt>やく</rt></ruby>2<ruby>時間<rt>じかん</rt></ruby></span><span class="en-inline">About 2 h</span></span>
-<span class="svc-price"><b>¥12,000</b><span class="svc-reg"><span class="ja-text">メンバー</span><span class="en-inline">Members</span> ¥8,000</span></span></div>
+<ul class="svc-do"><li><span class="ja-text"><ruby>受付<rt>うけつけ</rt></ruby>と <ruby>問診票<rt>もんしんひょう</rt></ruby>の <ruby>記入<rt>きにゅう</rt></ruby>を <ruby>手伝<rt>てつだ</rt></ruby>う</span><span class="li-en">Help at reception and with the questionnaire</span></li><li><span class="ja-text"><ruby>症状<rt>しょうじょう</rt></ruby>を <ruby>医師<rt>いし</rt></ruby>に <ruby>正<rt>ただ</rt></ruby>しく <ruby>伝<rt>つた</rt></ruby>える <ruby>通訳<rt>つうやく</rt></ruby></span><span class="li-en">Interpreting your symptoms to the doctor</span></li><li><span class="ja-text"><ruby>診察<rt>しんさつ</rt></ruby>で <ruby>言<rt>い</rt></ruby>われた ことを わかりやすく <ruby>説明<rt>せつめい</rt></ruby></span><span class="li-en">Explaining clearly what the doctor said</span></li><li><span class="ja-text"><ruby>薬局<rt>やっきょく</rt></ruby>で <ruby>薬<rt>くすり</rt></ruby>の <ruby>飲<rt>の</rt></ruby>み<ruby>方<rt>かた</rt></ruby>を <ruby>通訳<rt>つうやく</rt></ruby></span><span class="li-en">Interpreting how to take your medicine at the pharmacy</span></li></ul>
+<div class="svc-foot"><span class="svc-time"><span class="ja-text"><ruby>約<rt>やく</rt></ruby>2<ruby>時間<rt>じかん</rt></ruby>（<ruby>待<rt>ま</rt></ruby>ち<ruby>時間<rt>じかん</rt></ruby>による）</span><span class="en-inline">About 2 h, depending on waiting time</span></span>
+<span class="svc-price"><b>¥6,000</b><span class="svc-reg"><span class="ja-text">メンバー</span><span class="en-inline">Members</span> ¥4,000</span></span></div>
 </article><article class="svc svc-review">
 <div class="svc-top"><span class="svc-ic" aria-hidden="true">📝</span>
 <div><h4><span class="ja-ui"><ruby>添削<rt>てんさく</rt></ruby></span><span class="svc-en">Proofreading</span></h4>
@@ -4063,11 +4072,12 @@ PROOT.querySelectorAll('[data-filter="evtype"],[data-filter="evprice"]').forEach
    ========================================================== */
 // price = member price; was = regular price
 const AGENT_SERVICES=[
-  {id:'a_city',ic:'🏛️',title:'役所 同行',titleR:'<ruby>役所<rt>やくしょ</rt></ruby> <ruby>同行<rt>どうこう</rt></ruby>',en:'City hall support',desc:'転入・転出・マイナンバー・保険などの手続きに同行。',descEn:'We come along for move-in/out, My Number, insurance and other procedures.',price:10000,was:15000},
-  {id:'a_bank',ic:'🏦',title:'銀行 口座',titleR:'<ruby>銀行<rt>ぎんこう</rt></ruby> <ruby>口座<rt>こうざ</rt></ruby>',en:'Bank account',desc:'口座開設の付き添い・書類記入のサポート。',descEn:'Help opening an account and filling out the paperwork.',price:5000,was:8000},
-  {id:'a_phone',ic:'📱',title:'携帯・SIM',titleR:'<ruby>携帯<rt>けいたい</rt></ruby>・SIM',en:'Phone & SIM',desc:'携帯の契約・SIM の乗り換えに同行。',descEn:'We come along for phone contracts and SIM switching.',price:5000,was:8000},
-  {id:'a_home',ic:'🏠',title:'住まい・ライフライン',titleR:'<ruby>住<rt>す</rt></ruby>まい・ライフライン',en:'Housing & utilities',desc:'物件の内見・契約、電気ガス水道の開通まで。',descEn:'Apartment viewings and contracts, through to turning on power, gas and water.',price:15000,was:25000},
-  {id:'a_hosp',ic:'🏥',title:'病院 付き添い',titleR:'<ruby>病院<rt>びょういん</rt></ruby> <ruby>付<rt>つ</rt></ruby>き<ruby>添<rt>そ</rt></ruby>い',en:'Hospital visit',desc:'受診・問診の通訳サポートに同行。',descEn:'We come along and interpret for appointments and consultations.',price:8000,was:12000},
+  {id:'a_city',ic:'🏛️',title:'役所 同行（手続き1つ）',titleR:'<ruby>役所<rt>やくしょ</rt></ruby> <ruby>同行<rt>どうこう</rt></ruby>（<ruby>手続<rt>てつづ</rt></ruby>き1つ）',en:'City hall · 1 procedure',desc:'転入・マイナンバー・保険などの 手続き1つに 同行。',descEn:'We come along for one procedure — move-in, My Number, insurance, etc.',price:4000,was:6000},
+  {id:'a_city2',ic:'🏛️',title:'役所 同行（手続き2〜3つ）',titleR:'<ruby>役所<rt>やくしょ</rt></ruby> <ruby>同行<rt>どうこう</rt></ruby>（<ruby>手続<rt>てつづ</rt></ruby>き2〜3つ）',en:'City hall · 2–3 procedures',desc:'引っ越し直後の 転入・国保・年金 など、まとめて 同行。',descEn:'Several procedures in one visit — e.g. move-in, health insurance and pension.',price:5500,was:8000},
+  {id:'a_bank',ic:'🏦',title:'銀行 口座',titleR:'<ruby>銀行<rt>ぎんこう</rt></ruby> <ruby>口座<rt>こうざ</rt></ruby>',en:'Bank account',desc:'口座開設の付き添い・書類記入のサポート。',descEn:'Help opening an account and filling out the paperwork.',price:4000,was:6000},
+  {id:'a_phone',ic:'📱',title:'携帯・SIM',titleR:'<ruby>携帯<rt>けいたい</rt></ruby>・SIM',en:'Phone & SIM',desc:'携帯の契約・SIM の乗り換えに同行。',descEn:'We come along for phone contracts and SIM switching.',price:4000,was:6000},
+  {id:'a_home',ic:'🏠',title:'住まい・ライフライン',titleR:'<ruby>住<rt>す</rt></ruby>まい・ライフライン',en:'Housing & utilities',desc:'内見 または 契約への 同行（1回）と、電気・ガス・水道の 申込み。',descEn:'One visit — a viewing or signing — plus setting up power, gas and water.',price:10000,was:15000},
+  {id:'a_hosp',ic:'🏥',title:'病院 付き添い',titleR:'<ruby>病院<rt>びょういん</rt></ruby> <ruby>付<rt>つ</rt></ruby>き<ruby>添<rt>そ</rt></ruby>い',en:'Hospital visit',desc:'症状の 説明・診察・薬の 飲み方まで 通訳。',descEn:'We interpret your symptoms, the consultation and how to take your medicine.',price:4000,was:6000},
   {id:'a_review',ic:'📝',title:'添削',titleR:'<ruby>添削<rt>てんさく</rt></ruby>',en:'Proofreading',desc:'履歴書・職務経歴書・書類・学校の課題を チェックして、コメントつきで お返しします。',descEn:'We check your résumé, work history, documents or homework and send it back with comments.',price:1000,was:1000,flat:true,per:'件'},
   {id:'a_other',ic:'✳️',title:'その他 相談',titleR:'その<ruby>他<rt>た</rt></ruby> <ruby>相談<rt>そうだん</rt></ruby>',en:'Other request',desc:'上のリストにない手続きも、まず相談。内容で見積り。',descEn:'Anything not listed above — just ask. We\'ll quote based on the details.',price:0,was:0},
 ];
@@ -4108,6 +4118,8 @@ function agToggle(id){
   else{
     // 添削は 同行とは べつに 申しこむ（日程えらびが ないため）
     if(id==='a_review')agSelected.clear(); else agSelected.delete('a_review');
+    if(id==='a_city')agSelected.delete('a_city2');
+    if(id==='a_city2')agSelected.delete('a_city');
     agSelected.add(id);
   }
   renderAgent();
