@@ -620,6 +620,36 @@ body{
 .ppl-chip:hover{border-color:var(--gold)}
 .ppl-more{font-size:12px;color:var(--muted);align-self:center}
 
+/* ===== 予定管理（3列）===== */
+.bd-tools{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.bd-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+.bd-col{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;border-top:4px solid var(--c)}
+.bd-lesson{--c:#4a9fb8}.bd-agent{--c:#c9a24b}.bd-event{--c:#8a6fb0}
+.bd-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px 2px}
+.bd-head b{font-size:16px}
+.bd-head .en{display:block;font-family:"Cormorant",serif;font-style:italic;font-size:12px;color:var(--muted)}
+.bd-count{font-family:Inter;font-weight:800;font-size:20px;color:var(--c)}
+.bd-headsub{padding:0 16px 10px;font-size:12px;color:var(--muted);border-bottom:1px solid var(--line)}
+.bd-body{padding:6px 12px 14px;max-height:calc(100vh - 260px);overflow-y:auto}
+.bd-day{font-size:12.5px;font-weight:800;margin:14px 4px 6px;display:flex;align-items:center;gap:6px}
+.bd-today,.bd-tmr{font-size:10.5px;font-weight:800;border-radius:999px;padding:1px 8px}
+.bd-today{background:var(--c);color:#fff}.bd-tmr{background:var(--washi-2);color:var(--ink)}
+.bd-sub{font-size:12.5px;font-weight:800;margin:14px 4px 6px;display:flex;align-items:center;gap:6px}
+.bd-sub.warn{color:#8a6a1e}
+.bd-link{display:block;font-size:12.5px;font-weight:700;color:#8a6a1e;background:rgba(201,162,75,.1);border-radius:10px;padding:8px 12px;margin:10px 2px 4px;cursor:pointer;text-decoration:none}
+.bd-link:hover{background:rgba(201,162,75,.18)}
+.bd-empty .bd-link{display:inline-block;margin-top:10px}
+.bd-card{display:grid;grid-template-columns:52px 1fr auto;gap:10px;padding:10px;border:1px solid var(--line);border-radius:12px;margin-bottom:8px;cursor:pointer;background:#fff;transition:border-color .15s}
+.bd-card:hover{border-color:var(--c)}
+.bd-card.has{border-left:3px solid var(--c)}
+.bd-time{font-family:Inter;font-weight:800;font-size:14px;line-height:1.2}
+.bd-time small{display:block;font-size:10.5px;font-weight:500;color:var(--muted)}
+.bd-title{font-size:13.5px;font-weight:700;line-height:1.4}
+.bd-meta{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.bd-act{display:flex;align-items:flex-start}
+.bd-empty{font-size:13px;color:var(--muted);text-align:center;padding:28px 8px}
+@media(max-width:1100px){.bd-cols{grid-template-columns:1fr}.bd-body{max-height:none}}
+
 /* mobile */
 .side-toggle{display:none}
 @media(max-width:820px){
@@ -695,6 +725,7 @@ body{
 
     <div class="side-label">概要 · Overview</div>
     <button class="nav-item on" data-tab="home" onclick="go('home')"><span class="ic">📊</span> ダッシュボード</button>
+    <button class="nav-item" data-tab="board" onclick="go('board')"><span class="ic">📋</span> 予定管理</button>
     <button class="nav-item" data-tab="schedule" onclick="go('schedule')"><span class="ic">🗓️</span> カレンダー</button>
 
     <div class="side-label">運営 · Operations</div>
@@ -779,6 +810,21 @@ body{
     </section>
 
     <!-- ---------- SCHEDULE ---------- -->
+    <section class="tab" data-tab="board">
+      <div class="phead">
+        <div><h1>予定管理</h1><div class="sub">確定した レッスン・エージェント・イベントの 仕事を 3列で <span class="en">Confirmed work</span></div></div>
+        <div class="bd-tools">
+          <div class="fbar" id="bdRange" style="margin:0">
+            <button class="fchip" onclick="bdSetRange('today',this)">今日</button>
+            <button class="fchip on" onclick="bdSetRange('week',this)">7日間</button>
+            <button class="fchip" onclick="bdSetRange('all',this)">すべて</button>
+          </div>
+          <label class="mini-chk"><input type="checkbox" checked onchange="bdToggleBooked(this)"> 参加者の いる レッスンだけ</label>
+        </div>
+      </div>
+      <div class="bd-cols" id="boardCols"></div>
+    </section>
+
     <section class="tab" data-tab="schedule">
       <div class="phead">
         <div><h1>カレンダー</h1><div class="sub">学校・バイト・レッスン・エージェント依頼を ひとつに。空き時間は お客様の 依頼画面にも そのまま 出ます <span class="en">Calendar</span></div></div>
@@ -1351,6 +1397,7 @@ function go(tab,keepDetail){
   if(tab==='users')renderUsers();
   if(tab==='ledger')renderLedger();
   if(tab==='schedule')renderSchedule();
+  if(tab==='board')renderBoard();
 }
 function toggleSide(){document.getElementById('side').classList.toggle('open');document.getElementById('sideScrim').classList.toggle('on');}
 function closeSide(){document.getElementById('side').classList.remove('open');document.getElementById('sideScrim').classList.remove('on');}
@@ -1372,7 +1419,7 @@ document.getElementById('scrim').addEventListener('click',e=>{if(e.target.id==='
 /* ============================================================
    RENDER — everything
    ============================================================ */
-function renderAll(){renderHome();renderNews();renderAgent();renderLessons();renderEvents();renderUsers();renderLedger();renderSchedule();updateBadges();}
+function renderAll(){renderHome();renderNews();renderAgent();renderLessons();renderEvents();renderUsers();renderLedger();renderSchedule();renderBoard();updateBadges();}
 
 function updateBadges(){
   const n=DB.requests.filter(r=>r.status==='new').length;
@@ -3929,6 +3976,92 @@ async function ocDeleteItem(kind,id){
   if(kind==='lesson'){DB.lessons=DB.lessons.filter(x=>x.id!==id);DB.bookings=DB.bookings.filter(b=>b.lessonId!==id);}
   else{DB.events=DB.events.filter(x=>x.id!==id);DB.signups=DB.signups.filter(s=>s.eventId!==id);}
   renderAll();toast(kind==='lesson'?'レッスンを 中止して お知らせしました':'イベントを 中止して お知らせしました');
+}
+
+/* ============================================================
+   予定管理：レッスン／エージェント／イベント を 3列で
+   ============================================================ */
+let BD_RANGE='week';   // today | week | all
+let BD_ONLY_BOOKED=true;
+function bdSetRange(r,el){BD_RANGE=r;document.querySelectorAll('#bdRange .fchip').forEach(c=>c.classList.toggle('on',c===el));renderBoard();}
+function bdToggleBooked(el){BD_ONLY_BOOKED=el.checked;renderBoard();}
+function bdInRange(date){
+  const t=todayISO();
+  if(!date)return BD_RANGE==='all';
+  if(date<t)return false;
+  if(BD_RANGE==='today')return date===t;
+  if(BD_RANGE==='week')return date<=addDays(t,6);
+  return true;
+}
+function bdDayHead(d){
+  const t=todayISO();
+  const tag=d===t?'<span class="bd-today">今日</span>':d===addDays(t,1)?'<span class="bd-tmr">明日</span>':'';
+  return `<div class="bd-day">${fmtDate(d).full}（${WD_JA[dow(d)]}）${tag}</div>`;
+}
+function bdGroupByDate(items){
+  const out={};items.forEach(x=>{(out[x.date]=out[x.date]||[]).push(x);});
+  return Object.keys(out).sort().map(d=>({date:d,items:out[d].sort((a,b)=>String(a.time).localeCompare(String(b.time)))}));
+}
+function bdNames(recs){
+  return recs.slice(0,3).map(r=>{const u=userById(r.uid);return `<a class="ppl-chip" onclick="event.stopPropagation();openUserDetail('${r.uid}')">${r.isTrial?'🎁 ':''}${esc(u?u.name:'—')}</a>`;}).join('')+(recs.length>3?`<span class="ppl-more">ほか ${recs.length-3}人</span>`:'');
+}
+
+function renderBoard(){
+  const host=document.getElementById('boardCols');if(!host)return;
+  const t=todayISO();
+  // --- レッスン ---
+  const lessons=DB.lessons.filter(l=>bdInRange(l.date)).map(l=>{
+    const recs=DB.bookings.filter(b=>b.lessonId===l.id&&isLive(b));
+    return {l,recs,date:l.date,time:String(l.time).slice(0,5)};
+  }).filter(x=>!BD_ONLY_BOOKED||x.recs.length||(Number(x.l.cap)||0)>0);
+  const lHtml=bdGroupByDate(lessons).map(g=>bdDayHead(g.date)+g.items.map(x=>{const l=x.l;
+    return `<div class="bd-card ${x.recs.length?'has':''}" onclick="openParticipants('lesson','${l.id}','${esc((l.title||'').replace(/'/g,''))}')">
+      <div class="bd-time">${x.time}<small>${esc(l.dur||'')}</small></div>
+      <div class="bd-main"><div class="bd-title">${esc(l.title)}</div>
+        <div class="bd-meta">${l.format==='online'?'<span class="tag tag-online">オンライン</span>':'<span class="tag tag-offline">たいめん</span>'}<span class="cap-pill ${(l.cap>=l.max)?'full':''}">${x.recs.length||l.cap||0}/${l.max}</span></div>
+        ${x.recs.length?`<div class="row-people">${bdNames(x.recs)}</div>`:''}</div>
+      <div class="bd-act">${l.format==='online'&&l.meetUrl?`<a class="btn btn-gold btn-sm" href="${l.meetUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="text-decoration:none">🎥</a>`:''}</div>
+    </div>`;}).join('')).join('');
+
+  // --- エージェント ---
+  const reqs=DB.requests.filter(r=>reqActive(r));
+  const visits=reqs.filter(r=>r.kind!=='review');
+  const confirmed=visits.filter(r=>r.confirmed&&r.confirmed.date&&bdInRange(r.confirmed.date)).map(r=>({r,date:r.confirmed.date,time:r.confirmed.time||''}));
+  const pending=visits.filter(r=>!(r.confirmed&&r.confirmed.date));
+  const reviews=reqs.filter(r=>r.kind==='review');
+  const reqCard=(r,time,label)=>`<div class="bd-card has" onclick="openRequest('${r.id}')">
+      <div class="bd-time">${time||'<small style="font-size:11px">未定</small>'}</div>
+      <div class="bd-main"><div class="bd-title">${esc(r.ic||'🤝')} ${esc(r.service)}</div>
+        <div class="bd-meta">${label||''}${r.isTrial?'<span class="tag tag-trial">🎁 無料回</span>':''}</div>
+        <div class="row-people"><a class="ppl-chip" onclick="event.stopPropagation();openUserDetail('${r.uid}')">${esc(r.user)}</a></div></div>
+    </div>`;
+  // 日程の 調整は エージェント依頼の 画面で。ここは 確定した 仕事だけ（調整中は 件数の 案内のみ）
+  let aHtml=pending.length?`<a class="bd-link" onclick="go('agent')">📅 日程の 調整中が ${pending.length}件 あります → エージェント依頼へ</a>`:'';
+  if(reviews.length)aHtml+=`<div class="bd-sub">📝 添削（返却待ち） <span class="rg-count">${reviews.length}</span></div>`+reviews.map(r=>reqCard(r,'',`<span class="tag tag-lv">受付 ${fmtDate(r.created).full}</span>`)).join('');
+  if(confirmed.length)aHtml+=`<div class="bd-sub">✅ 同行（確定）</div>`+bdGroupByDate(confirmed).map(g=>bdDayHead(g.date)+g.items.map(x=>reqCard(x.r,x.time,'')).join('')).join('');
+
+  // --- イベント ---
+  const evs=DB.events.filter(e=>bdInRange(e.date)&&!e.completedAt).map(e=>{
+    const recs=DB.signups.filter(s=>s.eventId===e.id&&isLive(s));
+    return {e,recs,date:e.date,time:String(e.time||'').slice(0,5)};
+  });
+  const eHtml=bdGroupByDate(evs).map(g=>bdDayHead(g.date)+g.items.map(x=>{const e=x.e;
+    return `<div class="bd-card ${x.recs.length?'has':''}" onclick="openParticipants('event','${e.id}','${esc((e.title||'').replace(/'/g,''))}')">
+      <div class="bd-time">${x.time||'—'}</div>
+      <div class="bd-main"><div class="bd-title">${esc(e.emoji||'🎏')} ${esc(e.title)}</div>
+        <div class="bd-meta"><span class="cap-pill">${x.recs.length}/${e.seats||'—'}</span>${e.price>0?`<span class="tag tag-lv">${yen(e.price)}</span>`:'<span class="tag tag-lv">無料</span>'}</div>
+        ${x.recs.length?`<div class="row-people">${bdNames(x.recs)}</div>`:''}</div>
+    </div>`;}).join('')).join('');
+
+  const col=(cls,ic,ja,en,n,sub,body,emptyJa)=>`<div class="bd-col bd-${cls}">
+    <div class="bd-head"><div><b>${ic} ${ja}</b><span class="en">${en}</span></div><span class="bd-count">${n}</span></div>
+    <div class="bd-headsub">${sub}</div>
+    <div class="bd-body">${body||`<div class="bd-empty">${emptyJa}</div>`}</div></div>`;
+  const lPeople=lessons.reduce((a,x)=>a+x.recs.length,0);
+  host.innerHTML=
+    col('lesson','📚','レッスン','Lessons',lessons.length,`参加者 ${lPeople}人`,lHtml,BD_ONLY_BOOKED?'参加者の いる レッスンは ありません':'レッスンは ありません')+
+    col('agent','🤝','エージェント','Agent',confirmed.length+reviews.length,`同行 ${confirmed.length}件・添削 ${reviews.length}件`,(confirmed.length||reviews.length)?aHtml:'',pending.length?`確定した 仕事は まだ ありません<br><a class="bd-link" onclick="go('agent')">日程の 調整中 ${pending.length}件 → エージェント依頼へ</a>`:'確定した 仕事は ありません')+
+    col('event','🎏','イベント','Events',evs.length,`参加者 ${evs.reduce((a,x)=>a+x.recs.length,0)}人`,eHtml,'イベントは ありません');
 }
 
 /* ---------- helper ---------- */
