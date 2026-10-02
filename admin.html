@@ -605,6 +605,21 @@ body{
 .mp-file span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mp-files .broken{opacity:.5;pointer-events:none}
 
+/* ===== 運営キャンセル・参加者ありレッスン ===== */
+.oc-people{display:flex;flex-wrap:wrap;gap:6px}
+.oc-reasons{display:flex;flex-wrap:wrap;gap:6px}
+.oc-chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink)}
+.oc-chip.on{background:var(--indigo);border-color:var(--indigo);color:#fff}
+.oc-alt{display:grid;grid-template-columns:24px 1fr auto;gap:8px;align-items:center;margin-bottom:6px}
+.oc-n{width:22px;height:22px;border-radius:50%;background:var(--gold);color:var(--indigo);font-family:Inter;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center}
+.oc-alt input{padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--washi-2);font:inherit;font-size:13.5px;width:100%}
+.row-group.booked .rg-label{color:#8a6a1e}
+.rows-booked .row{background:linear-gradient(90deg,rgba(201,162,75,.10),rgba(201,162,75,0) 60%);border-left:3px solid var(--gold);padding-left:12px;border-radius:0 12px 12px 0}
+.row-people{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.ppl-chip{font-size:12.5px;font-weight:700;color:var(--indigo);background:#fff;border:1px solid rgba(201,162,75,.5);border-radius:999px;padding:3px 10px;cursor:pointer}
+.ppl-chip:hover{border-color:var(--gold)}
+.ppl-more{font-size:12px;color:var(--muted);align-self:center}
+
 /* mobile */
 .side-toggle{display:none}
 @media(max-width:820px){
@@ -1473,7 +1488,7 @@ function openRequest(id){
       <div class="field"><label>依頼内容 / メモ</label><textarea id="rqNote">${r.note||''}</textarea></div>
 
       <div class="form-foot">
-        <button class="btn btn-ghost" onclick="cancelRequest('${r.id}')" style="flex:0 0 auto;color:#c9503f;border-color:rgba(201,80,63,.4)">キャンセル扱い</button>
+        <button class="btn btn-ghost" onclick="openOpCancel('request','${r.id}')" style="flex:0 0 auto;color:#c9503f;border-color:rgba(201,80,63,.4)">キャンセル扱い</button>
         ${r.amount>0&&!r.refundedAt?`<button class="btn btn-ghost" onclick="openRefund('${r.id}')" style="flex:0 0 auto">↩ 返金を記録</button>`:''}
         <button class="btn btn-gold" onclick="saveRequest('${r.id}')">保存する</button>
       </div>
@@ -1527,7 +1542,7 @@ async function cancelRequest(id){
 window.cancelRequest=cancelRequest;
 
 /* ---------- LESSONS ---------- */
-function lessonRowHTML(l,isPast){
+function lessonRowHTML(l,isPast,ppl){
   const dt=fmtDate(l.date);
   const fmt=l.format==='online'?'<span class="tag tag-online">オンライン</span>':'<span class="tag tag-offline">たいめん</span>';
   const size=l.size==='private'?'<span class="tag tag-private">👤 プライベート</span>':'<span class="tag tag-group">👥 グループ</span>';
@@ -1539,6 +1554,7 @@ function lessonRowHTML(l,isPast){
     <div class="row-main">
       <div class="row-title">${l.title}</div>
       <div class="row-meta">${fmt}${size}<span class="tag tag-lv">${l.level}</span>${gender}${cap}${l.auto?'<span class="tag tag-lv">⚡ 自動</span>':''}</div>
+      ${ppl&&ppl.length?`<div class="row-people">${ppl.slice(0,4).map(b=>{const u=userById(b.uid);return `<a class="ppl-chip" onclick="openUserDetail('${b.uid}')">${b.isTrial?'🎁 ':''}${esc(u?u.name:'—')}</a>`;}).join('')}${ppl.length>4?`<span class="ppl-more">ほか ${ppl.length-4}人</span>`:''}</div>`:''}
     </div>
     <div class="row-act">
       ${l.format==='offline'
@@ -1560,12 +1576,19 @@ function renderLessons(){
   }
   // これから：日付の昇順（近い順）／ おわった：降順（新しい順）
   const upcoming=all.filter(l=>l.date>=today).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+  const people=l=>DB.bookings.filter(b=>b.lessonId===l.id&&isLive(b));
+  const booked=upcoming.filter(l=>people(l).length||(Number(l.cap)||0)>0);
+  const open=upcoming.filter(l=>!booked.includes(l));
   const past    =all.filter(l=>l.date< today).sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time));
   const groupHead=(cls,ic,ja,en,n)=>`<div class="row-group ${cls}"><div class="rg-label">${ic} ${ja} <span class="rg-en">${en}</span></div><span class="rg-count">${n}</span></div>`;
   let html='';
-  if(upcoming.length){
-    html+=groupHead('','🗓️','これからのレッスン','Upcoming',upcoming.length);
-    html+=`<div class="rows">${upcoming.map(l=>lessonRowHTML(l,false)).join('')}</div>`;
+  if(booked.length){
+    html+=groupHead('booked','👥','参加者が いる レッスン','With participants',booked.length);
+    html+=`<div class="rows rows-booked">${booked.map(l=>lessonRowHTML(l,false,people(l))).join('')}</div>`;
+  }
+  if(open.length){
+    html+=groupHead('','🗓️','募集中（まだ 参加者なし）','Open',open.length);
+    html+=`<div class="rows">${open.map(l=>lessonRowHTML(l,false)).join('')}</div>`;
   }
   if(past.length){
     html+=groupHead('past','✔️','おわったレッスン','Past',past.length);
@@ -1689,7 +1712,8 @@ async function saveLesson(id){
   }
   renderAll();closeModal();toast(id?'レッスンを こうしんしました':'レッスンを 作成しました');
 }
-async function delLesson(id){
+async function delLesson(id){ return openOpCancel('lesson',id); }
+async function delLessonRaw(id){
   const {error}=await sb.from('lessons').delete().eq('id',id);
   if(error){console.error(error);toast('削除に 失敗しました');return;}
   DB.lessons=DB.lessons.filter(x=>x.id!==id);renderAll();toast('レッスンを さくじょしました');
@@ -1915,7 +1939,8 @@ async function saveEvent(id){
   }
   renderAll();closeModal();toast(id?'イベントを こうしんしました':'イベントを 作成しました');
 }
-async function delEvent(id){
+async function delEvent(id){ return openOpCancel('event',id); }
+async function delEventRaw(id){
   const {error}=await sb.from('events').delete().eq('id',id);
   if(error){console.error(error);toast('削除に 失敗しました');return;}
   DB.events=DB.events.filter(x=>x.id!==id);renderAll();toast('イベントを さくじょしました');
@@ -2438,7 +2463,7 @@ async function cancelBookingCore(kind,id,note){
   return true;
 }
 async function cancelBookingFromUser(kind,id){
-  if(!confirm('この予約を キャンセルしますか？'))return;
+  return openOpCancel(kind==='lesson'?'booking':'signup',id);
   const ok=await cancelBookingCore(kind,id);
   if(!ok){toast('キャンセルできませんでした（権限をご確認ください）');return;}
   renderAll();toast('予約を キャンセルしました');
@@ -2611,7 +2636,7 @@ function renderParticipantsList(){
     </div>`;}).join('');
 }
 async function cancelParticipant(kind,rowId,btn){
-  if(!confirm('この参加を キャンセルしますか？'))return;
+  return openOpCancel(kind==='lesson'?'booking':'signup',rowId);
   if(btn){btn.disabled=true;btn.textContent='処理中…';}
   const ok=await cancelBookingCore(kind,rowId);
   if(!ok){if(btn){btn.disabled=false;btn.textContent='キャンセル';}toast('キャンセルできませんでした（権限をご確認ください）');return;}
@@ -3776,6 +3801,134 @@ function renderPillars(){
       </div>
       <div class="pl-src">売上 ＝ 入金記録 ＋ Stripe などで 払われた 依頼・申込の 金額（入金記録と ひもづいた 分は 二重に 数えません）。依頼は 受付日、イベントは 開催日、入金は 入金日の 月で 集計しています。</div>
     </div>`;
+}
+
+/* ============================================================
+   運営からの キャンセル：理由 ＋ 振替の候補（自動で 3つ）を 添えて 通知
+   cancel_reasons に 書いてから 削除／キャンセル → DB の トリガーが 通知を 作る
+   ============================================================ */
+const OC_REASONS=['講師の 体調不良','講師の 急な 予定','参加者が 集まらなかったため','天候・交通の 事情','会場の 都合','お客様の ご希望','その他'];
+const OC_WD_E=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+let _oc=null;
+const ocDayJa=d=>`${fmtDate(d).full}（${WD_JA[dow(d)]}）`;
+const ocDayEn=d=>`${OC_WD_E[dow(d)]} ${fmtDate(d).full}`;
+
+/* 振替の 候補を 選ぶ */
+function ocLessonAlts(l,uid){
+  const today=todayISO();
+  const mine=new Set(DB.bookings.filter(b=>b.uid===uid&&isLive(b)).map(b=>b.lessonId));
+  const pool=DB.lessons.filter(x=>x.id!==l.id&&x.date>today&&x.size===l.size&&!mine.has(x.id)&&(Number(x.cap)||0)<(Number(x.max)||1))
+    .sort((a,b)=>(a.format===l.format?0:1)-(b.format===l.format?0:1)||(a.date+a.time).localeCompare(b.date+b.time));
+  const out=pool.slice(0,3).map(x=>({ja:`${ocDayJa(x.date)} ${String(x.time).slice(0,5)} ${x.title}`,en:`${ocDayEn(x.date)} ${String(x.time).slice(0,5)} ${x.titleEn||x.title}`}));
+  if(out.length<3&&DB.schedReady){
+    // 足りなければ、空き時間に 新しく 開ける 枠
+    const tpl=DB.templates.filter(t=>t.active&&t.size===l.size).map(t=>t.id);
+    const c=tpl.length?genCandidates(addDays(today,1),addDays(today,21),tpl):[];
+    const used=new Set();
+    for(const x of c){ if(out.length>=3)break; if(used.has(x.date)||x.date===l.date)continue; used.add(x.date);
+      out.push({ja:`${ocDayJa(x.date)} ${x.time} ${l.title}（新しく 開きます）`,en:`${ocDayEn(x.date)} ${x.time} ${l.titleEn||l.title} (new slot)`});}
+  }
+  return out;
+}
+function ocEventAlts(e){
+  const today=todayISO();
+  return DB.events.filter(x=>x.id!==e.id&&x.date>today&&!x.completedAt).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,3)
+    .map(x=>({ja:`${ocDayJa(x.date)} ${x.time||''} ${x.title}`,en:`${ocDayEn(x.date)} ${x.time||''} ${x.titleEn||x.title}`}));
+}
+async function ocAgentAlts(r){
+  try{
+    const d=await agentFn({action:'availability',service:r.service});
+    const skip=r.confirmed&&r.confirmed.date;
+    return (d.days||[]).filter(x=>x.times&&x.times.length&&x.date!==skip).slice(0,3)
+      .map(x=>({ja:`${ocDayJa(x.date)} ${x.times[0]}〜`,en:`${ocDayEn(x.date)} from ${x.times[0]}`}));
+  }catch(e){return [];}
+}
+
+/* モーダル：kind = booking | signup | lesson | event | request */
+async function openOpCancel(kind,id){
+  let title='',sub='',people=[],alts=[];
+  if(kind==='booking'||kind==='signup'){
+    const rec=(kind==='booking'?DB.bookings:DB.signups).find(x=>x.id===id);if(!rec)return;
+    const it=kind==='booking'?lessonById(rec.lessonId):eventById(rec.eventId);
+    const u=userById(rec.uid);people=[u?u.name:'—'];
+    title=kind==='booking'?'レッスン予約の キャンセル':'イベント参加の キャンセル';
+    sub=it?`${ocDayJa(it.date)} ${String(it.time||'').slice(0,5)} ${it.title}`:'';
+    alts=it?(kind==='booking'?ocLessonAlts(it,rec.uid):ocEventAlts(it)):[];
+  }else if(kind==='lesson'||kind==='event'){
+    const it=kind==='lesson'?lessonById(id):eventById(id);if(!it)return;
+    const recs=(kind==='lesson'?DB.bookings.filter(b=>b.lessonId===id):DB.signups.filter(s=>s.eventId===id)).filter(isLive);
+    people=recs.map(r=>{const u=userById(r.uid);return u?u.name:'—';});
+    if(!people.length){ if(!confirm(`「${it.title}」を 削除しますか？（参加者は いません）`))return; return ocDeleteItem(kind,id); }
+    title=kind==='lesson'?'レッスンの 中止':'イベントの 中止';
+    sub=`${ocDayJa(it.date)} ${String(it.time||'').slice(0,5)} ${it.title}`;
+    alts=kind==='lesson'?ocLessonAlts(it,null):ocEventAlts(it);
+  }else if(kind==='request'){
+    const r=DB.requests.find(x=>x.id===id);if(!r)return;
+    people=[r.user];title='依頼の キャンセル';sub=r.service+(r.confirmed&&r.confirmed.date?`（${ocDayJa(r.confirmed.date)} ${r.confirmed.time}）`:'');
+  }
+  _oc={kind,id,byOffice:true,reason:OC_REASONS[0],alts};
+  openModal(`
+    <div class="modal-head"><button class="modal-x" onclick="closeModal()">✕</button>
+      <h2>${title}</h2><div class="m-sub">${esc(sub)}</div></div>
+    <div class="modal-body">
+      <div class="field"><label>お知らせする 相手</label><div class="oc-people">${people.map(n=>`<span class="tag tag-lv">${esc(n)}</span>`).join('')}</div></div>
+      <div class="field"><label>どちらの 都合ですか</label><div class="seg" id="ocBy">
+        <button class="seg-btn on" data-v="1" onclick="ocSetBy(true)">こちらの 都合（振替を 提案）</button>
+        <button class="seg-btn" data-v="0" onclick="ocSetBy(false)">お客様の ご希望</button></div></div>
+      <div class="field"><label>理由</label><div class="oc-reasons" id="ocReasons">${OC_REASONS.filter(x=>x!=='お客様の ご希望').map((x,i)=>`<button class="oc-chip ${i===0?'on':''}" onclick="ocPickReason(this)">${x}</button>`).join('')}</div>
+        <input id="ocReasonText" placeholder="ひとこと 足す（任意）：れい）熱が 出てしまいました" style="margin-top:8px"></div>
+      <div class="field" id="ocAltWrap"><label>振替の 候補 <span class="hint">自動で 選んでいます。外す・書きかえも できます</span></label><div id="ocAlts"></div>
+        <button class="btn btn-ghost btn-sm" style="margin-top:6px" onclick="ocAddAlt()">＋ 候補を 足す</button></div>
+      <div class="g-hint" style="text-align:left;margin:0 0 12px">キャンセルすると、ポータルの メッセージ・メール・Googleカレンダーで お客様に 届きます。こちらの 都合の ときは「全額返金します」の 一文も 入ります（返金は Stripe か「↩ 返金を記録」で 行ってください）。</div>
+      <div class="form-foot"><button class="btn btn-ghost" onclick="closeModal()">やめる</button>
+        <button class="btn btn-danger" id="ocGo" onclick="ocSubmit()">キャンセルして お知らせする</button></div>
+    </div>`);
+  document.getElementById('modal').classList.add('wide');
+  ocRenderAlts();
+  if(kind==='request'){
+    document.getElementById('ocAlts').innerHTML='<div class="g-hint" style="text-align:left;margin:0">空き時間を 確認しています…</div>';
+    const r=DB.requests.find(x=>x.id===id);_oc.alts=await ocAgentAlts(r);ocRenderAlts();
+  }
+}
+function ocRenderAlts(){
+  const box=document.getElementById('ocAlts');if(!box)return;
+  box.innerHTML=_oc.alts.length?_oc.alts.map((a,i)=>`<div class="oc-alt"><span class="oc-n">${i+1}</span><input value="${esc(a.ja)}" oninput="_oc.alts[${i}].ja=this.value;_oc.alts[${i}].en=_oc.alts[${i}].en||this.value"><button class="btn btn-ghost btn-sm" onclick="_oc.alts.splice(${i},1);ocRenderAlts()">外す</button></div>`).join('')
+    :'<div class="g-hint" style="text-align:left;margin:0">ちょうど よい 候補が 見つかりませんでした。「＋ 候補を 足す」で 書けます。</div>';
+}
+function ocAddAlt(){_oc.alts.push({ja:'',en:''});ocRenderAlts();const ins=document.querySelectorAll('#ocAlts input');if(ins.length)ins[ins.length-1].focus();}
+function ocSetBy(b){
+  _oc.byOffice=b;
+  document.querySelectorAll('#ocBy .seg-btn').forEach(x=>x.classList.toggle('on',x.dataset.v===(b?'1':'0')));
+  document.getElementById('ocAltWrap').style.display=b?'':'none';
+  document.getElementById('ocReasons').style.display=b?'':'none';
+  _oc.reason=b?(document.querySelector('#ocReasons .oc-chip.on')||{}).textContent:'お客様の ご希望';
+}
+function ocPickReason(el){document.querySelectorAll('#ocReasons .oc-chip').forEach(x=>x.classList.toggle('on',x===el));_oc.reason=el.textContent;}
+async function ocSubmit(){
+  const btn=document.getElementById('ocGo');btn.disabled=true;btn.textContent='処理中…';
+  const extra=(document.getElementById('ocReasonText').value||'').trim();
+  const reason=[_oc.reason==='その他'?'':_oc.reason,extra].filter(Boolean).join(' ／ ')||null;
+  const alts=_oc.byOffice?_oc.alts.filter(a=>(a.ja||'').trim()).map(a=>({ja:a.ja.trim(),en:(a.en||a.ja).trim()})):[];
+  // 理由を 書く（予約1件・レッスン丸ごと どちらでも この id で 拾われる）
+  const {error}=await sb.from('cancel_reasons').upsert({ref_id:_oc.id,reason,by_office:_oc.byOffice,alternatives:alts,created_at:new Date().toISOString()});
+  if(error){console.error('cancel_reasons:',error.message||error);toast('理由を 保存できませんでした（kakehashi_cancel_notice.sql の 実行を ご確認ください）');btn.disabled=false;btn.textContent='キャンセルして お知らせする';return;}
+  const k=_oc.kind,id=_oc.id;
+  if(k==='booking'||k==='signup'){
+    const ok=await cancelBookingCore(k==='booking'?'lesson':'event',id,reason);
+    if(!ok){toast('キャンセルできませんでした');btn.disabled=false;return;}
+    closeModal();renderAll();renderParticipantsList&&renderParticipantsList();toast('キャンセルして お知らせしました');
+  }else if(k==='lesson'||k==='event'){
+    await ocDeleteItem(k,id);closeModal();
+  }else if(k==='request'){
+    closeModal();await cancelRequest(id);
+  }
+}
+async function ocDeleteItem(kind,id){
+  const {error}=await sb.from(kind==='lesson'?'lessons':'events').delete().eq('id',id);
+  if(error){console.error(error);toast('削除に 失敗しました');return;}
+  if(kind==='lesson'){DB.lessons=DB.lessons.filter(x=>x.id!==id);DB.bookings=DB.bookings.filter(b=>b.lessonId!==id);}
+  else{DB.events=DB.events.filter(x=>x.id!==id);DB.signups=DB.signups.filter(s=>s.eventId!==id);}
+  renderAll();toast(kind==='lesson'?'レッスンを 中止して お知らせしました':'イベントを 中止して お知らせしました');
 }
 
 /* ---------- helper ---------- */
